@@ -1,0 +1,52 @@
+body 
+  background-color: #4b4439
+  font-family: 'Microsoft JhengHei', sans-serif !important
+
+nav.header
+  background-color: #3c3120
+  height: 70px
+  padding: 15px
+  border-bottom: 2px solid #433826
+  border-bottom-left-radius: 25px
+  border-bottom-right-radius: 25px
+  box-shadow: 0px 5px #2e2210
+
+  img.logo
+    height: 100%
+  
+  .stages-nav
+    text-align: right
+  
+  .stage-link
+    position: relative
+    margin: 0 5px
+    display: inline-block
+    width: 40px
+    height: 40px
+    border-radius: 99999999px
+    background-color: #21180b
+    > span
+      position: absolute
+      top: 50%
+      left: 50%
+      transform: translate(-50%, -50%)
+      height: 32px
+      width: 32px
+      line-height: 32px
+      text-align: center
+      font-size: 24px
+      font-weight: bold
+      border-radius: 99999999px
+      background-color: #271d0d
+      box-shadow: 0 0 8px 0 rgba(0, 0, 0, 0.2) inset
+      color: #4b4439
+      &.finished
+        background-color: #f49f1a
+        color: #291e0e
+        box-shadow: 0 0 8px 0 rgba(0, 0, 0, 0.6) inset
+      &.current
+        line-height: 28px
+        border: 2px solid #f49f1a
+        color: #f49f1a
+
+    
