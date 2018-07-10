@@ -13,6 +13,7 @@
 
 <body>
     <div class="container">
+        <!-- Navbar Start -->
         <div class="row">
             <div class="col-12">
                 <nav class="header d-flex justify-content-between w-100">
@@ -46,12 +47,64 @@
                 </nav>
             </div>
         </div>
+        <!-- Navbar End -->
+        
+        <div class="row no-gutters">
+            <div class="col-5">
+                <div class="game-container">
+                    <div class="outer-box mb-3">
+                        <div class="inner-box">
+                           <img class="w-100 h100" src="../../images/sample-game.png">
+                        </div>
+                    </div>
+                    <div class="btn btn-custom btn-block text-center">
+                        <i class="fas fa-play"></i> 運行
+                    </div>
+                </div>
+            </div>
+            <div class="col pl-3">
+                <div class="hint-container">
+                    <div class="hint-icon"></div>
+                    <div class="hint-content">
+                        <h4>提示</h4>
+                        <p>
+                            內容內容內容內容內容內容內容內容內容內容內容內容內容內容內容內容內容內容內容內容內容內容內容內容內容內容內容內容內容內容內容內容內容內容內容內容內容內容內容內容內容內容內容內容內容
+                        </p>
+                    </div>
+                </div>
+                <div class="blockly-container">
+                    <div class="blockly-headers row no-gutters w-100">
+                        <div class="toolbox-header text-center">
+                            程式積木
+                        </div>
+                        <div class="workspace-header col">
+                            工作區
+                        </div>
+                    </div>
+                    <div id="blockly-area" class="w-100" style="height: calc(100% - 30px);"></div>
+                    <xml id="blockly-toolbox" style="display: none">
+                        <block type="controls_if"></block>
+                        <block type="controls_repeat_ext"></block>
+                        <block type="logic_compare"></block>
+                        <block type="math_number"></block>
+                        <block type="math_arithmetic"></block>
+                        <block type="text"></block>
+                        <block type="text_print"></block>
+                      </xml>
+                    <div id="blockly-instance" style="position: absolute; top: 30px; left: 2px;"></div>
+                </div>
+            </div>
+        </div>
     </div>
 
 
     <script src="../../javascripts/jquery-3.3.1.min.js"></script>
     <script src="../../javascripts/bootstrap.bundle-4.1.1.min.js"></script>
     <script src="../../javascripts/phaser-2.11.0.min.js"></script>
+    <script src="../../javascripts/blockly_compressed.js"></script>
+    <script src="../../javascripts/blocks_compressed.js"></script>
+    <script src="../../javascripts/blockly-msg-zh-hant.js"></script>
+    <script src="../../javascripts/application.js"></script>
 </body>
 
 </html>
