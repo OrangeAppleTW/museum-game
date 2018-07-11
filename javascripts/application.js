@@ -38,7 +38,7 @@ Blockly.JavaScript.addReservedWords('highlightBlock');
             if (topBlock.type == 'when_run') {
                 recursivelySetDisabled(topBlock, false);
             } else {
-                recursivelySetDisabled(topBlock, true);
+                topBlock.setDisabled(true);
             }
         }
     }
