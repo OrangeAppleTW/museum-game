@@ -6,8 +6,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Stage 01</title>
+    
+    <!-- Libs Start -->
     <link rel="stylesheet" href="../../stylesheets/fontawesome-free-5.1.0.min.css">
     <link rel="stylesheet" href="../../stylesheets/bootstrap.min.css">
+    <!-- Libs End -->
+
     <link rel="stylesheet" href="../../stylesheets/application.css">
 </head>
 
@@ -57,7 +61,7 @@
                            <img class="w-100 h100" src="../../images/sample-game.png">
                         </div>
                     </div>
-                    <div class="btn btn-custom btn-block text-center">
+                    <div class="btn btn-custom btn-block text-center js-run-code">
                         <i class="fas fa-play"></i> 運行
                     </div>
                 </div>
@@ -81,7 +85,6 @@
                             工作區
                         </div>
                     </div>
-                    <div id="blockly-area" class="w-100" style="height: calc(100% - 30px);"></div>
                     <xml id="blockly-toolbox" style="display: none">
                         <block type="controls_if"></block>
                         <block type="controls_repeat_ext"></block>
@@ -90,21 +93,29 @@
                         <block type="math_arithmetic"></block>
                         <block type="text"></block>
                         <block type="text_print"></block>
-                      </xml>
+                    </xml>
+                    <xml xmlns="http://www.w3.org/1999/xhtml" id="blockly-workspace" style="display:none">
+                        <block deletable="false" movable="false" type="when_run" id="S)}oe#mNHcQRbK8h1Jdf" x="20" y="20"></block>
+                    </xml>
+                    <div id="blockly-area" class="w-100" style="height: calc(100% - 30px);"></div>
                     <div id="blockly-instance" style="position: absolute; top: 30px; left: 2px;"></div>
                 </div>
             </div>
         </div>
     </div>
 
-
+    <!-- Libs Start -->
     <script src="../../javascripts/jquery-3.3.1.min.js"></script>
     <script src="../../javascripts/bootstrap.bundle-4.1.1.min.js"></script>
     <script src="../../javascripts/phaser-2.11.0.min.js"></script>
     <script src="../../javascripts/blockly_compressed.js"></script>
     <script src="../../javascripts/blocks_compressed.js"></script>
-    <script src="../../javascripts/blockly-msg-zh-hant.js"></script>
+    <script src="../../javascripts/javascript_compressed.js"></script>
+    <script src="../../javascripts/blockly_msg_zh_hant.js"></script>
+    <script src="../../javascripts/acorn_interpreter.js"></script>
+    <!-- Libs End -->
+
+    <script src="../../javascripts/custom_blocks.js"></script>
     <script src="../../javascripts/application.js"></script>
 </body>
-
 </html>
