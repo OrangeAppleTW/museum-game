@@ -2,8 +2,7 @@
 Blockly.ContextMenu.show = function() {};
 
 // JavaScript generator configurations
-Blockly.JavaScript.STATEMENT_PREFIX = 'highlightBlock(%1);\n';
-Blockly.JavaScript.addReservedWords('highlightBlock');
+Blockly.JavaScript.STATEMENT_PREFIX = 'GAME.highlightBlock(%1)\n';
 
 // Initialize blockly
 (function () {
@@ -29,7 +28,6 @@ Blockly.JavaScript.addReservedWords('highlightBlock');
             recursivelySetDisabled(child, isDisabled);
         }
     }
-
     // setDisabled 未連接開始積木
     var disableBlockWithNoTrigger = function () {
         var topBlocks = workspace.getTopBlocks(true);
@@ -44,71 +42,73 @@ Blockly.JavaScript.addReservedWords('highlightBlock');
     }
     workspace.addChangeListener(disableBlockWithNoTrigger);
     
-      // Export to global
-    window.blocklyWorkspace = workspace; 
-    
+    // binding 工具列寬度
+    var $toolboxHeader = $('.toolbox-header');
+    var $blocklyFlyoutBackground = $('.blocklyFlyoutBackground');
+
     // 動態調整 Blockly 大小
     var onresize = function() {
         blocklyDiv.style.width = (blocklyArea.offsetWidth - 5) + 'px'; // border offset + bug: 多 1px
         blocklyDiv.style.height = (blocklyArea.offsetHeight - 2) + 'px'; // border offset + bug: 多 1px
         Blockly.svgResize(workspace);
+
+        // resize toolbox-header
+        var width = $blocklyFlyoutBackground.width();
+        if(width > 0) $toolboxHeader.width(width);
     };
     window.addEventListener('resize', onresize, false);
     onresize();
-})();
 
+    // 初始化 header 寬度（用 setTimeout 等待 blockly 載入）
+    var _resizeToolboxHeader = function() {
+        var width = $blocklyFlyoutBackground.width();
+        if(width > 0) {
+            $toolboxHeader.width(width);
+        } else {
+            setTimeout(_resizeToolboxHeader, 100);
+        }
+    }
+    setTimeout(_resizeToolboxHeader, 100);
+
+    // Export to global
+    BLOCKLY_WORKSPACE = workspace;
+})();
 
 // Run/Reset Button Event
 (function () {
     var $runBtn = $('.js-run-code');
-    var status = 'pending';
-    var timerId = null;
-
-    function initApi(interpreter, scope) {
-        // Add an API function for the alert() block.
-        var wrapper = function(text) {
-          return alert(arguments.length ? text : '');
-        };
-        interpreter.setProperty(scope, 'alert',
-            interpreter.createNativeFunction(wrapper));
-      
-        // Add an API function for the prompt() block.
-        wrapper = function(text) {
-          return prompt(text);
-        };
-        interpreter.setProperty(scope, 'prompt',
-            interpreter.createNativeFunction(wrapper));
-
-        // Add an API function for highlighting blocks.
-        var wrapper = function(id) {
-            return blocklyWorkspace.highlightBlock(id);
-        };
-        interpreter.setProperty(scope, 'highlightBlock',
-            interpreter.createNativeFunction(wrapper));
-    }
+    var isRunning = false;
     
     $runBtn.click(function () {
-        var code = Blockly.JavaScript.workspaceToCode(blocklyWorkspace);
-        var interpreter = new Interpreter(code, initApi);
-
-        if (status === 'pending') {
-            status = 'running';
+        var code = Blockly.JavaScript.workspaceToCode(BLOCKLY_WORKSPACE);
+        
+        if (!isRunning) {
+            isRunning = true;
             $runBtn.html('<i class="fas fa-sync"></i> 重置');
-            function nextStep() {
-                if (status === 'running' && interpreter.step()) {
-                    timerId = setTimeout(nextStep, 25);
-                } else {
-                    status = 'pending';
-                    $runBtn.html('<i class="fas fa-play"></i> 運行');
+            
+            // 組成 Promises chain
+            var funcs = code.split("\n")
+            var initCode = funcs[0];
+            for(var i = 1; i < funcs.length; i++) {
+                if (!!funcs[i]) {
+                    initCode += ".then(function() {\n" +
+                                      '    return ' + funcs[i] + ";\n" +
+                                      "})";
                 }
             }
-            nextStep();
-        } else if (status === 'running') {
-            status = 'pending';
+            initCode += ".catch(function() {\n"+
+                        '    console.log("Stop running.");'+
+                        '});';
+
+            try {
+                eval(initCode);
+            } catch (e) {
+                console.error(e);
+            }
+        } else {
+            isRunning = false;
             $runBtn.html('<i class="fas fa-play"></i> 運行');
-            clearTimeout(timerId);
+            window.GAME.reset();
         }
     });
 })()
-
-

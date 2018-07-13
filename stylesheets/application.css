@@ -110,6 +110,18 @@ nav.header .stage-link > span.current {
   padding: 2px;
 }
 
+#phaser-area > canvas {
+  display: none !important;
+  -webkit-transform-origin: 0 0;
+          transform-origin: 0 0;
+  -webkit-transform: scale(1);
+          transform: scale(1);
+}
+
+#phaser-area > canvas.show {
+  display: block !important;
+}
+
 .hint-container {
   margin-bottom: 16px;
   height: 70px;
@@ -191,7 +203,7 @@ nav.header .stage-link > span.current {
 }
 
 .blockly-container .blockly-headers .toolbox-header {
-  width: 139.484px;
+  width: 122.53px;
   background-color: #4b4439;
   color: #ffffff;
   border-bottom: 1px solid #291e0e;
@@ -205,30 +217,30 @@ nav.header .stage-link > span.current {
   border-bottom: 1px solid #4b4439;
 }
 
-.blockly-container #blockly-area {
+#blockly-area {
   border: 2px solid #291e0e;
   border-top: none;
   border-bottom-left-radius: 5px;
   border-bottom-right-radius: 5px;
 }
 
-.blockly-container #blockly-instance svg.blocklyFlyout {
+#blockly-instance svg.blocklyFlyout {
   -webkit-box-sizing: content-box;
           box-sizing: content-box;
   border-right: 2px solid #291e0e;
   border-bottom-left-radius: 5px;
 }
 
-.blockly-container #blockly-instance svg.blocklyFlyout path.blocklyFlyoutBackground {
+#blockly-instance svg.blocklyFlyout path.blocklyFlyoutBackground {
   fill: #4b4439;
   fill-opacity: 1;
 }
 
-.blockly-container #blockly-instance svg.blocklySvg {
+#blockly-instance svg.blocklySvg {
   background-color: #291e0e;
 }
 
-.blockly-container #blockly-instance rect.blocklyMainBackground {
+#blockly-instance rect.blocklyMainBackground {
   background-color: #291e0e;
   stroke-width: 0;
 }

@@ -58,7 +58,7 @@
                 <div class="game-container">
                     <div class="outer-box mb-3">
                         <div class="inner-box">
-                           <img class="w-100 h100" src="../../images/sample-game.png">
+                           <div id="phaser-area" class="w-100 h-100"></div>
                         </div>
                     </div>
                     <div class="btn btn-custom btn-block text-center js-run-code">
@@ -86,13 +86,8 @@
                         </div>
                     </div>
                     <xml id="blockly-toolbox" style="display: none">
-                        <block type="controls_if"></block>
-                        <block type="controls_repeat_ext"></block>
-                        <block type="logic_compare"></block>
-                        <block type="math_number"></block>
-                        <block type="math_arithmetic"></block>
-                        <block type="text"></block>
-                        <block type="text_print"></block>
+                        <block type="step_forward"></block>
+                        <block type="turn_x"></block>
                     </xml>
                     <xml xmlns="http://www.w3.org/1999/xhtml" id="blockly-workspace" style="display:none">
                         <block deletable="false" movable="false" type="when_run" id="S)}oe#mNHcQRbK8h1Jdf" x="20" y="20"></block>
@@ -105,6 +100,7 @@
     </div>
 
     <!-- Libs Start -->
+    <script src="../../javascripts/promise.polyfill.min.js"></script>
     <script src="../../javascripts/jquery-3.3.1.min.js"></script>
     <script src="../../javascripts/bootstrap.bundle-4.1.1.min.js"></script>
     <script src="../../javascripts/phaser-2.11.0.min.js"></script>
@@ -112,10 +108,10 @@
     <script src="../../javascripts/blocks_compressed.js"></script>
     <script src="../../javascripts/javascript_compressed.js"></script>
     <script src="../../javascripts/blockly_msg_zh_hant.js"></script>
-    <script src="../../javascripts/acorn_interpreter.js"></script>
     <!-- Libs End -->
 
     <script src="../../javascripts/custom_blocks.js"></script>
     <script src="../../javascripts/application.js"></script>
+    <script src="./index.js"></script>
 </body>
 </html>

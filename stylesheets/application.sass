@@ -82,6 +82,14 @@ nav.header
       background-color: #291e0e
       padding: 2px
 
+// 更改 canvas transfom scale 位置
+#phaser-area > canvas
+  display: none !important
+  transform-origin: 0 0
+  transform: scale(1)
+  &.show
+    display: block !important
+
 .hint-container
   margin-bottom: 16px
   height: 70px
@@ -148,7 +156,7 @@ nav.header
     border-top-right-radius: 5px
 
     .toolbox-header
-      width: 139.484px
+      width: 122.53px
       background-color: #4b4439
       color: #ffffff
       border-bottom: 1px solid #291e0e
@@ -158,21 +166,25 @@ nav.header
       color: #ffffff
       border-left: 2px solid #291e0e
       border-bottom: 1px solid #4b4439
-  #blockly-area
-    border: 2px solid #291e0e
-    border-top: none
+
+// blockly 外框
+#blockly-area
+  border: 2px solid #291e0e
+  border-top: none
+  border-bottom-left-radius: 5px
+  border-bottom-right-radius: 5px
+
+// override blockly 的 style
+#blockly-instance
+  svg.blocklyFlyout
+    box-sizing: content-box
+    border-right: 2px solid #291e0e
     border-bottom-left-radius: 5px
-    border-bottom-right-radius: 5px
-  #blockly-instance
-    svg.blocklyFlyout
-      box-sizing: content-box
-      border-right: 2px solid #291e0e
-      border-bottom-left-radius: 5px
-      path.blocklyFlyoutBackground
-        fill: #4b4439
-        fill-opacity: 1 
-    svg.blocklySvg 
-      background-color: #291e0e
-    rect.blocklyMainBackground
-      background-color: #291e0e
-      stroke-width: 0
+    path.blocklyFlyoutBackground
+      fill: #4b4439
+      fill-opacity: 1 
+  svg.blocklySvg 
+    background-color: #291e0e
+  rect.blocklyMainBackground
+    background-color: #291e0e
+    stroke-width: 0
