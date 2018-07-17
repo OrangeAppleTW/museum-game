@@ -36,15 +36,14 @@ Blockly.JavaScript.STATEMENT_PREFIX = 'GAME.highlightBlock(%1)\n';
             if (topBlock.type == 'when_run') {
                 recursivelySetDisabled(topBlock, false);
             } else {
-                topBlock.setDisabled(true);
+                recursivelySetDisabled(topBlock, true);
             }
         }
     }
     workspace.addChangeListener(disableBlockWithNoTrigger);
     
-    // binding 工具列寬度
     var $toolboxHeader = $('.toolbox-header');
-    var $blocklyFlyoutBackground = $('.blocklyFlyoutBackground');
+    var $blocklyFlyoutBackground = $('svg.blocklyFlyout');
 
     // 動態調整 Blockly 大小
     var onresize = function() {

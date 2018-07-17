@@ -244,4 +244,47 @@ nav.header .stage-link > span.current {
   background-color: #291e0e;
   stroke-width: 0;
 }
+
+.chat-modal .modal-dialog {
+  max-width: 830px;
+  width: 64.6875vw;
+  -webkit-transform: translateY(-50%) !important;
+          transform: translateY(-50%) !important;
+  top: 50% !important;
+  margin: 0 auto !important;
+}
+
+.chat-modal .modal-dialog .modal-content {
+  border: 4px solid #655843;
+  background-color: #433826;
+}
+
+.chat-modal .modal-dialog .modal-content .modal-body {
+  padding: 13px 0;
+  max-height: 667px;
+  height: 83.375vh;
+}
+
+.chat-container {
+  max-width: 625px;
+  border: 2px solid #000000;
+}
+
+.chat-container > .scene {
+  border-bottom: 2px solid #b69561;
+  height: 78.60465116%;
+}
+
+.chat-container > .chats {
+  -webkit-user-select: none;
+     -moz-user-select: none;
+      -ms-user-select: none;
+          user-select: none;
+  padding: 16px;
+  border-top: 1px solid #000000;
+  height: 21.39534884%;
+  background-color: #291e0e;
+  color: #ffffff;
+  white-space: pre-line;
+}
 /*# sourceMappingURL=application.css.map */

@@ -52,7 +52,7 @@
             </div>
         </div>
         <!-- Navbar End -->
-        
+        <!-- Main Content Start -->
         <div class="row no-gutters">
             <div class="col-5">
                 <div class="game-container">
@@ -98,6 +98,26 @@
             </div>
         </div>
     </div>
+    <!-- Main Content End -->
+
+    <!-- Conversation Modal Start -->
+    <div class="modal chat-modal" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-body">
+              <div class="chat-container h-100 mx-auto">
+                  <div class="scene">
+                      <img src="../../images/chat-01.png" class="h-100 w-100">
+                  </div>
+                  <div class="chats">是誰：
+                                     是誰在那裡？ <i class="fas fa-caret-down"></i>
+                  </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    <!-- Conversation Modal End -->
 
     <!-- Libs Start -->
     <script src="../../javascripts/promise.polyfill.min.js"></script>
@@ -113,5 +133,9 @@
     <script src="../../javascripts/custom_blocks.js"></script>
     <script src="../../javascripts/application.js"></script>
     <script src="./index.js"></script>
+
+    <script>
+        $('#exampleModal').modal('show');
+    </script>
 </body>
 </html>
