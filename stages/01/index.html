@@ -52,6 +52,7 @@
             </div>
         </div>
         <!-- Navbar End -->
+
         <!-- Main Content Start -->
         <div class="row no-gutters">
             <div class="col-5">
@@ -72,7 +73,7 @@
                     <div class="hint-content">
                         <h4>提示</h4>
                         <p>
-                            內容內容內容內容內容內容內容內容內容內容內容內容內容內容內容內容內容內容內容內容內容內容內容內容內容內容內容內容內容內容內容內容內容內容內容內容內容內容內容內容內容內容內容內容內容
+                            走出草叢看看，鼓起勇氣和陌生人打聲招呼吧！
                         </p>
                     </div>
                 </div>
@@ -97,27 +98,67 @@
                 </div>
             </div>
         </div>
+        <!-- Main Content End -->
     </div>
-    <!-- Main Content End -->
 
-    <!-- Conversation Modal Start -->
-    <div class="modal chat-modal" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <!-- Characters Selector Modal Start -->
+    <div class="modal characters-selector-modal" id="characters-selector-modal" data-backdrop="static" and data-keyboard="false" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <div class="d-flex h-100 w-100 flex-column">
+                        <h5 class="text-center" style="color: #f49f1a;">讓我們開始吧</h3>
+                        <h2 class="d-block text-center font-weight-bold my-3" style="color: #ffffff;">請先選擇要使用的角色</h2>
+                        <div class="row no-gutters mx-3">
+                            <div class="col-4">
+                                <div class="charactor-option">
+                                    <h4 class="font-weight-bold" >A</h5>
+                                    <img src="../../images/child-a.png">
+                                    <div class="btn btn-block btn-custom text-center js-select-character" data-dismiss="modal" data-character="child-a">
+                                        選擇
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-4">
+                                <div class="charactor-option">
+                                    <h4 class="text-center font-weight-bold">B</h5>
+                                    <img src="../../images/child-b.png">
+                                    <div class="btn btn-block btn-custom text-center js-select-character" data-dismiss="modal" data-character="child-b">
+                                        選擇
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-4">
+                                <div class="charactor-option">
+                                    <h4 class="text-center font-weight-bold">C</h5>
+                                    <img src="../../images/child-c.png">
+                                    <div class="btn btn-block btn-custom text-center js-select-character" data-dismiss="modal" data-character="child-c">
+                                        選擇
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Characters Selector Modal End -->
+
+    <!-- Chat Modal Start -->
+    <div class="modal chat-modal" id="chat-modal" data-backdrop="static" and data-keyboard="false" tabindex="-1" role="dialog">
         <div class="modal-dialog" role="document">
           <div class="modal-content">
             <div class="modal-body">
               <div class="chat-container h-100 mx-auto">
-                  <div class="scene">
-                      <img src="../../images/chat-01.png" class="h-100 w-100">
-                  </div>
-                  <div class="chats">是誰：
-                                     是誰在那裡？ <i class="fas fa-caret-down"></i>
-                  </div>
+                  <div class="scene" style="background-image: url('../../images/chat-01.png');"></div>
+                  <div class="chat-content"></div>
               </div>
             </div>
           </div>
         </div>
-      </div>
-    <!-- Conversation Modal End -->
+    </div>
+    <!-- Chat Modal End -->
 
     <!-- Libs Start -->
     <script src="../../javascripts/promise.polyfill.min.js"></script>
@@ -135,7 +176,22 @@
     <script src="./index.js"></script>
 
     <script>
-        $('#exampleModal').modal('show');
+        // GAME.init();
+        $('.js-select-character').on('click', function() {
+            var character = $(this).data('character');
+            localStorage.setItem('selectedCharacter', character);
+        });
+
+        $('#characters-selector-modal').on('hidden.bs.modal', function (e) {
+            GAME.init();
+            GAME.initStory();
+            $('#chat-modal').modal('show');
+            setTimeout(function() {
+                $('body').trigger('keyup');
+            }, 1000);
+        });
+
+        $('#characters-selector-modal').modal('show');
     </script>
 </body>
 </html>

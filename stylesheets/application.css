@@ -3,6 +3,47 @@ body {
   font-family: 'Microsoft JhengHei', sans-serif !important;
 }
 
+@-webkit-keyframes fa-blink {
+  0% {
+    opacity: 0;
+  }
+  25% {
+    opacity: 0.5;
+  }
+  50% {
+    opacity: 1;
+  }
+  75% {
+    opacity: 0.5;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+@keyframes fa-blink {
+  0% {
+    opacity: 0;
+  }
+  25% {
+    opacity: 0.5;
+  }
+  50% {
+    opacity: 1;
+  }
+  75% {
+    opacity: 0.5;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+.fa-blink {
+  -webkit-animation: fa-blink 1.2s linear infinite;
+          animation: fa-blink 1.2s linear infinite;
+}
+
 .btn-custom {
   background-color: #a29b90;
   font-weight: bold;
@@ -271,11 +312,18 @@ nav.header .stage-link > span.current {
 }
 
 .chat-container > .scene {
+  -webkit-user-select: none;
+     -moz-user-select: none;
+      -ms-user-select: none;
+          user-select: none;
   border-bottom: 2px solid #b69561;
   height: 78.60465116%;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
 }
 
-.chat-container > .chats {
+.chat-container > .chat-content {
   -webkit-user-select: none;
      -moz-user-select: none;
       -ms-user-select: none;
@@ -286,5 +334,50 @@ nav.header .stage-link > span.current {
   background-color: #291e0e;
   color: #ffffff;
   white-space: pre-line;
+  overflow-y: scroll;
+}
+
+.characters-selector-modal .modal-dialog {
+  max-width: 830px;
+  width: 64.6875vw;
+  -webkit-transform: translateY(-50%) !important;
+          transform: translateY(-50%) !important;
+  top: 50% !important;
+  margin: 0 auto !important;
+}
+
+.characters-selector-modal .modal-dialog .modal-content {
+  border: 4px solid #655843;
+  background-color: #433826;
+}
+
+.characters-selector-modal .modal-dialog .modal-content .modal-body {
+  padding: 13px 0;
+  max-height: 514px;
+  height: 64.25vh;
+}
+
+.charactor-option {
+  background-color: #291e0e;
+  border-radius: 5px;
+  padding: 8px;
+  text-align: center;
+  margin: 0 8px;
+  height: 100%;
+}
+
+.charactor-option > h4 {
+  color: #ffffff;
+}
+
+.charactor-option > img {
+  height: calc(100% - 100px);
+}
+
+.charactor-option > .btn {
+  font-size: 32px;
+  font-weight: bold;
+  padding-top: 3px;
+  padding-bottom: 3px;
 }
 /*# sourceMappingURL=application.css.map */

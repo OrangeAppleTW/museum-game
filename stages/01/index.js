@@ -1,5 +1,10 @@
-// init phaser game
-(function() {
+// Export to global
+window.GAME = {
+    init: null, // 初始化遊戲
+    player: {} // 玩家角色方法
+};
+
+window.GAME.init = function() {
     // 每一步執行時間 (ms)
     var STEP_TIME = 500;
     
@@ -9,10 +14,11 @@
     // 預設玩家位置
     var DEFAULT_PLAYER = { x: 4.5 * TILT_SIZE, y: 8.5 * TILT_SIZE, frame: 6 };
 
+    var SELECTED_CHARACTER = localStorage.getItem('selectedCharacter') || 'child-a';
+
     // 動態調整 Phaser 遊戲大小
     // 當 window resize 時，讓 canvas scale 
     // 預設遊戲畫面為 1:1
-    //
     function addResizeEvent (width, canvas) {
         var $phaserArea = $('#phaser-area');
         var $phaserCanvas = $(canvas);
@@ -29,11 +35,7 @@
         $phaserCanvas.addClass('show');
     }
 
-    // Export phaser to global
-    window.GAME = {
-        player: {}, // 玩家角色方法
-    };
-
+    // create game
     var game = new Phaser.Game(1000, 1000, Phaser.AUTO, 'phaser-area', { preload: preload, create: create, update: update, render: render });
 
     // 利用 group 產生 layer 效果
@@ -71,12 +73,12 @@
     }
 
     // 加入草叢
-    function addGrass(layer, startRow, startColumn, rowSpan, columnSpan) {
+    function addGrass(startRow, startColumn, rowSpan, columnSpan) {
         for(var rowOffset = 0; rowOffset < rowSpan; rowOffset++) {
             for(var columnOffset = 0; columnOffset < columnSpan; columnOffset++) {
                 var y = (startRow + rowOffset) * TILT_SIZE;
                 var x = (startColumn + columnOffset) * TILT_SIZE;
-                var grass = layer.create(x, y, 'grass');
+                var grass = backgroundLayer.create(x, y, 'grass');
 
                 grass.scale.setTo(TILT_SIZE / grass.width);
                 grasses.push(grass);
@@ -84,10 +86,37 @@
         }
     }
 
-    // 兩個 sprite 是否在同一格
-    function isSameTilt(sprite1, sprite2) {
-        return Math.floor(sprite1.x/TILT_SIZE) === Math.floor(sprite2.x/TILT_SIZE) && 
-                Math.floor(sprite1.y/TILT_SIZE) === Math.floor(sprite2.y/TILT_SIZE);
+    // 建立玩家角色
+    function createPlayer() {
+        player = middleLayer.create(DEFAULT_PLAYER.x, DEFAULT_PLAYER.y, 'player');
+        player.scale.setTo(TILT_SIZE / player.width);
+        player.frame = DEFAULT_PLAYER.frame;
+        player.anchor.x = 0.5;
+        player.anchor.y = 0.85;
+        
+        // 動畫
+        player.animations.add('walk-down', [0,1,2]);
+        player.animations.add('walk-left', [3,4,5]);
+        player.animations.add('walk-up', [6,7,8]);
+        player.animations.add('walk-right', [9,10,11]);
+        
+        // 碰撞
+        game.physics.enable(player, Phaser.Physics.ARCADE);
+        player.body.setSize(TILT_SIZE, TILT_SIZE, 12.5, 132.5);
+        player.body.collideWorldBounds = true;
+    }
+
+    // 建立 npc 角色
+    function createNPC() {
+        npc = backgroundLayer.create(5.5*TILT_SIZE, 4.5*TILT_SIZE, 'npc-1')
+        npc.scale.setTo(TILT_SIZE / npc.width);
+        npc.anchor.x = 0.5;
+        npc.anchor.y = 0.85;
+        
+        // 碰撞
+        game.physics.enable(npc, Phaser.Physics.ARCADE);
+        npc.body.setSize(2.4*TILT_SIZE, 2.4*TILT_SIZE, 15, 340);
+        npc.body.immovable = true;
     }
 
     function preload() {
@@ -96,50 +125,29 @@
         
         // 0, 3, 6, 9
         // 下, 左, 上, 右
-        game.load.spritesheet('player-1', '../../images/player-1.png', 125, 216, 12);
+        game.load.spritesheet('player', '../../images/'+SELECTED_CHARACTER+'-spritesheet.png', 125, 216, 12);
         game.load.image('npc-1', '../../images/npc-1.png');
     }
 
     function create() {
-        // 加入 resize event
         addResizeEvent(this.game.width, this.game.canvas);
 
-        // 利用 group 產生 layer 效果
+        // layers
         backgroundLayer = game.add.group();
         middleLayer = game.add.group();
         frontLayer = game.add.group();
 
         // 避免 lost focus 自動暫停遊戲
         game.stage.disableVisibilityChange = true;
-        
-        // 背景
-        tileSprite = backgroundLayer.create(0, 0, 'background-image');
+
+        // 遊戲背景
+        backgroundLayer.create(0, 0, 'background-image');
 
         // 建立玩家角色
-        player = middleLayer.create(DEFAULT_PLAYER.x, DEFAULT_PLAYER.y, 'player-1');
-        player.scale.setTo(TILT_SIZE / player.width);
-        player.frame = DEFAULT_PLAYER.frame;
-        player.anchor.x = 0.5;
-        player.anchor.y = 0.85;
-        // 建立角色動畫
-        player.animations.add('walk-down', [0,1,2]);
-        player.animations.add('walk-left', [3,4,5]);
-        player.animations.add('walk-up', [6,7,8]);
-        player.animations.add('walk-right', [9,10,11]);
-        // 設定碰撞
-        game.physics.enable(player, Phaser.Physics.ARCADE);
-        player.body.setSize(TILT_SIZE, TILT_SIZE, 12.5, 132.5);
-        player.body.collideWorldBounds = true;
+        createPlayer();
 
-        npc = backgroundLayer.create(5.5*TILT_SIZE, 4.5*TILT_SIZE, 'npc-1')
-        npc.scale.setTo(TILT_SIZE / npc.width);
-        npc.anchor.x = 0.5;
-        npc.anchor.y = 0.85;
-
-        // 設定碰撞
-        game.physics.enable(npc, Phaser.Physics.ARCADE);
-        npc.body.setSize(2.4*TILT_SIZE, 2.4*TILT_SIZE, 15, 340);
-        npc.body.immovable = true;
+        // 建立 NPC 角色
+        createNPC();
 
         // 設定地圖邊界
         addBound(0, 7, 10, 3);
@@ -149,22 +157,27 @@
         addBound(0, 3, 6, 1);
         addBound(1, 4, 2, 1);
 
-        addGrass(backgroundLayer, 6, 3, 4, 4);
+        // 加入草叢
+        addGrass(6, 3, 4, 4);
     }
 
     function update() { 
         // 限制角色不能超過邊界
         game.physics.arcade.collide(player, bounds);
+
         // 限制角色不能撞上 npc
         game.physics.arcade.collide(player, npc);
 
         // 調整草的階層
         for(var i=0; i < grasses.length; i++) {
             var grass = grasses[i];
-            if (isSameTilt(player, grass)) { // 把角色底下的草移上來
+            var isSameTilt = Math.floor(grass.x/TILT_SIZE) === Math.floor(player.x/TILT_SIZE) && 
+                Math.floor(grass.y/TILT_SIZE) === Math.floor(player.y/TILT_SIZE);
+            
+            if (isSameTilt) { // 把角色底下的草移上來
                 grass.parent.remove(grass);
                 frontLayer.add(grass);
-            } else if (!backgroundLayer.contains(grass)) { // 設定其他地方的草為背景
+            } else if (!backgroundLayer.contains(grass)) { // 設定其他地方的草到背景
                 grass.parent.remove(grass);
                 backgroundLayer.add(grass);
             }
@@ -181,18 +194,15 @@
     }
 
     function render() {
-
-        // Sprite debug info
-        game.debug.spriteInfo(player, 32, 32);
-
-        for(var i =0 ; i<bounds.length;i++) {
-            game.debug.body(bounds[i]);
-        }
-        game.debug.body(player);
-        game.debug.body(npc);
-
+        // game.debug.spriteInfo(player, 32, 32);
+        // for(var i=0; i < bounds.length; i++) {
+        //     game.debug.body(bounds[i]);
+        // }
+        // game.debug.body(player);
+        // game.debug.body(npc);
     }
 
+    // Export to window methods
     window.GAME.reset = function () {
         resetSignal.dispatch();
 
@@ -248,7 +258,7 @@
                 player.animations.stop();
                 player.frame = (Math.floor(player.frame / 3) * 3); // 回到該方向第一張圖
                 resolve(true);
-             }, this);
+            }, this);
 
             resetSignal.addOnce(function () {
                 player.body.velocity.x = 0;
@@ -273,4 +283,60 @@
             resolve(true);
         });
     }
-})();
+};
+
+// 開始劇情
+window.GAME.initStory = function() {
+    var scenes = [
+        { actor: '現代人', sentence: '好暈... 這裡是哪裡阿？(自言自語)', action: function() {} },
+        { actor: '史前人', sentence: '什麼聲音？誰在那裏？', action: function() {} },
+        { actor: '現代人', sentence: '......', action: function() {} },
+        { actor: '史前人', sentence: '別躲在那邊不說話，你是誰？', action: function() {} },
+    ];
+
+    var $chatContent = $('.chat-content');
+    var timerId = null;
+    var sceneIdx = 0;
+
+    $('body').keyup(function($event) {
+        if(!timerId && sceneIdx >= scenes.length) {
+            $('#chat-modal').modal('hide');
+            $('body').unbind('keyup');
+        }
+        if (timerId !== null) {
+            clearTimeout(timerId);
+            var scene = scenes[sceneIdx-1];
+            if (!scene) {
+                timerId = null;
+                return;
+            }
+            var text = scene.actor + "：" + scene.sentence;
+            $chatContent.text(text);
+            $chatContent.append('&nbsp;<i class="fas fa-caret-down fa-blink"></i>');
+            timerId = null;
+            return;
+        }
+
+        var scene = scenes[sceneIdx];
+        if (!scene) return;
+        var actor = scene.actor + "：";
+        var wordIdx = 0;
+        $chatContent.text(actor);
+        function fillWord() {
+            var word = scene.sentence[wordIdx];
+            var currentText = $chatContent.text();
+            
+            $chatContent.text(currentText + word);
+            wordIdx++;
+
+            if (wordIdx < scene.sentence.length) {
+                timerId = setTimeout(fillWord, 80 + 50*Math.random());
+            } else {
+                $chatContent.append('&nbsp;<i class="fas fa-caret-down fa-blink"></i>');
+                timerId = null;
+            }
+        }
+        timerId = setTimeout(fillWord, 80+50*Math.random());
+        sceneIdx++;
+    });
+};

@@ -2,6 +2,21 @@ body
   background-color: #4b4439
   font-family: 'Microsoft JhengHei', sans-serif !important
 
+// fontawesome icon 閃爍
+@keyframes fa-blink
+    0%
+      opacity: 0
+    25% 
+      opacity: 0.5
+    50%
+      opacity: 1
+    75%
+      opacity: 0.5
+    100%
+      opacity: 0
+.fa-blink 
+  animation: fa-blink 1.2s linear infinite
+
 .btn-custom
   background-color: #a29b90
   font-weight: bold
@@ -207,9 +222,14 @@ nav.header
   max-width: 625px
   border: 2px solid #000000
   > .scene
+    user-select: none
     border-bottom: 2px solid #b69561
     height: 78.60465116%
-  > .chats
+    background-repeat: no-repeat
+    background-position: center
+    background-size: cover
+    
+  > .chat-content
     user-select: none
     padding: 16px
     border-top: 1px solid #000000
@@ -217,4 +237,35 @@ nav.header
     background-color: #291e0e
     color: #ffffff
     white-space: pre-line
+    overflow-y: scroll
+
+.characters-selector-modal .modal-dialog
+  max-width: 830px
+  width: 64.6875vw
+  transform: translateY(-50%) !important
+  top: 50% !important
+  margin: 0 auto !important
+  .modal-content
+    border: 4px solid #655843
+    background-color: #433826
+    .modal-body
+      padding: 13px 0
+      max-height: 514px
+      height: 64.25vh
     
+.charactor-option
+  background-color: #291e0e
+  border-radius: 5px
+  padding: 8px
+  text-align: center
+  margin: 0 8px
+  height: 100%
+  > h4
+    color: #ffffff
+  > img
+    height: calc(100% - 100px)
+  > .btn
+    font-size: 32px
+    font-weight: bold
+    padding-top: 3px
+    padding-bottom: 3px
