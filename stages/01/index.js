@@ -6,7 +6,71 @@ window.GAME = {
 
 window.Hints = [
     { isDisplayed: false, content: "請先走到原始人旁邊，再向他打招呼哦！" }
-]
+];
+
+// 劇情功能
+window.startChat = function(scenes, callback) {
+    callback = (typeof callback !== 'undefined') ?  callback : function() {};
+
+    var $chatContent = $('.chat-content');
+    var timerId = null;
+    var sceneIdx = 0;
+    var isCallbackCalled = false;
+
+    var next = function() {
+        if(!timerId && sceneIdx >= scenes.length) {
+            $('#chat-modal').modal('hide');
+            $('body').unbind('keyup');
+            $('body').unbind('mouseup');
+
+            if(!isCallbackCalled) {
+                isCallbackCalled = true;
+                callback();
+            }
+        }
+        
+        if (timerId !== null) {
+            clearTimeout(timerId);
+            var scene = scenes[sceneIdx-1];
+            if (!scene) {
+                timerId = null;
+                return;
+            }
+            var text = scene.actor + "：" + scene.sentence;
+            $chatContent.text(text);
+            $chatContent.append('&nbsp;<i class="fas fa-caret-down fa-blink"></i>');
+            timerId = null;
+            return;
+        }
+
+        var scene = scenes[sceneIdx];
+        if (!scene) return;
+        var actor = scene.actor + "：";
+        var wordIdx = 0;
+        $chatContent.text(actor);
+        function fillWord() {
+            var word = scene.sentence[wordIdx];
+            var currentText = $chatContent.text();
+            
+            $chatContent.text(currentText + word);
+            wordIdx++;
+
+            if (wordIdx < scene.sentence.length) {
+                timerId = setTimeout(fillWord, 80 + 50*Math.random());
+            } else {
+                $chatContent.append('&nbsp;<i class="fas fa-caret-down fa-blink"></i>');
+                timerId = null;
+            }
+        }
+        timerId = setTimeout(fillWord, 80+50*Math.random());
+        sceneIdx++;
+    }
+
+    $('body').keyup(next);
+    $('body').mouseup(next);
+    $('#chat-modal').modal('show');
+    next();
+};
 
 window.GAME.init = function() {
     // 每一步執行時間 (ms)
@@ -306,66 +370,4 @@ window.GAME.init = function() {
             }
         });
     }
-};
-
-// 劇情功能
-window.startChat = function(scenes, callback) {
-    callback = (typeof callback !== 'undefined') ?  callback : function() {};
-
-    var $chatContent = $('.chat-content');
-    var timerId = null;
-    var sceneIdx = 0;
-    var isCallbackCalled = false;
-
-    var next = function() {
-        if(!timerId && sceneIdx >= scenes.length) {
-            $('#chat-modal').modal('hide');
-            $('body').unbind('keyup');
-
-            if(!isCallbackCalled) {
-                isCallbackCalled = true;
-                callback();
-            }
-        }
-        
-        if (timerId !== null) {
-            clearTimeout(timerId);
-            var scene = scenes[sceneIdx-1];
-            if (!scene) {
-                timerId = null;
-                return;
-            }
-            var text = scene.actor + "：" + scene.sentence;
-            $chatContent.text(text);
-            $chatContent.append('&nbsp;<i class="fas fa-caret-down fa-blink"></i>');
-            timerId = null;
-            return;
-        }
-
-        var scene = scenes[sceneIdx];
-        if (!scene) return;
-        var actor = scene.actor + "：";
-        var wordIdx = 0;
-        $chatContent.text(actor);
-        function fillWord() {
-            var word = scene.sentence[wordIdx];
-            var currentText = $chatContent.text();
-            
-            $chatContent.text(currentText + word);
-            wordIdx++;
-
-            if (wordIdx < scene.sentence.length) {
-                timerId = setTimeout(fillWord, 80 + 50*Math.random());
-            } else {
-                $chatContent.append('&nbsp;<i class="fas fa-caret-down fa-blink"></i>');
-                timerId = null;
-            }
-        }
-        timerId = setTimeout(fillWord, 80+50*Math.random());
-        sceneIdx++;
-    }
-
-    $('body').keyup(next);
-    $('#chat-modal').modal('show');
-    next();
 };
