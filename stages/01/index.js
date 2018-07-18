@@ -4,6 +4,10 @@ window.GAME = {
     player: {} // 玩家角色方法
 };
 
+window.Hints = [
+    { isDisplayed: false, content: "請先走到原始人旁邊，再向他打招呼哦！" }
+]
+
 window.GAME.init = function() {
     // 每一步執行時間 (ms)
     var STEP_TIME = 500;
@@ -57,6 +61,10 @@ window.GAME.init = function() {
 
     // 重設遊戲 event
     var resetSignal = new Phaser.Signal();
+
+    function calcDistance(sprite1, spirte2) {
+        return Math.sqrt(Math.pow(sprite1.x - spirte2.x, 2) + Math.pow(sprite1.y - spirte2.y, 2));
+    }
 
     // 加入地圖限制
     function addBound(startRow, startColumn,rowSpan, columnSpan) {
@@ -283,26 +291,43 @@ window.GAME.init = function() {
             resolve(true);
         });
     }
+
+    window.GAME.player.sayHi = function (direction) {
+        return new Promise(function(resolve, reject){
+            if (calcDistance(player, npc) === 100.0) {
+                var scenes = [ 
+                    { actor: '現代人', sentence: '你好，我是阿明！', action: function() {} },
+                ];
+                window.startChat(scenes, function() { resolve(true); })
+            } else if (!Hints[0].isDisplayed) {
+                $('.hint-content > p').text(Hints[0].content);
+                Hints[0].isDisplayed = true;
+                reject(false);
+            }
+        });
+    }
 };
 
-// 開始劇情
-window.GAME.initStory = function() {
-    var scenes = [
-        { actor: '現代人', sentence: '好暈... 這裡是哪裡阿？(自言自語)', action: function() {} },
-        { actor: '史前人', sentence: '什麼聲音？誰在那裏？', action: function() {} },
-        { actor: '現代人', sentence: '......', action: function() {} },
-        { actor: '史前人', sentence: '別躲在那邊不說話，你是誰？', action: function() {} },
-    ];
+// 劇情功能
+window.startChat = function(scenes, callback) {
+    callback = (typeof callback !== 'undefined') ?  callback : function() {};
 
     var $chatContent = $('.chat-content');
     var timerId = null;
     var sceneIdx = 0;
+    var isCallbackCalled = false;
 
-    $('body').keyup(function($event) {
+    var next = function() {
         if(!timerId && sceneIdx >= scenes.length) {
             $('#chat-modal').modal('hide');
             $('body').unbind('keyup');
+
+            if(!isCallbackCalled) {
+                isCallbackCalled = true;
+                callback();
+            }
         }
+        
         if (timerId !== null) {
             clearTimeout(timerId);
             var scene = scenes[sceneIdx-1];
@@ -338,5 +363,9 @@ window.GAME.initStory = function() {
         }
         timerId = setTimeout(fillWord, 80+50*Math.random());
         sceneIdx++;
-    });
+    }
+
+    $('body').keyup(next);
+    $('#chat-modal').modal('show');
+    next();
 };

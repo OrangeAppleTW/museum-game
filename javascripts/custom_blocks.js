@@ -35,3 +35,15 @@ Blockly.JavaScript['turn_x'] = function(block) {
     var dropdown_value = block.getFieldValue('value');
     return 'GAME.player.turn("' + dropdown_value + '")\n';
 };
+
+Blockly.Blocks['say_hi'] = {
+    init: function() {
+      this.appendDummyInput()
+          .appendField("打招呼");
+      this.setPreviousStatement(true, null);
+      this.setColour(65);
+    }
+};
+Blockly.JavaScript['say_hi'] = function(block) {
+    return 'GAME.player.sayHi()\n';
+};
