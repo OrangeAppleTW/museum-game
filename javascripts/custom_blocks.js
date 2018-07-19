@@ -1,9 +1,10 @@
 Blockly.Blocks['when_run'] = {
     init: function() {
       this.appendDummyInput()
+          .appendField(new Blockly.FieldImage("../../images/green-flag.svg", 15, 15, "*"))
           .appendField("當運行時");
       this.setNextStatement(true, null);
-      this.setColour('#51BE5B');
+      this.setColour('#FDBE2D');
     }
 };
 Blockly.JavaScript['when_run'] = function(block) { return ""; };

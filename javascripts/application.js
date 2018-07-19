@@ -4,6 +4,9 @@ Blockly.ContextMenu.show = function() {};
 // JavaScript generator configurations
 Blockly.JavaScript.STATEMENT_PREFIX = 'GAME.highlightBlock(%1)\n';
 
+// 開始積木的 hat
+Blockly.BlockSvg.START_HAT = true;
+
 // Initialize blockly
 (function () {
     var blocklyArea = document.getElementById('blockly-area');
