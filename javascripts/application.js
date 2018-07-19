@@ -18,29 +18,10 @@ Blockly.JavaScript.STATEMENT_PREFIX = 'GAME.highlightBlock(%1)\n';
 
     // 載入預設積木
     Blockly.Xml.appendDomToWorkspace(xmlDOM, workspace);
-    
-    // 遞迴 SetDisbled to blocks chain
-    var recursivelySetDisabled = function (block, isDisabled) {
-        block.setDisabled(isDisabled);
-        var children = block.getChildren();
-        for(var i = 0; i < children.length; i++) {
-            var child = children[i];
-            recursivelySetDisabled(child, isDisabled);
-        }
-    }
-    // setDisabled 未連接開始積木
-    var disableBlockWithNoTrigger = function () {
-        var topBlocks = workspace.getTopBlocks(true);
-        for (var i = 0; i < topBlocks.length; i++) {
-            var topBlock = topBlocks[i];
-            if (topBlock.type == 'when_run') {
-                recursivelySetDisabled(topBlock, false);
-            } else {
-                recursivelySetDisabled(topBlock, true);
-            }
-        }
-    }
-    workspace.addChangeListener(disableBlockWithNoTrigger);
+
+    // disable 未連接到開始的積木
+    workspace.addChangeListener(Blockly.Events.disableOrphans);
+
     
     var $toolboxHeader = $('.toolbox-header');
     var $blocklyFlyoutBackground = $('svg.blocklyFlyout');
