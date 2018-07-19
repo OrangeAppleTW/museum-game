@@ -46,3 +46,27 @@ Blockly.Blocks['say_hi'] = {
 Blockly.JavaScript['say_hi'] = function(block) {
     return 'GAME.player.sayHi()\n';
 };
+
+Blockly.Blocks['repeat_n_times'] = {
+    init: function() {
+      this.appendDummyInput()
+          .appendField("重複執行")
+          .appendField(new Blockly.FieldDropdown([["1","1"], ["2","2"], ["3","3"], ["4","4"], ["5","5"], ["6","6"], ["7","7"], ["8","8"], ["9","9"], ["10","10"]]), "n_times")
+          .appendField("次");
+      this.appendStatementInput("do")
+          .setCheck(null);
+      this.setPreviousStatement(true, null);
+      this.setNextStatement(true, null);
+      this.setColour('#FDAA32');
+    }
+};
+Blockly.JavaScript['repeat_n_times'] = function(block) {
+    var dropdown_n_times = +block.getFieldValue('n_times');
+    var statements_do = Blockly.JavaScript.statementToCode(block, 'do');
+    var code = "";
+    for(var i=0; i < dropdown_n_times; i++) {
+        code+=statements_do;
+        code+="GAME.highlightBlock('"+block.id+"')\n"
+    }
+    return code;
+};
