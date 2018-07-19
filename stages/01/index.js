@@ -80,7 +80,7 @@ window.GAME.init = function() {
     var TILT_SIZE = 100;
 
     // 預設玩家位置
-    var DEFAULT_PLAYER = { x: 4.5 * TILT_SIZE, y: 8.5 * TILT_SIZE, frame: 6 };
+    var DEFAULT_PLAYER = { x: 5.5 * TILT_SIZE, y: 7.5 * TILT_SIZE, frame: 6 };
 
     var SELECTED_CHARACTER = localStorage.getItem('selectedCharacter') || 'child-a';
 
