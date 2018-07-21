@@ -218,7 +218,7 @@ window.GAME.init = function() {
         GAME.status = 'pending';
     }
 
-    window.GAME.player.stepForward = function(finishedCallback) {
+    window.GAME.player.stepForward = function(done) {
         var yOffset = 0;
         var xOffset = 0;
         var animationName = null;
@@ -249,7 +249,7 @@ window.GAME.init = function() {
             player.animations.stop();
             player.frame = (Math.floor(player.frame / 3) * 3); // 回到該方向第一張圖
             
-            finishedCallback();
+            done();
         }, this);
 
         resetSignal.addOnce(function () {
@@ -261,20 +261,20 @@ window.GAME.init = function() {
         player.animations.play(animationName, 10, true);
     };
 
-    window.GAME.player.turn = function (direction, finishedCallback) {
+    window.GAME.player.turn = function (direction, done) {
         if(direction === 'left') {
             player.frame = ((player.frame - 3) + 12) % 12;
         } else if (direction === 'right') {
             player.frame = ((player.frame + 3) + 12) % 12;   
         }
 
-        setTimeout(finishedCallback, STEP_TIME);
+        setTimeout(done, STEP_TIME);
     }
 
-    window.GAME.player.sayHi = function (finishedCallback) {
+    window.GAME.player.sayHi = function (done) {
         if (calcDistance(player, npc) === 100.0) {
             var scenes = [  { actor: '現代人', sentence: '你好，我是阿明！' } ];
-            window.startChat(scenes, finishedCallback);
+            window.startChat(scenes, done);
         } else {
             $('.hint-content > p').text('請先走到原始人旁邊，再向他打招呼哦！');
         }
