@@ -1,4 +1,7 @@
-// 劇情功能
+// 對話功能
+// scenes =>
+//   [{ actor: '玩家', sentence: '你好', beforeScene: function() { $('#player').show(); } } ]
+// 
 window.startChat = function(scenes, callback) {
     callback = (typeof callback !== 'undefined') ?  callback : function() {};
 

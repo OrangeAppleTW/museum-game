@@ -23,7 +23,7 @@ Blockly.JavaScript['step_forward'] = function(block) {
 };
 function initInterpreterStepForwards(interpreter, scope) {
     var wrapper = interpreter.createAsyncFunction(function(callback) {
-        GAME.player.stepForward(callback)
+        window.GAME.player.stepForward(callback)
     });
     interpreter.setProperty(scope, 'stepForward', wrapper);
 }
@@ -43,7 +43,7 @@ Blockly.JavaScript['turn_x'] = function(block) {
 };
 function initInterpreterTurn(interpreter, scope) {
     var wrapper = interpreter.createAsyncFunction(function(direction, callback) {
-        GAME.player.turn(direction, callback)
+        window.GAME.player.turn(direction, callback)
     });
     interpreter.setProperty(scope, 'turn', wrapper);
 }
@@ -61,7 +61,7 @@ Blockly.JavaScript['say_hi'] = function(block) {
 };
 function initInterpreterSayHi(interpreter, scope) {
     var wrapper = interpreter.createAsyncFunction(function(callback) {
-        GAME.player.sayHi(callback)
+        window.GAME.player.sayHi(callback)
     });
     interpreter.setProperty(scope, 'sayHi', wrapper);
 }

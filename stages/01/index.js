@@ -1,19 +1,16 @@
-// Export to global
+// Define global variable
 window.GAME = {
-    init: null, // 初始化遊戲
-    player: {} // 玩家角色方法
+    player: {}
 };
 
-window.GAME.init = function() {
-    // 每一步執行時間 (ms)
-    var STEP_TIME = 500;
-    
-    // 每個 TILE (正方形)的大小
-    var TILT_SIZE = 100;
+window.GAME.initialize = function() {
+    var STEP_TIME = 500; // 每步執行時間 (ms)
+    var TILT_SIZE = 100; // 每個 TILE (正方形)的大小
 
     // 預設玩家位置
     var DEFAULT_PLAYER = { x: 5.5 * TILT_SIZE, y: 7.5 * TILT_SIZE, frame: 6 };
 
+    // 選擇的角色
     var SELECTED_CHARACTER = localStorage.getItem('selectedCharacter') || 'child-a';
 
     // 動態調整 Phaser 遊戲大小
@@ -36,27 +33,22 @@ window.GAME.init = function() {
     }
 
     // create game
-    var game = new Phaser.Game(1000, 1000, Phaser.AUTO, 'phaser-area', { preload: preload, create: create, update: update, render: render });
+    var game = new Phaser.Game(1000, 1000, Phaser.AUTO, 'phaser-area', { preload: preload, create: create, update: update });
 
-    // 利用 group 產生 layer 效果
+    // layers
     var backgroundLayer;
     var middleLayer;
     var frontLayer;
 
-    // 玩家角色
-    var player;
+    var player; // 玩家角色
+    var npc; // 史前人
+    var bounds = []; // 邊界
+    var grasses = []; // 草叢
+    var resetSignal = new Phaser.Signal(); // 重設遊戲 event
 
-    // 史前人
-    var npc;
-    
-    // 邊界區塊
-    var bounds = [];
+    // 任務條件
+    var isGreeting = false;
 
-    // 草叢
-    var grasses = [];
-
-    // 重設遊戲 event
-    var resetSignal = new Phaser.Signal();
 
     // 計算兩個 sprite 間距離（單位 px)
     function calcDistance(sprite1, spirte2) {
@@ -118,12 +110,13 @@ window.GAME.init = function() {
         npc.anchor.x = 0.5;
         npc.anchor.y = 0.85;
         
-        // 碰撞
+        // enable 碰撞
         game.physics.enable(npc, Phaser.Physics.ARCADE);
         npc.body.setSize(2.4*TILT_SIZE, 2.4*TILT_SIZE, 15, 340);
         npc.body.immovable = true;
     }
 
+    // 預先載入素材
     function preload() {
         game.load.image('background-image', '../../images/01-bg.jpg');
         game.load.image('grass', '../../images/grass.png');
@@ -134,6 +127,7 @@ window.GAME.init = function() {
         game.load.image('npc-1', '../../images/npc-1.png');
     }
 
+    // 當遊戲建立時
     function create() {
         addResizeEvent(this.game.width, this.game.canvas);
 
@@ -141,9 +135,6 @@ window.GAME.init = function() {
         backgroundLayer = game.add.group();
         middleLayer = game.add.group();
         frontLayer = game.add.group();
-
-        // 避免 lost focus 自動暫停遊戲
-        game.stage.disableVisibilityChange = true;
 
         // 遊戲背景
         backgroundLayer.create(0, 0, 'background-image');
@@ -166,6 +157,7 @@ window.GAME.init = function() {
         addGrass(6, 3, 4, 4);
     }
 
+    // 當畫面更新時
     function update() { 
         // 限制角色不能超過邊界
         game.physics.arcade.collide(player, bounds);
@@ -196,9 +188,7 @@ window.GAME.init = function() {
             npc.parent.remove(npc);
             backgroundLayer.add(npc);
         }
-    }
 
-    function render() {
         // game.debug.spriteInfo(player, 32, 32);
         // for(var i=0; i < bounds.length; i++) {
         //     game.debug.body(bounds[i]);
@@ -207,17 +197,27 @@ window.GAME.init = function() {
         // game.debug.body(npc);
     }
 
-    // Export to window methods
+    // 重設遊戲狀態
     window.GAME.reset = function () {
         resetSignal.dispatch();
+        
+        isGreeting = false;
 
         player.x = DEFAULT_PLAYER.x;
         player.y = DEFAULT_PLAYER.y;
         player.frame = DEFAULT_PLAYER.frame;
-
-        GAME.status = 'pending';
     }
 
+    // 驗證關卡是否完成
+    window.GAME.validate = function() {
+        if(isGreeting) {
+            console.log('任務完成！');
+        } else {
+            console.log('任務失敗。');
+        }
+    }
+
+    // 定義玩家角色方法
     window.GAME.player.stepForward = function(done) {
         var yOffset = 0;
         var xOffset = 0;
@@ -225,33 +225,35 @@ window.GAME.init = function() {
 
         if(player.frame === 0) {
             animationName = 'walk-down';
-            yOffset = 100
+            yOffset = 100;
         } else if(player.frame === 3) {
             animationName = 'walk-left';
-            xOffset = -100
+            xOffset = -100;
         } else if(player.frame === 6) {
             animationName = 'walk-up';
-            yOffset = -100
+            yOffset = -100;
         } else if(player.frame === 9) {
             animationName = 'walk-right';
-            xOffset = 100
+            xOffset = 100;
         }
     
+        // 將 spirte 用 STEP_TIME 時間移動到 x, y 位置
+        // 到定點時需要加個 event 讓他停下來
         game.physics.arcade.moveToXY(player, player.x + xOffset, player.y + yOffset, 1, STEP_TIME);
         game.time.events.add(STEP_TIME, function () {
             player.body.velocity.x = 0;
             player.body.velocity.y = 0;
-            
+            player.animations.stop();
+            player.frame = (Math.floor(player.frame / 3) * 3); // 回到該方向第一張圖
+
             // 調整為最近的格子 x, y
             player.x = Math.floor(player.x / TILT_SIZE) * TILT_SIZE + TILT_SIZE / 2;
             player.y = Math.floor(player.y / TILT_SIZE) * TILT_SIZE + TILT_SIZE / 2;
-
-            player.animations.stop();
-            player.frame = (Math.floor(player.frame / 3) * 3); // 回到該方向第一張圖
             
             done();
         }, this);
 
+        // 接收到重設 event 時直接停止
         resetSignal.addOnce(function () {
             player.body.velocity.x = 0;
             player.body.velocity.y = 0;
@@ -260,7 +262,6 @@ window.GAME.init = function() {
 
         player.animations.play(animationName, 10, true);
     };
-
     window.GAME.player.turn = function (direction, done) {
         if(direction === 'left') {
             player.frame = ((player.frame - 3) + 12) % 12;
@@ -270,10 +271,11 @@ window.GAME.init = function() {
 
         setTimeout(done, STEP_TIME);
     }
-
     window.GAME.player.sayHi = function (done) {
         if (calcDistance(player, npc) === 100.0) {
             var scenes = [  { actor: '現代人', sentence: '你好，我是阿明！' } ];
+            isGreeting = true;
+
             window.startChat(scenes, done);
         } else {
             $('.hint-content > p').text('請先走到原始人旁邊，再向他打招呼哦！');

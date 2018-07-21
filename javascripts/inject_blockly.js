@@ -103,6 +103,9 @@ Blockly.BlockSvg.START_HAT = true;
                             // Execution is currently blocked by some async call.
                             // Try again later.
                             runnerId = setTimeout(runner, 10);
+                        } else {
+                            // 結束時執行驗證關卡是否完成。
+                            window.GAME.validate();
                         }
                     }
                 };
@@ -113,7 +116,7 @@ Blockly.BlockSvg.START_HAT = true;
     }
 
     BLOCKLY_WORKSPACE.addChangeListener(function(event) {
-        if (!(event instanceof Blockly.Events.Ui)) resetInterpreter();
+        if (!(event instanceof Blockly.Events.Ui)) clearTimeout(runnerId);
     });
 
     var $runBtn = $('.js-run-code');    
