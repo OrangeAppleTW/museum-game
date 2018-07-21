@@ -81,12 +81,17 @@ Blockly.Blocks['repeat_n_times'] = {
     }
 };
 Blockly.JavaScript['repeat_n_times'] = function(block) {
-    var dropdown_n_times = +block.getFieldValue('n_times');
-    var statements_do = Blockly.JavaScript.statementToCode(block, 'do');
-    var code = "";
-    for(var i=0; i < dropdown_n_times; i++) {
-        code+=statements_do;
-        code+="highlightBlock('"+block.id+"');\n"
-    }
+    var branch = Blockly.JavaScript.statementToCode(block, 'do');
+    branch = Blockly.JavaScript.addLoopTrap(branch, block.id);
+    var code = '';
+    var loopVar = Blockly.JavaScript.variableDB_.getDistinctName(
+        'count', Blockly.Variables.NAME_TYPE);
+    var endVar = +block.getFieldValue('n_times');
+
+    code += 'for (var ' + loopVar + ' = 0; ' +
+        loopVar + ' < ' + endVar + '; ' +
+        loopVar + '++) {\n' +
+        branch + '}\n';
+
     return code;
 };
