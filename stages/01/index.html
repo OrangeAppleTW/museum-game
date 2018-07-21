@@ -89,6 +89,8 @@
                     <xml id="blockly-toolbox" style="display: none">
                         <block type="step_forward"></block>
                         <block type="say_hi"></block>
+                        <!-- <block type="turn_x"></block>
+                        <block type="repeat_n_times"></block> -->
                     </xml>
                     <xml xmlns="http://www.w3.org/1999/xhtml" id="blockly-workspace" style="display:none">
                         <block deletable="false" movable="false" type="when_run" id="S)}oe#mNHcQRbK8h1Jdf" x="20" y="20"></block>
@@ -161,35 +163,37 @@
     <!-- Chat Modal End -->
 
     <!-- Libs Start -->
-    <script src="../../javascripts/promise.polyfill.min.js"></script>
     <script src="../../javascripts/jquery-3.3.1.min.js"></script>
     <script src="../../javascripts/bootstrap.bundle-4.1.1.min.js"></script>
     <script src="../../javascripts/phaser-2.11.0.min.js"></script>
     <script src="../../javascripts/blockly_compressed.js"></script>
     <script src="../../javascripts/blocks_compressed.js"></script>
-    <script src="../../javascripts/javascript_compressed.js"></script>
     <script src="../../javascripts/blockly_msg_zh_hant.js"></script>
-    <!-- Libs End -->
+    <script src="../../javascripts/javascript_compressed.js"></script>
+    <script src="../../javascripts/acorn_interpreter.js"></script>
 
+    <!-- Libs End -->
     <script src="../../javascripts/custom_blocks.js"></script>
     <script src="../../javascripts/application.js"></script>
+    <script src="../../javascripts/chat.js"></script>
     <script src="./index.js"></script>
 
     <script>
+        // 選擇角色 Modal
         $('.js-select-character').on('click', function() {
             var character = $(this).data('character');
             localStorage.setItem('selectedCharacter', character);
         });
 
+        // 開始遊戲劇情
         $('#characters-selector-modal').on('hidden.bs.modal', function (e) {
             GAME.init();
             var scenes = [
-                { actor: '現代人', sentence: '好暈... 這裡是哪裡阿？(自言自語)', action: function() {} },
-                { actor: '史前人', sentence: '什麼聲音？誰在那裏？', action: function() {} },
-                { actor: '現代人', sentence: '......', action: function() {} },
-                { actor: '史前人', sentence: '別躲在那邊不說話，你是誰？', action: function() {} },
+                { actor: '現代人', sentence: '好暈... 這裡是哪裡阿？(自言自語)' },
+                { actor: '史前人', sentence: '什麼聲音？誰在那裏？' },
+                { actor: '現代人', sentence: '......' },
+                { actor: '史前人', sentence: '別躲在那邊不說話，你是誰？' }
             ];
-            
             window.startChat(scenes);
         });
 

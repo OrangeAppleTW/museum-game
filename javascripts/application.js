@@ -2,7 +2,8 @@
 Blockly.ContextMenu.show = function() {};
 
 // JavaScript generator configurations
-Blockly.JavaScript.STATEMENT_PREFIX = 'GAME.highlightBlock(%1)\n';
+Blockly.JavaScript.STATEMENT_PREFIX = 'highlightBlock(%1);\n';
+Blockly.JavaScript.addReservedWords('highlightBlock');
 
 // 開始積木的 hat
 Blockly.BlockSvg.START_HAT = true;
@@ -57,40 +58,72 @@ Blockly.BlockSvg.START_HAT = true;
     BLOCKLY_WORKSPACE = workspace;
 })();
 
-// Run/Reset Button Event
+// Run / Reset
 (function () {
-    var $runBtn = $('.js-run-code');
-    var isRunning = false;
-    
-    $runBtn.click(function () {
-        var code = Blockly.JavaScript.workspaceToCode(BLOCKLY_WORKSPACE);
-        
-        if (!isRunning) {
-            isRunning = true;
-            $runBtn.html('<i class="fas fa-sync"></i> 重置');
-            
-            // 組成 Promises chain
-            var funcs = code.split("\n")
-            var initCode = funcs[0];
-            for(var i = 1; i < funcs.length; i++) {
-                if (!!funcs[i]) {
-                    initCode += ".then(function() {\n" +
-                                      '    return ' + funcs[i] + ";\n" +
-                                      "})";
-                }
-            }
-            initCode += ".catch(function() {\n"+
-                        '    console.log("Stop running.");'+
-                        '});';
+    var interpreter = null;
+    var runnerId;
 
-            try {
-                eval(initCode);
-            } catch (e) {
-                console.error(e);
-            }
+    function highlightBlock(id) {
+        BLOCKLY_WORKSPACE.highlightBlock(id);
+    }
+
+    function initApi(interpreter, scope) {
+        // Add an API function for highlighting blocks.
+        var wrapper = interpreter.createAsyncFunction(function(id, callback) {
+            id = id ? id.toString() : '';
+            highlightBlock(id);
+            setTimeout(callback, 150);
+        });
+        interpreter.setProperty(scope, 'highlightBlock', wrapper);
+
+        // defined in custom_blocks.js
+        initInterpreterStepForwards(interpreter, scope);
+        initInterpreterTurn(interpreter, scope);
+        initInterpreterSayHi(interpreter, scope);
+    }
+
+    function resetInterpreter() {
+        interpreter = null;
+        if (runnerId) {
+            clearTimeout(runnerId);
+            runnerId = null;
+        }
+    }
+
+    function runCode () {
+        var code = Blockly.JavaScript.workspaceToCode(BLOCKLY_WORKSPACE);
+        if (!interpreter) {
+            setTimeout(function() {
+                // Begin execution
+                interpreter = new Interpreter(code, initApi);
+                var runner = function() {
+                    if (interpreter) {
+                        var hasMore = interpreter.run();
+                        if (hasMore) {
+                            // Execution is currently blocked by some async call.
+                            // Try again later.
+                            runnerId = setTimeout(runner, 10);
+                        }
+                    }
+                };
+                runner();
+            }, 1);
+            return;
+        }
+    }
+
+    BLOCKLY_WORKSPACE.addChangeListener(function(event) {
+        if (!(event instanceof Blockly.Events.Ui)) resetInterpreter();
+    });
+
+    var $runBtn = $('.js-run-code');    
+    $runBtn.click(function () {        
+        if (!interpreter) {
+            $runBtn.html('<i class="fas fa-sync"></i> 重置');
+            runCode();
         } else {
-            isRunning = false;
             $runBtn.html('<i class="fas fa-play"></i> 運行');
+            resetInterpreter();
             window.GAME.reset();
         }
     });

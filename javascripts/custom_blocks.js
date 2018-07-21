@@ -19,8 +19,14 @@ Blockly.Blocks['step_forward'] = {
     }
 };
 Blockly.JavaScript['step_forward'] = function(block) {
-    return 'GAME.player.stepForward()\n';
+    return 'stepForward();\n';
 };
+function initInterpreterStepForwards(interpreter, scope) {
+    var wrapper = interpreter.createAsyncFunction(function(callback) {
+        GAME.player.stepForward(callback)
+    });
+    interpreter.setProperty(scope, 'stepForward', wrapper);
+}
 
 Blockly.Blocks['turn_x'] = {
     init: function() {
@@ -33,8 +39,14 @@ Blockly.Blocks['turn_x'] = {
 };
 Blockly.JavaScript['turn_x'] = function(block) {
     var dropdown_value = block.getFieldValue('value');
-    return 'GAME.player.turn("' + dropdown_value + '")\n';
+    return 'turn("' + dropdown_value + '");\n';
 };
+function initInterpreterTurn(interpreter, scope) {
+    var wrapper = interpreter.createAsyncFunction(function(direction, callback) {
+        GAME.player.turn(direction, callback)
+    });
+    interpreter.setProperty(scope, 'turn', wrapper);
+}
 
 Blockly.Blocks['say_hi'] = {
     init: function() {
@@ -45,8 +57,15 @@ Blockly.Blocks['say_hi'] = {
     }
 };
 Blockly.JavaScript['say_hi'] = function(block) {
-    return 'GAME.player.sayHi()\n';
+    return 'sayHi();\n';
 };
+function initInterpreterSayHi(interpreter, scope) {
+    var wrapper = interpreter.createAsyncFunction(function(callback) {
+        GAME.player.sayHi(callback)
+    });
+    interpreter.setProperty(scope, 'sayHi', wrapper);
+}
+
 
 Blockly.Blocks['repeat_n_times'] = {
     init: function() {
@@ -67,7 +86,7 @@ Blockly.JavaScript['repeat_n_times'] = function(block) {
     var code = "";
     for(var i=0; i < dropdown_n_times; i++) {
         code+=statements_do;
-        code+="GAME.highlightBlock('"+block.id+"')\n"
+        code+="highlightBlock('"+block.id+"');\n"
     }
     return code;
 };

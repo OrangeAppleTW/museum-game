@@ -4,74 +4,6 @@ window.GAME = {
     player: {} // 玩家角色方法
 };
 
-window.Hints = [
-    { isDisplayed: false, content: "請先走到原始人旁邊，再向他打招呼哦！" }
-];
-
-// 劇情功能
-window.startChat = function(scenes, callback) {
-    callback = (typeof callback !== 'undefined') ?  callback : function() {};
-
-    var $chatContent = $('.chat-content');
-    var timerId = null;
-    var sceneIdx = 0;
-    var isCallbackCalled = false;
-
-    var next = function() {
-        if(!timerId && sceneIdx >= scenes.length) {
-            $('#chat-modal').modal('hide');
-            $('body').unbind('keyup');
-            $('body').unbind('mouseup');
-
-            if(!isCallbackCalled) {
-                isCallbackCalled = true;
-                callback();
-            }
-        }
-        
-        if (timerId !== null) {
-            clearTimeout(timerId);
-            var scene = scenes[sceneIdx-1];
-            if (!scene) {
-                timerId = null;
-                return;
-            }
-            var text = scene.actor + "：" + scene.sentence;
-            $chatContent.text(text);
-            $chatContent.append('&nbsp;<i class="fas fa-caret-down fa-blink"></i>');
-            timerId = null;
-            return;
-        }
-
-        var scene = scenes[sceneIdx];
-        if (!scene) return;
-        var actor = scene.actor + "：";
-        var wordIdx = 0;
-        $chatContent.text(actor);
-        function fillWord() {
-            var word = scene.sentence[wordIdx];
-            var currentText = $chatContent.text();
-            
-            $chatContent.text(currentText + word);
-            wordIdx++;
-
-            if (wordIdx < scene.sentence.length) {
-                timerId = setTimeout(fillWord, 80 + 50*Math.random());
-            } else {
-                $chatContent.append('&nbsp;<i class="fas fa-caret-down fa-blink"></i>');
-                timerId = null;
-            }
-        }
-        timerId = setTimeout(fillWord, 80+50*Math.random());
-        sceneIdx++;
-    }
-
-    $('body').keyup(next);
-    $('body').mouseup(next);
-    $('#chat-modal').modal('show');
-    next();
-};
-
 window.GAME.init = function() {
     // 每一步執行時間 (ms)
     var STEP_TIME = 500;
@@ -126,11 +58,12 @@ window.GAME.init = function() {
     // 重設遊戲 event
     var resetSignal = new Phaser.Signal();
 
+    // 計算兩個 sprite 間距離（單位 px)
     function calcDistance(sprite1, spirte2) {
         return Math.sqrt(Math.pow(sprite1.x - spirte2.x, 2) + Math.pow(sprite1.y - spirte2.y, 2));
     }
 
-    // 加入地圖限制
+    // 加入地圖限制區域
     function addBound(startRow, startColumn,rowSpan, columnSpan) {
         var y = startRow * TILT_SIZE;
         var x = startColumn * TILT_SIZE;
@@ -281,93 +214,69 @@ window.GAME.init = function() {
         player.x = DEFAULT_PLAYER.x;
         player.y = DEFAULT_PLAYER.y;
         player.frame = DEFAULT_PLAYER.frame;
+
+        GAME.status = 'pending';
     }
 
-    window.GAME.highlightBlock = function(blockId) {
-        return new Promise(function(resolve, reject){            
-            var timerId = null;
-            resetSignal.addOnce(function () {
-                reject(false);
-                clearTimeout(timerId);
-            }, this);
+    window.GAME.player.stepForward = function(finishedCallback) {
+        var yOffset = 0;
+        var xOffset = 0;
+        var animationName = null;
+
+        if(player.frame === 0) {
+            animationName = 'walk-down';
+            yOffset = 100
+        } else if(player.frame === 3) {
+            animationName = 'walk-left';
+            xOffset = -100
+        } else if(player.frame === 6) {
+            animationName = 'walk-up';
+            yOffset = -100
+        } else if(player.frame === 9) {
+            animationName = 'walk-right';
+            xOffset = 100
+        }
+    
+        game.physics.arcade.moveToXY(player, player.x + xOffset, player.y + yOffset, 1, STEP_TIME);
+        game.time.events.add(STEP_TIME, function () {
+            player.body.velocity.x = 0;
+            player.body.velocity.y = 0;
             
-            timerId = setTimeout(function() {
-                BLOCKLY_WORKSPACE.highlightBlock(blockId);
-                resolve(true);
-            }, 200);
-        });
-    }
+            // 調整為最近的格子 x, y
+            player.x = Math.floor(player.x / TILT_SIZE) * TILT_SIZE + TILT_SIZE / 2;
+            player.y = Math.floor(player.y / TILT_SIZE) * TILT_SIZE + TILT_SIZE / 2;
 
-    window.GAME.player.stepForward = function() {
-        return new Promise(function(resolve, reject){   
-            var yOffset = 0;
-            var xOffset = 0;
-            var animationName = null;
+            player.animations.stop();
+            player.frame = (Math.floor(player.frame / 3) * 3); // 回到該方向第一張圖
+            
+            finishedCallback();
+        }, this);
 
-            if(player.frame === 0) {
-                animationName = 'walk-down';
-                yOffset = 100
-            } else if(player.frame === 3) {
-                animationName = 'walk-left';
-                xOffset = -100
-            } else if(player.frame === 6) {
-                animationName = 'walk-up';
-                yOffset = -100
-            } else if(player.frame === 9) {
-                animationName = 'walk-right';
-                xOffset = 100
-            }
-        
-            game.physics.arcade.moveToXY(player, player.x + xOffset, player.y + yOffset, 1, STEP_TIME);
-            game.time.events.add(STEP_TIME, function () {
-                player.body.velocity.x = 0;
-                player.body.velocity.y = 0;
-                
-                // 調整為最近的格子 x, y
-                player.x = Math.floor(player.x / TILT_SIZE) * TILT_SIZE + TILT_SIZE / 2;
-                player.y = Math.floor(player.y / TILT_SIZE) * TILT_SIZE + TILT_SIZE / 2;
+        resetSignal.addOnce(function () {
+            player.body.velocity.x = 0;
+            player.body.velocity.y = 0;
+            player.animations.stop();
+        }, this);
 
-                player.animations.stop();
-                player.frame = (Math.floor(player.frame / 3) * 3); // 回到該方向第一張圖
-                resolve(true);
-            }, this);
-
-            resetSignal.addOnce(function () {
-                player.body.velocity.x = 0;
-                player.body.velocity.y = 0;
-                player.animations.stop();
-
-                reject(false);
-            }, this);
-
-            player.animations.play(animationName, 10, true);
-        });
+        player.animations.play(animationName, 10, true);
     };
 
-    window.GAME.player.turn = function (direction) {
-        return new Promise(function(resolve, reject){    
-            if(direction === 'left') {
-                player.frame = ((player.frame - 3) + 12) % 12;
-            } else if (direction === 'right') {
-                player.frame = ((player.frame + 3) + 12) % 12;   
-            }
+    window.GAME.player.turn = function (direction, finishedCallback) {
+        if(direction === 'left') {
+            player.frame = ((player.frame - 3) + 12) % 12;
+        } else if (direction === 'right') {
+            player.frame = ((player.frame + 3) + 12) % 12;   
+        }
 
-            resolve(true);
-        });
+        setTimeout(finishedCallback, STEP_TIME);
     }
 
-    window.GAME.player.sayHi = function (direction) {
-        return new Promise(function(resolve, reject){
-            if (calcDistance(player, npc) === 100.0) {
-                var scenes = [ 
-                    { actor: '現代人', sentence: '你好，我是阿明！', action: function() {} },
-                ];
-                window.startChat(scenes, function() { resolve(true); })
-            } else if (!Hints[0].isDisplayed) {
-                $('.hint-content > p').text(Hints[0].content);
-                Hints[0].isDisplayed = true;
-                reject(false);
-            }
-        });
+    window.GAME.player.sayHi = function (finishedCallback) {
+        if (calcDistance(player, npc) === 100.0) {
+            var scenes = [  { actor: '現代人', sentence: '你好，我是阿明！' } ];
+            window.startChat(scenes, finishedCallback);
+        } else {
+            $('.hint-content > p').text('請先走到原始人旁邊，再向他打招呼哦！');
+        }
     }
 };
