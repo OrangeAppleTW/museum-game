@@ -1,5 +1,5 @@
 body 
-  background-color: #4b4439
+  background-color: #fff8e6
   font-family: 'Microsoft JhengHei', sans-serif !important
 
 // fontawesome icon 閃爍
@@ -18,21 +18,24 @@ body
   animation: fa-blink 1.2s linear infinite
 
 .btn-custom
-  background-color: #a29b90
+  background-color: #226321
   font-weight: bold
-  color: #291e0e
+  color: #fefefe
   box-shadow: 0 0 8px 0 rgba(0, 0, 0, 0.4)
   &:hover
-    background-color: #999185
+    background-color: #1b501b
     box-shadow: 0 0 8px 0 rgba(0, 0, 0, 0.8)
+
 nav.header
-  background-color: #3c3120
+  background-color: #fcd58e
+  background-image: url("../../images/nav-bg.png")
+  background-size: cover
   height: 70px
   padding: 15px
-  border-bottom: 2px solid #433826
+  border-bottom: 2px solid #fef2e1
   border-bottom-left-radius: 25px
   border-bottom-right-radius: 25px
-  box-shadow: 0px 5px #2e2210
+  box-shadow: 0px 5px #b07203
   margin-bottom: 36px
 
   img.logo
@@ -48,7 +51,8 @@ nav.header
     width: 40px
     height: 40px
     border-radius: 99999999px
-    background-color: #21180b
+    background-color: #A86D19
+    box-shadow: 0 0 8px 0 rgba(0, 0, 0, 0.4) inset
     > span
       position: absolute
       top: 50%
@@ -61,24 +65,24 @@ nav.header
       font-size: 24px
       font-weight: bold
       border-radius: 99999999px
-      background-color: #271d0d
-      box-shadow: 0 0 8px 0 rgba(0, 0, 0, 0.2) inset
-      color: #4b4439
+      background-color: #a86d03
+      color: #fef2e1
       &.finished
-        background-color: #f49f1a
-        color: #291e0e
-        box-shadow: 0 0 8px 0 rgba(0, 0, 0, 0.6) inset
+        background-color: #fef2e1
+        color: #b07203
       &.current
         line-height: 28px
-        border: 2px solid #f49f1a
-        color: #f49f1a
+        background-color: #af7103
+        border: 2px solid #fef2e1
+        color: #fef2e1
   
 .game-container
   width: 100%
   min-height: calc(100vh - 136px)
   padding: 20px 5px
-  background-color: #817a6f
+  background-color: #fcd58e
   border-radius: 15px
+  box-shadow: 0 0 8px 0 rgba(0, 0, 0, 0.4)
   .outer-box
     position: relative
     width: 100%
@@ -93,7 +97,7 @@ nav.header
       bottom: 0
       left: 0
       right: 0
-      border: 3px solid #817a6f
+      border: 3px solid #226321
       background-color: #291e0e
       padding: 2px
 
@@ -115,11 +119,13 @@ nav.header
     background-image: url(../images/hint-icon.png)
     background-repeat: no-repeat
     background-position: center
+    background-size: contain
   .hint-content
     position: relative
     height: 100%
     margin-left: 70px
-    border: 3px solid #291e0e
+    background-color: #d7f8e2
+    border: 3px solid #226321
     border-radius: 5px
 
     &:after, &:before
@@ -133,11 +139,11 @@ nav.header
       pointer-events: none
 
     &:after 
-      border-right-color: #4b4439
+      border-right-color: #d7f8e2
       border-width: 20px
       margin-top: -20px
     &:before
-      border-right-color: #291e0e
+      border-right-color: #226321
       border-width: 24px
       margin-top: -24px
     h4
@@ -148,12 +154,12 @@ nav.header
       float: left
       font-size: 20px
       font-weight: bold
-      color: #ffffff
+      color: #226321
     p
       height: 100%
       padding: 5px
       margin-left: 60px
-      color: #ffffff
+      color: #36373a
       line-height: 54px
       word-wrap: break-word
       overflow-y: scroll
@@ -167,26 +173,26 @@ nav.header
   .blockly-headers
     height: 30px
     line-height: 30px
-    border: 2px solid #291e0e
+    border: 2px solid #246224
     border-bottom: 0px
     border-top-left-radius: 5px
     border-top-right-radius: 5px
 
     .toolbox-header
       width: 122.53px
-      background-color: #4b4439
-      color: #ffffff
-      border-bottom: 1px solid #291e0e
+      background-color: #99C899
+      color: #256224
+      border-bottom: 1px solid #246224
     .workspace-header
       padding-left: 8px
-      background-color: #291e0e
-      color: #ffffff
-      border-left: 2px solid #291e0e
-      border-bottom: 1px solid #4b4439
+      background-color: #D8F7D7
+      color: #256224
+      border-left: 2px solid #246224
+      border-bottom: 1px solid #246224
 
 // blockly 外框
 #blockly-area
-  border: 2px solid #291e0e
+  border: 2px solid #246224
   border-top: none
   border-bottom-left-radius: 5px
   border-bottom-right-radius: 5px
@@ -195,15 +201,15 @@ nav.header
 #blockly-instance
   svg.blocklyFlyout
     box-sizing: content-box
-    border-right: 2px solid #291e0e
+    border-right: 2px solid #246224
     border-bottom-left-radius: 5px
     path.blocklyFlyoutBackground
-      fill: #4b4439
+      fill: #99C899
       fill-opacity: 1 
   svg.blocklySvg 
-    background-color: #291e0e
+    background-color: #D8F7D7
   rect.blocklyMainBackground
-    background-color: #291e0e
+    background-color: #246224
     stroke-width: 0
 
 .chat-modal .modal-dialog
@@ -213,8 +219,8 @@ nav.header
   top: 50% !important
   margin: 0 auto !important
   .modal-content
-    border: 4px solid #655843
-    background-color: #433826
+    border: 4px solid #337633
+    background-color: #99C898
     .modal-body
       padding: 13px 0
       max-height: 667px
@@ -225,7 +231,7 @@ nav.header
   border: 2px solid #000000
   > .scene
     user-select: none
-    border-bottom: 2px solid #b69561
+    border-bottom: 2px solid #99C898
     height: 78.60465116%
     background-repeat: no-repeat
     background-position: center
@@ -236,10 +242,11 @@ nav.header
     padding: 16px
     border-top: 1px solid #000000
     height: 21.39534884%
-    background-color: #291e0e
+    background-color: #337633
     color: #ffffff
     white-space: pre-line
     overflow-y: scroll
+    font-size: 1.125rem
 
 .characters-selector-modal .modal-dialog
   max-width: 830px
@@ -248,15 +255,15 @@ nav.header
   top: 50% !important
   margin: 0 auto !important
   .modal-content
-    border: 4px solid #655843
-    background-color: #433826
+    border: 4px solid #256224
+    background-color: #99C899
     .modal-body
       padding: 13px 0
       max-height: 514px
       height: 64.25vh
     
 .charactor-option
-  background-color: #291e0e
+  background-color: #0C450C
   border-radius: 5px
   padding: 8px
   text-align: center
@@ -267,6 +274,8 @@ nav.header
   > img
     height: calc(100% - 100px)
   > .btn
+    background-color: #F29E30
+    color: #256224
     font-size: 32px
     font-weight: bold
     padding-top: 3px
