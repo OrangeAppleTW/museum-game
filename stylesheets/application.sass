@@ -20,7 +20,7 @@ body
 .btn-custom
   background-color: #226321
   font-weight: bold
-  color: #fefefe
+  color: #fefefe !important
   box-shadow: 0 0 8px 0 rgba(0, 0, 0, 0.4)
   &:hover
     background-color: #1b501b
@@ -280,3 +280,22 @@ nav.header
     font-weight: bold
     padding-top: 3px
     padding-bottom: 3px
+
+.alert-modal .modal-dialog
+  width: 64.6875vw
+  transform: translateY(-50%) !important
+  top: 50% !important
+  margin: 0 auto !important
+  .modal-content
+    border: 4px solid #337633
+    background-color: #d7f8e2
+    .modal-body
+      position: relative
+      padding: 13px
+      min-height: 240px
+      > .content
+        margin: 13px
+      > .actions
+        width: 100%
+        position: absolute
+        bottom: 13px

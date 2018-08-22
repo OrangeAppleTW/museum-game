@@ -210,10 +210,14 @@ window.GAME.initialize = function() {
 
     // 驗證關卡是否完成
     window.GAME.validate = function() {
+        var $alertModal = $('#alert-modal');
         if(isGreeting) {
-            alert('任務完成！');
+            $alertModal.find('.content').text('完成第一關，恭喜！');
+            $alertModal.find('.next-stage').show();
+            $alertModal.modal('show');
         } else {
-            alert('任務失敗。');
+            $alertModal.find('.content').text('任務失敗');
+            $alertModal.modal('show');
         }
     }
 
