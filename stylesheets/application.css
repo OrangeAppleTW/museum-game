@@ -318,6 +318,7 @@ nav.header .stage-link > span.current {
 }
 
 .chat-container > .scene {
+  position: relative;
   -webkit-user-select: none;
      -moz-user-select: none;
       -ms-user-select: none;

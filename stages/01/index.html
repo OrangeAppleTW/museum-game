@@ -153,7 +153,7 @@
           <div class="modal-content">
             <div class="modal-body">
               <div class="chat-container h-100 mx-auto">
-                  <div class="scene" style="background-image: url('../../images/chat-01.jpg');"></div>
+                  <div class="scene"></div>
                   <div class="chat-content"></div>
               </div>
             </div>
@@ -187,7 +187,12 @@
 
         // 開始遊戲劇情
         $('#characters-selector-modal').on('hidden.bs.modal', function (e) {
-            GAME.initialize();
+            // 初始化遊戲
+            window.GAME.initialize();
+
+            // 設定對話背景圖與文字
+            var selectedCharacter = localStorage.getItem('selectedCharacter');
+            $('.chat-container > .scene').css('background-image', 'url(../../images/stages/01/chat-bg-1-'+ selectedCharacter +'.jpg)')
             var scenes = [
                 { actor: '現代人', sentence: '好暈... 這裡是哪裡阿？(自言自語)' },
                 { actor: '史前人', sentence: '什麼聲音？誰在那裏？' },

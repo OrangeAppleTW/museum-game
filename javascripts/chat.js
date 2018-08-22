@@ -4,23 +4,20 @@
 // 
 window.startChat = function(scenes, callback) {
     callback = (typeof callback !== 'undefined') ?  callback : function() {};
-
     var $chatContent = $('.chat-content');
     var timerId = null;
     var sceneIdx = 0;
-    var isCallbackCalled = false;
+    var isFinished = false;
 
     var next = function() {
         // 當對話結束
         if(!timerId && sceneIdx >= scenes.length) {
+            if (isFinished) return;
+            isFinished = true;
             $('#chat-modal').modal('hide');
             $('body').unbind('keyup');
             $('body').unbind('mouseup');
-
-            if(!isCallbackCalled) {
-                isCallbackCalled = true;
-                callback();
-            }
+            callback();
         }
         
         // 當對話進行中，則直接完成文字顯示

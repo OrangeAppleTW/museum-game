@@ -118,11 +118,11 @@ window.GAME.initialize = function() {
 
     // 預先載入素材
     function preload() {
-        game.load.image('background-image', '../../images/01-bg.jpg');
+        game.load.image('map', '../../images/stages/01/map.jpg');
         game.load.image('grass', '../../images/grass.png');
         
-        // 0, 3, 6, 9
-        // 下, 左, 上, 右
+        // 0, 3, 6, 9, 12
+        // 下, 左, 上, 右, 蹲下
         game.load.spritesheet('player', '../../images/'+SELECTED_CHARACTER+'-spritesheet.png', 125, 216, 12);
         game.load.image('npc-1', '../../images/npc-1.png');
     }
@@ -137,7 +137,7 @@ window.GAME.initialize = function() {
         frontLayer = game.add.group();
 
         // 遊戲背景
-        backgroundLayer.create(0, 0, 'background-image');
+        backgroundLayer.create(0, 0, 'map');
 
         // 建立玩家角色
         createPlayer();
@@ -211,9 +211,9 @@ window.GAME.initialize = function() {
     // 驗證關卡是否完成
     window.GAME.validate = function() {
         if(isGreeting) {
-            console.log('任務完成！');
+            alert('任務完成！');
         } else {
-            console.log('任務失敗。');
+            alert('任務失敗。');
         }
     }
 
@@ -272,10 +272,14 @@ window.GAME.initialize = function() {
         setTimeout(done, STEP_TIME);
     }
     window.GAME.player.sayHi = function (done) {
-        if (calcDistance(player, npc) === 100.0) {
-            var scenes = [  { actor: '現代人', sentence: '你好，我是阿明！' } ];
+        if (calcDistance(player, npc) === TILT_SIZE) {
+            // 設定過關條件
             isGreeting = true;
-
+            
+            // 設定對話場景與文字
+            var selectedCharacter = localStorage.getItem('selectedCharacter');
+            $('.chat-container > .scene').css('background-image', 'url(../../images/stages/01/chat-bg-2-'+ selectedCharacter +'.jpg)')
+            var scenes = [  { actor: '現代人', sentence: '你好，我是阿明！' } ];
             window.startChat(scenes, done);
         } else {
             $('.hint-content > p').text('請先走到原始人旁邊，再向他打招呼哦！');
