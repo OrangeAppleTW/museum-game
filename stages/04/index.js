@@ -8,7 +8,7 @@ window.GAME.initialize = function() {
     var TILT_SIZE = 100; // 每個 TILE (正方形)的大小
 
     // 預設玩家位置
-    var DEFAULT_PLAYER = { x: 5.5 * TILT_SIZE, y: 1.5 * TILT_SIZE, faceTo: 'down' };
+    var DEFAULT_PLAYER = { x: 5.5 * TILT_SIZE, y: 1.5 * TILT_SIZE, facing: 'down' };
 
     // 選擇的角色
     var SELECTED_CHARACTER = localStorage.getItem('selectedCharacter') || 'child-a';
@@ -49,25 +49,6 @@ window.GAME.initialize = function() {
         return Math.sqrt(Math.pow(sprite1.x - spirte2.x, 2) + Math.pow(sprite1.y - spirte2.y, 2));
     }
 
-    // 變更角色面朝方向
-    // 0, 3, 6, 9
-    // 下, 左, 上, 右
-    function changePlayerFaceTo(direction) {
-        if (direction === 'down') {
-            player.frame = 0;
-            player.faceTo = 'down';
-        } else if (direction === 'left') {
-            player.frame = 3;
-            player.faceTo = 'left';
-        } else if (direction === 'up') {
-            player.frame = 6;
-            player.faceTo = 'up';
-        } else if (direction === 'right') {
-            player.frame = 9;
-            player.faceTo = 'right';
-        }
-    }
-
     // 加入地圖限制區域
     function addBound(startRow, startColumn,rowSpan, columnSpan) {
         var y = startRow * TILT_SIZE;
@@ -89,7 +70,7 @@ window.GAME.initialize = function() {
         player.frame = DEFAULT_PLAYER.frame;
         player.anchor.x = 0.5;
         player.anchor.y = 0.85;
-        player.faceTo = DEFAULT_PLAYER.faceTo;
+        player.facing = DEFAULT_PLAYER.facing;
         
         // 動畫
         player.animations.add('walk-down', [0,1,2]);
@@ -101,6 +82,27 @@ window.GAME.initialize = function() {
         game.physics.enable(player, Phaser.Physics.ARCADE);
         player.body.setSize(TILT_SIZE, TILT_SIZE, 12.5, 132.5);
         player.body.collideWorldBounds = true;
+
+        // 設定角色方法
+
+        // 變更角色面朝方向
+        // 0, 3, 6, 9
+        // 下, 左, 上, 右
+        player.faceTo = function (direction) {
+            if (direction === 'down') {
+                this.frame = 0;
+                this.facing = 'down';
+            } else if (direction === 'left') {
+                this.frame = 3;
+                this.facing = 'left';
+            } else if (direction === 'up') {
+                this.frame = 6;
+                this.facing = 'up';
+            } else if (direction === 'right') {
+                this.frame = 9;
+                this.facing = 'right';
+            }
+        }
     }
     // 預先載入素材
     function preload() {
@@ -138,11 +140,6 @@ window.GAME.initialize = function() {
         addBound(4, 9, 1, 1);
         addBound(6, 6, 1, 2);
         addBound(8, 8, 1, 2);
-        // addBound(0, 0, 8, 3);
-        // addBound(5, 6, 1, 1)
-        // addBound(8, 0, 2, 2);
-        // addBound(0, 3, 6, 1);
-        // addBound(1, 4, 2, 1);
     }
 
     // 當畫面更新時
@@ -163,20 +160,21 @@ window.GAME.initialize = function() {
         
         player.x = DEFAULT_PLAYER.x;
         player.y = DEFAULT_PLAYER.y;
-        changePlayerFaceTo(DEFAULT_PLAYER.faceTo);
+        player.faceTo(DEFAULT_PLAYER.facing)
     }
 
     // 驗證關卡是否完成
     window.GAME.validate = function() {
-        var $alertModal = $('#alert-modal');
-        if(true) {
-            $alertModal.find('.content').text('完成第四關，恭喜！');
-            $alertModal.find('.next-stage').show();
-            $alertModal.modal('show');
-        } else {
-            $alertModal.find('.content').text('任務失敗');
-            $alertModal.modal('show');
-        }
+        alert('驗證關卡');
+        // var $alertModal = $('#alert-modal');
+        // if(true) {
+        //     $alertModal.find('.content').text('完成第四關，恭喜！');
+        //     $alertModal.find('.next-stage').show();
+        //     $alertModal.modal('show');
+        // } else {
+        //     $alertModal.find('.content').text('任務失敗');
+        //     $alertModal.modal('show');
+        // }
     }
 
     // 定義玩家角色方法
@@ -185,16 +183,16 @@ window.GAME.initialize = function() {
         var xOffset = 0;
         var animationName = null;
 
-        if(player.faceTo === 'down') {
+        if(player.facing === 'down') {
             animationName = 'walk-down';
             yOffset = 100;
-        } else if(player.faceTo === 'left') {
+        } else if(player.facing === 'left') {
             animationName = 'walk-left';
             xOffset = -100;
-        } else if(player.faceTo === 'up') {
+        } else if(player.facing === 'up') {
             animationName = 'walk-up';
             yOffset = -100;
-        } else if(player.faceTo === 'right') {
+        } else if(player.facing === 'right') {
             animationName = 'walk-right';
             xOffset = 100;
         }
@@ -225,14 +223,14 @@ window.GAME.initialize = function() {
         player.animations.play(animationName, 10, true);
     };
     window.GAME.player.turn = function (side, done) {
-        var directions = ['left', 'up', 'right', 'down'];
-        var currentIdx = directions.indexOf(player.faceTo);
+        var facings = ['left', 'up', 'right', 'down'];
+        var currentIdx = facings.indexOf(player.facing);
         if(side === 'left') {
-            var newDirectionIdx = (4 + currentIdx - 1) % directions.length;
-            changePlayerFaceTo(directions[newDirectionIdx]);
+            var newfacingIdx = (4 + currentIdx - 1) % facings.length;
+            player.faceTo(facings[newfacingIdx]);
         } else if (side === 'right') {
-            var newDirectionIdx = (4 + currentIdx + 1) % directions.length;
-            changePlayerFaceTo(directions[newDirectionIdx]);  
+            var newfacingIdx = (4 + currentIdx + 1) % facings.length;
+            player.faceTo(facings[newfacingIdx]);
         }
 
         setTimeout(done, STEP_TIME);
