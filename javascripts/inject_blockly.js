@@ -17,7 +17,8 @@ Blockly.BlockSvg.START_HAT = true;
     // Inject blockly to DOM
     var workspace = Blockly.inject(blocklyDiv, {
         toolbox: document.getElementById('blockly-toolbox'),
-        trashcan: true
+        trashcan: true,
+        scrollbars: true
     });
 
     // 載入預設積木
@@ -26,7 +27,7 @@ Blockly.BlockSvg.START_HAT = true;
     // disable 未連接到開始的積木
     workspace.addChangeListener(Blockly.Events.disableOrphans);
 
-    
+
     var $toolboxHeader = $('.toolbox-header');
     var $blocklyFlyoutBackground = $('svg.blocklyFlyout');
 
@@ -54,6 +55,13 @@ Blockly.BlockSvg.START_HAT = true;
     }
     setTimeout(_resizeToolboxHeader, 100);
 
+    // scroll to green flag block
+    var firstBlock = workspace.getTopBlocks()[0];
+    var relativeSurfaceXY = firstBlock.getRelativeToSurfaceXY();	// Scroll the workspace so that the block's top left corner
+    var metrics = workspace.getMetrics();					// is in the (0.2; 0.3) part of the viewport.
+    workspace.scrollbar.set(relativeSurfaceXY.x * workspace.scale - metrics.contentLeft - metrics.viewWidth  * 0.325,
+        relativeSurfaceXY.y * workspace.scale - metrics.contentTop  - metrics.viewHeight * 0.06);    
+        
     // Export to global
     BLOCKLY_WORKSPACE = workspace;
 })();
