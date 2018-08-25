@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>第三關 - 來到史前玉器作坊</title>
+    
+    <!-- Libs Start -->
+    <link rel="stylesheet" href="../../stylesheets/fontawesome-free-5.1.0.min.css">
+    <link rel="stylesheet" href="../../stylesheets/bootstrap.min.css">
+    <!-- Libs End -->
+
+    <link rel="stylesheet" href="../../stylesheets/application.css">
+</head>
+
+<body>
+    <div class="container">
+        <!-- Navbar Start -->
+        <div class="row">
+            <div class="col-12">
+                <nav class="header d-flex justify-content-between w-100">
+                    <img class="logo" src="../../images/logo.png" alt="國立臺灣史前文化博物館">
+                    <div clsss="stages-nav">
+                        <a class="stage-link" href="../01/index.html">
+                            <span>1</span>
+                        </a>
+                        <a class="stage-link" href="../02/index.html">
+                            <span>2</span>
+                        </a>
+                        <a class="stage-link" href="../03/index.html">
+                            <span>3</span>
+                        </a>
+                        <a class="stage-link" href="../04/index.html">
+                            <span>4</span>
+                        </a>
+                        <a class="stage-link" href="../05/index.html">
+                            <span>5</span>
+                        </a>
+                        <a class="stage-link" href="../06/index.html">
+                            <span>6</span>
+                        </a>
+                        <a class="stage-link" href="../07/index.html">
+                            <span>7</span>
+                        </a>
+                        <a class="stage-link" href="../08/index.html">
+                            <span>8</span>
+                        </a>
+                    </div>
+                </nav>
+            </div>
+        </div>
+        <!-- Navbar End -->
+
+        <!-- Main Content Start -->
+        <div class="row no-gutters">
+            <div class="col-5">
+                <div class="game-container">
+                    <div class="outer-box mb-3">
+                        <div class="inner-box">
+                           <div id="phaser-area" class="w-100 h-100"></div>
+                        </div>
+                    </div>
+                    <div class="btn btn-custom btn-block text-center js-run-code">
+                        <i class="fas fa-play"></i> 運行
+                    </div>
+                </div>
+            </div>
+            <div class="col pl-3">
+                <div class="hint-container">
+                    <div class="hint-icon"></div>
+                    <div class="hint-content">
+                        <div class="row no-gutters h-100">
+                            <div class="col-1">
+                                <h4>提示</h4>
+                            </div>
+                            <div class="col">
+                                <div class="d-flex w-100 h-100 align-items-center">
+                                    <p>
+                                        閃過路上的各種障礙，並走回部落玉器工坊吧！
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="blockly-container">
+                    <div class="blockly-headers row no-gutters w-100">
+                        <div class="toolbox-header text-center">
+                            程式積木
+                        </div>
+                        <div class="workspace-header col">
+                            工作區
+                        </div>
+                    </div>
+                    <xml id="blockly-toolbox" style="display: none">
+                        <block type="step_forward"></block>
+                        <block type="turn_x"></block>
+                        <block type="repeat_n_times"></block>
+                    </xml>
+                    <xml xmlns="http://www.w3.org/1999/xhtml" id="blockly-workspace" style="display:none">
+                        <block deletable="false" movable="false" type="when_run" id="S)}oe#mNHcQRbK8h1Jdf" x="20" y="20"></block>
+                    </xml>
+                    <div id="blockly-area" class="w-100" style="height: calc(100% - 30px);"></div>
+                    <div id="blockly-instance" style="position: absolute; top: 30px; left: 2px;"></div>
+                </div>
+            </div>
+        </div>
+        <!-- Main Content End -->
+    </div>
+
+    <!-- Chat Modal Start -->
+    <div class="modal chat-modal" id="chat-modal" data-backdrop="static" and data-keyboard="false" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-body">
+              <div class="chat-container h-100 mx-auto">
+                  <div class="scene"></div>
+                  <div class="chat-content"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+    </div>
+    <!-- Chat Modal End -->
+
+    <!-- Alert Modal Start -->
+    <div class="modal alert-modal" id="alert-modal" data-backdrop="static" and data-keyboard="false" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+            <div class="modal-body">
+               <div class="content text-center"></div>
+               <div class="row actions">
+                   <div class="col">
+                       <button class="btn btn-block btn-custom" data-dismiss="modal">再玩一次</button>
+                   </div>
+                   <div class="col next-stage" style="display: none;">
+                        <a class="btn btn-block btn-custom" href="/stages/04/">下一關</a>
+                   </div>
+               </div>
+            </div>
+            </div>
+        </div>
+    </div>
+    <!-- Alert Modal End -->
+
+    <!-- Libs Start -->
+    <script src="../../javascripts/jquery-3.3.1.min.js"></script>
+    <script src="../../javascripts/bootstrap.bundle-4.1.1.min.js"></script>
+    <script src="../../javascripts/phaser-2.11.0.min.js"></script>
+    <script src="../../javascripts/blockly_compressed.js"></script>
+    <script src="../../javascripts/blocks_compressed.js"></script>
+    <script src="../../javascripts/blockly_msg_zh_hant.js"></script>
+    <script src="../../javascripts/javascript_compressed.js"></script>
+    <script src="../../javascripts/acorn_interpreter.js"></script>
+    <!-- Libs End -->
+
+    <script src="../../javascripts/custom_blocks.js"></script>
+    <script src="../../javascripts/inject_blockly.js"></script>
+    <script src="../../javascripts/chat.js"></script>
+    <script src="./index.js"></script>
+
+    <script>
+        // 初始化遊戲
+        window.GAME.initialize();
+
+        // 設定對話背景圖與文字
+        var selectedCharacter = localStorage.getItem('selectedCharacter');
+        $('.chat-container > .scene').css('background-image', 'url(../../images/stages/02/chat-bg-1-'+ selectedCharacter +'.jpg)')
+        var scenes = [
+            { actor: '史前人', sentence: '沒錯！這些就是臺灣玉，你幫了我大忙！' },
+            { actor: '現代人', sentence: '我看你的衣服似乎不是這個部落的人，你是從哪裡來的啊 ?' },
+            { actor: '史前人', sentence: '我只記得本來在溪邊玩耍，不知道為甚麼突然頭很暈，醒來後就發現自己在這裡了…' },
+            { actor: '現代人', sentence: '時間晚了，一個人很危險！你先和我回部落，也許我有辦法能幫你！' },
+            { actor: '史前人', sentence: '路上可能會遇到不少野生動物，我們要先在腦袋中模擬好安全抵達部落的路線。' }
+        ];
+        window.startChat(scenes);
+    </script>
+</body>
+</html>
