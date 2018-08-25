@@ -55,13 +55,15 @@ Blockly.BlockSvg.START_HAT = true;
     }
     setTimeout(_resizeToolboxHeader, 100);
 
-    // scroll to green flag block
-    var firstBlock = workspace.getTopBlocks()[0];
-    var relativeSurfaceXY = firstBlock.getRelativeToSurfaceXY();	// Scroll the workspace so that the block's top left corner
-    var metrics = workspace.getMetrics();					// is in the (0.2; 0.3) part of the viewport.
-    workspace.scrollbar.set(relativeSurfaceXY.x * workspace.scale - metrics.contentLeft - metrics.viewWidth  * 0.325,
-        relativeSurfaceXY.y * workspace.scale - metrics.contentTop  - metrics.viewHeight * 0.06);    
-        
+    // move green flag block to left top of workspace
+    var initBlock = workspace.getTopBlocks()[0];
+    var metrics = workspace.getMetrics();
+    workspace.centerOnBlock(initBlock.id);
+    initBlock.moveBy(
+        metrics.flyoutWidth + (initBlock.width / 2) + 25 - (metrics.viewWidth / 2),
+        55 - (metrics.viewHeight / 2)
+    );
+    
     // Export to global
     BLOCKLY_WORKSPACE = workspace;
 })();
