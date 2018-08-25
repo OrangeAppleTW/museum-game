@@ -283,10 +283,10 @@ window.GAME.initialize = function() {
             // 設定對話場景與文字
             var selectedCharacter = localStorage.getItem('selectedCharacter');
             $('.chat-container > .scene').css('background-image', 'url(../../images/stages/01/chat-bg-2-'+ selectedCharacter +'.jpg)')
-            var scenes = [  { actor: '現代人', sentence: '你好，我是阿明！' } ];
+            var scenes = [  { actor: '現代人', sentence: '你好！' } ];
             window.startChat(scenes, done);
         } else {
-            $('.hint-content > p').text('請先走到原始人旁邊，再向他打招呼哦！');
+            $('.hint-content p').text('請先走到原始人旁邊，再向他打招呼哦！');
         }
     }
 };

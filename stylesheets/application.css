@@ -405,6 +405,8 @@ nav.header .stage-link > span.current {
 }
 
 .alert-modal .modal-dialog .modal-content .modal-body > .content {
+  white-space: pre-wrap;
+  word-wrap: break-word;
   margin: 13px;
 }
 
