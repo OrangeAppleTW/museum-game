@@ -108,6 +108,7 @@ window.GAME.initialize = function() {
             }
         }
         player.faceTo(DEFAULT_PLAYER.facing);
+
         // 蹲下功能
         // 根據角色面朝方向決定切換到該方向的 frame
         player.squat = function() {

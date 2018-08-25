@@ -8,8 +8,7 @@ window.GAME.initialize = function () {
     var TILT_SIZE = 100; // 每個 TILE (正方形)的大小
 
     // 預設玩家位置
-    // 原本 x:5.5 y:1.5, Debug x:4.5 y:8.5
-    var DEFAULT_PLAYER = { x: 4.5 * TILT_SIZE, y: 8.5 * TILT_SIZE, facing: 'down' };
+    var DEFAULT_PLAYER = { x: 5.5 * TILT_SIZE, y: 1.5 * TILT_SIZE, facing: 'down' };
 
     // 選擇的角色
     var SELECTED_CHARACTER = localStorage.getItem('selectedCharacter') || 'child-a';
@@ -42,16 +41,15 @@ window.GAME.initialize = function () {
     var frontLayer;
 
     var player; // 玩家角色
+    var hammer; // 石鎚
+    var schist; // 片岩
+    var drill; //鑽孔器
     var bounds = []; // 邊界
+
     var resetSignal = new Phaser.Signal(); // 重設遊戲 event
 
-    // Create Tool Var
-    var tool_1;
-    var tool_2;
-    var tool_4;
-
-    //Create Verify Stage Var
-    var verified = false;
+    // 是否執行磨製成功
+    var isMilled = false;
 
     // 計算兩個 sprite 間距離（單位 px)
     function calcDistance(sprite1, spirte2) {
@@ -80,6 +78,7 @@ window.GAME.initialize = function () {
         player.anchor.x = 0.5;
         player.anchor.y = 0.85;
         player.facing = DEFAULT_PLAYER.facing;
+        player.hodingTool = null;
 
         // 動畫
         player.animations.add('walk-down', [0, 1, 2]);
@@ -113,8 +112,39 @@ window.GAME.initialize = function () {
             }
         }
 
-        // Player Inventory
-        player.inventory = [];
+        // 蹲下功能
+        // 根據角色面朝方向決定切換到該方向的 frame
+        player.squat = function() {
+            if (this.facing == 'down') {
+                this.frame = 12;
+            } else if (this.facing == 'left') {
+                this.frame = 13;
+            } else if (this.facing == 'up') {
+                this.frame = 14;
+            } else if (this.facing == 'right') {
+                this.frame = 15;
+            }
+        }
+    }
+
+    function createTools() {
+        // 石鎚
+        hammer = middleLayer.create(3.5*TILT_SIZE, 9.5*TILT_SIZE, 'hammer')
+        hammer.anchor.x = 0.5;
+        hammer.anchor.y = 0.5;
+        hammer.scale.setTo(TILT_SIZE / hammer.width);
+        
+        // 片岩
+        schist = middleLayer.create(4.5*TILT_SIZE, 9.5*TILT_SIZE, 'schist')
+        schist.anchor.x = 0.5;
+        schist.anchor.y = 0.5;
+        schist.scale.setTo(TILT_SIZE / schist.width);
+
+        // 鑽孔器
+        drill = middleLayer.create(5.5*TILT_SIZE, 8.5*TILT_SIZE, 'drill')
+        drill.anchor.x = 0.5;
+        drill.anchor.y = 0.25;
+        drill.scale.setTo(TILT_SIZE / drill.width);
     }
 
     // 預先載入素材
@@ -122,9 +152,9 @@ window.GAME.initialize = function () {
         game.load.image('map', '../../images/stages/05/map.jpg');
 
         //Preload Tool Image
-        game.load.image('tool_1', '../../images/tools/tool_1.png');
-        game.load.image('tool_2', '../../images/tools/tool_2.png');
-        game.load.image('tool_4', '../../images/tools/tool_4.png');
+        game.load.image('hammer', '../../images/tools/hammer.png');
+        game.load.image('schist', '../../images/tools/schist.png');
+        game.load.image('drill', '../../images/tools/drill.png');
 
         // 0, 3, 6, 9, 12, 13, 14, 15
         // 下, 左, 上, 右, 蹲下(下), 蹲下(左), 蹲下(上), 蹲下(右)
@@ -147,6 +177,9 @@ window.GAME.initialize = function () {
         // 建立玩家角色
         createPlayer();
 
+        // 建立工具
+        createTools();
+
         // 設定地圖邊界
         addBound(0, 2, 1, 1);
         addBound(2, 0, 1, 1);
@@ -160,21 +193,6 @@ window.GAME.initialize = function () {
         addBound(8, 8, 1, 2);
         addBound(6, 2, 1, 3);
         addBound(8, 5, 1, 1);
-
-
-
-        //Create Tool
-        tool_1 = frontLayer.create(485, 915, 'tool_1');
-        tool_1.scale.setTo(0.1);
-        tool_1.angle = 90;
-
-        tool_2 = frontLayer.create(395, 910, 'tool_2');
-        tool_2.scale.setTo(0.1);
-        tool_2.angle = 90;
-
-        tool_4 = frontLayer.create(493, 790, 'tool_4');
-        tool_4.scale.setTo(0.15);
-
     }
 
     // 當畫面更新時
@@ -182,11 +200,11 @@ window.GAME.initialize = function () {
         // 限制角色不能超過邊界
         game.physics.arcade.collide(player, bounds);
 
-        /* game.debug.spriteInfo(player, 32, 32);
-        for (var i = 0; i < bounds.length; i++) {
-            game.debug.body(bounds[i]);
-        }
-        game.debug.body(player); */
+        // game.debug.spriteInfo(player, 32, 32);
+        // for (var i = 0; i < bounds.length; i++) {
+        //     game.debug.body(bounds[i]);
+        // }
+        // game.debug.body(player);
     }
 
     // 重設遊戲狀態
@@ -196,20 +214,18 @@ window.GAME.initialize = function () {
         player.x = DEFAULT_PLAYER.x;
         player.y = DEFAULT_PLAYER.y;
         player.faceTo(DEFAULT_PLAYER.facing);
+        
+        hammer.visible = true;
+        schist.visible = true;
+        drill.visible = true;
 
-        // Reset Player Inventory
-        player.inventory = [];
-
-        // Reset Tool Visibility
-        tool_1.visible = true;
-        tool_2.visible = true;
-        tool_4.visible = true;
+        isMilled = false;
     };
 
     // 驗證關卡是否完成
     window.GAME.validate = function () {
         var $alertModal = $('#alert-modal');
-        if (verified) {
+        if (isMilled) {
             $alertModal.find('.content').text('完成第五關，恭喜！');
             $alertModal.find('.next-stage').show();
             $alertModal.modal('show');
@@ -280,42 +296,44 @@ window.GAME.initialize = function () {
     };
 
     window.GAME.player.pickUpTool = function (done) {
-        player.faceTo("down");
-        player.frame = 12;
-        setTimeout(function () {
-            // 原本 TILT_SIZE
-            if (calcDistance(player, tool_1) < 77) {
-                player.inventory.push("tool_1");
-                tool_1.visible = false;
-            } else {
-                $('.hint-content > p').text('請先走到片岩旁邊，才能拿哦！');
-            }
-            //console.log(player.inventory);
-            player.frame = 0;
+        player.squat();
+
+        if (calcDistance(player, schist) === 100.0) {
+            schist.visible = false;
+        } else {
+            $('.hint-content p').text('請先走到片岩旁邊，才能撿取哦！');
+        }
+        
+        setTimeout(function() {
+            player.faceTo(player.facing); // 站起來
             done();
-        }, 1000);
+        }, STEP_TIME);
     }
 
     window.GAME.player.mill = function (done) {
-        //console.log(calcDistance(player, tool_4));
-        player.faceTo("down");
-        player.frame = 12;
-        setTimeout(function () {
-            // 偵測距離有待修改
-            if (calcDistance(player, tool_4) < 77 && player.inventory.length == 1) {
-                player.inventory.push("tool_4");
-                tool_4.visible = false;
-                verified = true;
-            } else if (player.inventory.length == 2) {
-                $('.hint-content > p').text('請先走到鑽孔器旁邊，才能來回磨鋸哦！');
-            } else {
-                $('.hint-content > p').text('要先拿到片岩後，才能來回磨鋸哦！');
+        if (schist.visible) {
+            $('.hint-content p').text('要先拿到片岩後，才能進行磨鋸哦！');
+        } else {
+            // 判斷是否到達玉石的位置
+            var workspaces = [
+                { x: 2.5*TILT_SIZE, y: 6.5*TILT_SIZE },
+                { x: 3.5*TILT_SIZE, y: 6.5*TILT_SIZE },
+                { x: 4.5*TILT_SIZE, y: 6.5*TILT_SIZE }
+            ];
+            var isReachWorkspace = false; 
+            for(var i = 0; i < workspaces.length; i++) {
+                var workspace = workspaces[i];
+                if (calcDistance(player, workspace) === 100.0) isReachWorkspace = true;
             }
-            //console.log(player.inventory);
-            player.frame = 0;
-            done();
-        }, 1000);
+
+            if (isReachWorkspace) {
+                player.squat();
+                isMilled = true;
+            } else {
+                $('.hint-content p').text('要先走到玉石所在的位置，才能進行磨鋸哦！');
+            }
+        }
+
+        setTimeout(done, STEP_TIME);
     }
-
-
 };
