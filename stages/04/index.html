@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>第五關 - 史前國寶的誕生-鋸崩</title>
+    <title>第四關 - 史前國寶的誕生-打剝</title>
     
     <!-- Libs Start -->
     <link rel="stylesheet" href="../../stylesheets/fontawesome-free-5.1.0.min.css">
@@ -78,7 +78,7 @@
                             <div class="col">
                                 <div class="d-flex w-100 h-100 align-items-center">
                                     <p>
-                                        撿起片岩，然後使用片岩進行磨鋸吧！
+                                        撿起石鎚，然後使用石鎚進行打剝吧！
                                     </p>
                                 </div>
                             </div>
@@ -99,7 +99,7 @@
                         <block type="turn_x"></block>
                         <block type="repeat_n_times"></block>
                         <block type="pick_up_tool"></block>
-                        <block type="mill"></block>
+                        <block type="hit_break"></block>
                     </xml>
                     <xml xmlns="http://www.w3.org/1999/xhtml" id="blockly-workspace" style="display:none">
                         <block deletable="false" movable="false" type="when_run" id="S)}oe#mNHcQRbK8h1Jdf" x="20" y="20"></block>
@@ -138,7 +138,7 @@
                        <button class="btn btn-block btn-custom" data-dismiss="modal">再玩一次</button>
                    </div>
                    <div class="col next-stage" style="display: none;">
-                        <a class="btn btn-block btn-custom" href="/stages/06/">下一關</a>
+                        <a class="btn btn-block btn-custom" href="/stages/05/">下一關</a>
                    </div>
                </div>
             </div>
@@ -168,12 +168,14 @@
         // 初始化遊戲
         window.GAME.initialize();
 
-        // 設定對話背景圖與文字
+        //設定對話背景圖與文字
         var selectedCharacter = localStorage.getItem('selectedCharacter');
         $('.chat-container > .scene').css('background-image', 'url(../../images/stages/05/chat-bg-1-'+ selectedCharacter +'.jpg)')
         var scenes = [
-            { actor: '史前人', sentence: '你很有天份嘛，不錯啊！接著來試試看「鋸崩」，鋸崩是....（簡介)' },
-            { actor: '史前人', sentence: '為了把這個步驟做好，你需要...... (開始講解)' },
+            { actor: '史前人', sentence: '這裡是部落製作玉器的工坊，我們有高超的技術，製作的玉器都很精美哦！我現在要和大家一起做的是人獸形玉玦，你也來試試吧？' },
+            { actor: '現代人', sentence: '這我學的會嗎？' },
+            { actor: '史前人', sentence: '別緊張，不會很難的，來，我先教會你製玉的幾個基本技術，讓我們開始練習吧！' },
+            { actor: '史前人', sentence: '臺灣玉原石不容易取得，製作時要小心，別敲的太大力哦！' }
         ];
         window.startChat(scenes);
     </script>

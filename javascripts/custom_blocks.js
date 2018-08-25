@@ -170,3 +170,21 @@ function initInterpreterMill(interpreter, scope) {
     });
     interpreter.setProperty(scope, 'mill', wrapper);
 }
+
+Blockly.Blocks['hit_break'] = {
+    init: function() {
+      this.appendDummyInput()
+          .appendField("打剝");
+      this.setColour('#986BFC');
+      this.setPreviousStatement(true, null);
+    }
+};
+Blockly.JavaScript['hit_break'] = function(block) {
+    return 'hitBreak();\n';
+};
+function initInterpreterhitBreak(interpreter, scope) {
+    var wrapper = interpreter.createAsyncFunction(function(callback) {
+        window.GAME.player.hitBreak(callback)
+    });
+    interpreter.setProperty(scope, 'hitBreak', wrapper);
+}
