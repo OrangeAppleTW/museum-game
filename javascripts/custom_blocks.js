@@ -133,3 +133,40 @@ function initInterpreterPutDownJade(interpreter, scope) {
     });
     interpreter.setProperty(scope, 'putDownJade', wrapper);
 }
+
+Blockly.Blocks['pick_up_tool'] = {
+    init: function() {
+      this.appendDummyInput()
+          .appendField("撿起工具");
+      this.setColour('#986BFC');
+      this.setPreviousStatement(true, null);
+      this.setNextStatement(true, null);
+    }
+};
+Blockly.JavaScript['pick_up_tool'] = function(block) {
+    return 'pickUpTool();\n';
+};
+function initInterpreterPickUpTool(interpreter, scope) {
+    var wrapper = interpreter.createAsyncFunction(function(callback) {
+        window.GAME.player.pickUpTool(callback)
+    });
+    interpreter.setProperty(scope, 'pickUpTool', wrapper);
+}
+
+Blockly.Blocks['mill'] = {
+    init: function() {
+      this.appendDummyInput()
+          .appendField("磨鋸");
+      this.setColour('#986BFC');
+      this.setPreviousStatement(true, null);
+    }
+};
+Blockly.JavaScript['mill'] = function(block) {
+    return 'mill();\n';
+};
+function initInterpreterMill(interpreter, scope) {
+    var wrapper = interpreter.createAsyncFunction(function(callback) {
+        window.GAME.player.mill(callback)
+    });
+    interpreter.setProperty(scope, 'mill', wrapper);
+}

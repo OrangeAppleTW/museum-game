@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Stage 04</title>
+    <title>Stage 05</title>
     
     <!-- Libs Start -->
     <link rel="stylesheet" href="../../stylesheets/fontawesome-free-5.1.0.min.css">
@@ -27,7 +27,7 @@
                             <span>1</span>
                         </a>
                         <a class="stage-link" href="../02/index.html">
-                            <span class="current">2</span>
+                            <span>2</span>
                         </a>
                         <a class="stage-link" href="../03/index.html">
                             <span>3</span>
@@ -71,10 +71,18 @@
                 <div class="hint-container">
                     <div class="hint-icon"></div>
                     <div class="hint-content">
-                        <h4>提示</h4>
-                        <p>
-                            走出草叢看看，鼓起勇氣和陌生人打聲招呼吧！
-                        </p>
+                        <div class="row no-gutters h-100">
+                            <div class="col-1">
+                                <h4>提示</h4>
+                            </div>
+                            <div class="col">
+                                <div class="d-flex w-100 h-100 align-items-center">
+                                    <p>
+                                        撿起片岩，然後用鑽孔器來回磨鋸吧！ (๑╹ω╹๑ )
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <div class="blockly-container">
@@ -90,6 +98,8 @@
                         <block type="step_forward"></block>
                         <block type="turn_x"></block>
                         <block type="repeat_n_times"></block>
+                        <block type="pick_up_tool"></block>
+                        <block type="mill"></block>
                     </xml>
                     <xml xmlns="http://www.w3.org/1999/xhtml" id="blockly-workspace" style="display:none">
                         <block deletable="false" movable="false" type="when_run" id="S)}oe#mNHcQRbK8h1Jdf" x="20" y="20"></block>
@@ -128,7 +138,7 @@
                        <button class="btn btn-block btn-custom" data-dismiss="modal">再玩一次</button>
                    </div>
                    <div class="col next-stage" style="display: none;">
-                        <a class="btn btn-block btn-custom" href="/stages/05/">下一關</a>
+                        <a class="btn btn-block btn-custom" href="/stages/06/">下一關</a>
                    </div>
                </div>
             </div>
@@ -159,14 +169,12 @@
 
         // 設定對話背景圖與文字
         var selectedCharacter = localStorage.getItem('selectedCharacter');
-        // $('.chat-container > .scene').css('background-image', 'url(../../images/stages/01/chat-bg-1-'+ selectedCharacter +'.jpg)')
-        // var scenes = [
-        //     { actor: '現代人', sentence: '好暈... 這裡是哪裡阿？(自言自語)' },
-        //     { actor: '史前人', sentence: '什麼聲音？誰在那裏？' },
-        //     { actor: '現代人', sentence: '......' },
-        //     { actor: '史前人', sentence: '別躲在那邊不說話，你是誰？' }
-        // ];
-        // window.startChat(scenes);
+        $('.chat-container > .scene').css('background-image', 'url(../../images/stages/05/chat-bg-1-'+ selectedCharacter +'.jpg)')
+        var scenes = [
+            { actor: '史前人', sentence: '你很有天份嘛，不錯啊！接著來試試看「鋸崩」，鋸崩是....（簡介)' },
+            { actor: '史前人', sentence: '為了把這個步驟做好，你需要...... (開始講解)' },
+        ];
+        window.startChat(scenes);
     </script>
 </body>
 </html>
