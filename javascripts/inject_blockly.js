@@ -89,6 +89,7 @@ Blockly.BlockSvg.START_HAT = true;
         initInterpreterTurn(interpreter, scope);
         initInterpreterSayHi(interpreter, scope);
         initInterpreterPickUpJade(interpreter, scope);
+        initInterpreterPutDownJade(interpreter, scope);
     }
 
     function resetInterpreter() {

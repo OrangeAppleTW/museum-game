@@ -16,8 +16,11 @@ window.GAME.initialize = function() {
     // 台灣玉位置
     var JADE =  { x: 5 * TILT_SIZE, y: 2.5 * TILT_SIZE };
     
-    // 撿起的玉石數量
-    var jadeCount = 0;
+    // 是否拿著玉石
+    var isHoldJade = false;
+    
+    // 繳交的玉石數
+    var handInJadeCount = 0;
     
     // 動態調整 Phaser 遊戲大小
     // 當 window resize 時，讓 canvas scale 
@@ -197,17 +200,16 @@ window.GAME.initialize = function() {
         player.x = DEFAULT_PLAYER.x;
         player.y = DEFAULT_PLAYER.y;
         player.faceTo(DEFAULT_PLAYER.facing)
-        jadeCount = 0;
+        isHoldJade = false;
+        handInJadeCount = 0;
     }
 
     // 驗證關卡是否完成
     window.GAME.validate = function() {
         var $alertModal = $('#alert-modal');
 
-        if (jadeCount !== 2) {
+        if (handInJadeCount !== 2) {
             $alertModal.find('.content').text("任務失敗\n\n請至河中撿取兩個玉石並交回給史前人哦！");
-        } else if (calcDistance(player, npc) > 100) {
-            $alertModal.find('.content').text('任務失敗\n\n請將玉石拿回去給史前人哦！');
         } else {
             $alertModal.find('.content').text('完成第二關，恭喜！');
             $alertModal.find('.next-stage').show();
@@ -279,7 +281,7 @@ window.GAME.initialize = function() {
         // 玩家距離玉石 150px，就可以撿取玉石
         if (calcDistance(player, JADE) <= 150) {
             player.squat(); // 切換至蹲下的 frame
-            jadeCount += 1;   
+            isHoldJade = true;   
             setTimeout(function() {
                 player.faceTo(player.facing); // 切換回至站起來的 frame
                 done();
@@ -288,5 +290,19 @@ window.GAME.initialize = function() {
             $('.hint-content p').text('請離玉石近一些，才能撿取玉石哦！');
             setTimeout(done, STEP_TIME);
         }
+    }
+    window.GAME.player.putDownJade = function(done) {
+        if (isHoldJade) { // 手上有玉石
+            if (calcDistance(player, npc) === 100.0) {
+                handInJadeCount += 1;
+                isHoldJade = false;
+            } else {
+                $('.hint-content p').text('請走到史前人面前才能繳交玉石哦！');
+            }
+        } else { // 手上沒玉石
+            $('.hint-content p').text('請先至河中檢取玉石哦！');
+        }
+        
+        setTimeout(done, STEP_TIME);
     }
 };
