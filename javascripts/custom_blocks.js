@@ -95,3 +95,23 @@ Blockly.JavaScript['repeat_n_times'] = function(block) {
 
     return code;
 };
+
+
+Blockly.Blocks['pick_up_jade'] = {
+    init: function() {
+        this.appendDummyInput()
+            .appendField("撿起玉石");
+        this.setPreviousStatement(true, null);
+        this.setNextStatement(true, null);
+        this.setColour(230);
+    }
+};
+Blockly.JavaScript['pick_up_jade'] = function(block) {
+    return "pickUpJade();\n";
+};
+function initInterpreterPickUpJade(interpreter, scope) {
+    var wrapper = interpreter.createAsyncFunction(function(callback) {
+        window.GAME.player.pickUpJade(callback)
+    });
+    interpreter.setProperty(scope, 'pickUpJade', wrapper);
+}
