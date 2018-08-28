@@ -41,7 +41,7 @@ window.GAME.initialize = function () {
     var frontLayer;
 
     var player; // 玩家角色
-    var whetstone; // 砥石
+    var hammer; // 石鎚
     var schist; // 片岩
     var drill; //鑽孔器
     var bounds = []; // 邊界
@@ -128,11 +128,11 @@ window.GAME.initialize = function () {
     }
 
     function createTools() {
-        // 砥石
-        whetstone = middleLayer.create(3.5*TILT_SIZE, 9.5*TILT_SIZE, 'whetstone')
-        whetstone.anchor.x = 0.5;
-        whetstone.anchor.y = 0.5;
-        whetstone.scale.setTo(TILT_SIZE / whetstone.width);
+        // 石鎚
+        hammer = middleLayer.create(3.5*TILT_SIZE, 9.5*TILT_SIZE, 'hammer')
+        hammer.anchor.x = 0.5;
+        hammer.anchor.y = 0.5;
+        hammer.scale.setTo(TILT_SIZE / hammer.width);
         
         // 片岩
         schist = middleLayer.create(4.5*TILT_SIZE, 9.5*TILT_SIZE, 'schist')
@@ -152,7 +152,7 @@ window.GAME.initialize = function () {
         game.load.image('map', '../../images/stages/07/map.jpg');
 
         //Preload Tool Image
-        game.load.image('whetstone', '../../images/tools/whetstone.png');
+        game.load.image('hammer', '../../images/tools/hammer.png');
         game.load.image('schist', '../../images/tools/schist.png');
         game.load.image('drill', '../../images/tools/drill.png');
 
@@ -189,9 +189,9 @@ window.GAME.initialize = function () {
         addBound(0, 6, 2, 2);
         addBound(0, 9, 1, 1);
         addBound(5, 4, 1, 2);
+        addBound(3, 4, 1, 3);
         addBound(4, 9, 1, 1);
         addBound(8, 8, 1, 2);
-        addBound(4, 1, 2, 1);
         addBound(8, 5, 1, 1);
     }
 
@@ -200,11 +200,11 @@ window.GAME.initialize = function () {
         // 限制角色不能超過邊界
         game.physics.arcade.collide(player, bounds);
 
-        game.debug.spriteInfo(player, 32, 32);
-        for (var i = 0; i < bounds.length; i++) {
-            game.debug.body(bounds[i]);
-        }
-        game.debug.body(player);
+        // game.debug.spriteInfo(player, 32, 32);
+        // for (var i = 0; i < bounds.length; i++) {
+        //     game.debug.body(bounds[i]);
+        // }
+        // game.debug.body(player);
     }
 
     // 重設遊戲狀態
@@ -215,7 +215,7 @@ window.GAME.initialize = function () {
         player.y = DEFAULT_PLAYER.y;
         player.faceTo(DEFAULT_PLAYER.facing);
         
-        whetstone.visible = true;
+        hammer.visible = true;
         schist.visible = true;
         drill.visible = true;
 
@@ -226,7 +226,7 @@ window.GAME.initialize = function () {
     window.GAME.validate = function () {
         var $alertModal = $('#alert-modal');
         if (isPolished) {
-            $alertModal.find('.content').text('完成第五關，恭喜！');
+            $alertModal.find('.content').text('完成第七關，恭喜！');
             $alertModal.find('.next-stage').show();
             $alertModal.modal('show');
         } else {
@@ -295,42 +295,24 @@ window.GAME.initialize = function () {
         setTimeout(done, STEP_TIME);
     };
 
-    window.GAME.player.pickUpTool = function (done) {
-        player.squat();
-
-        if (calcDistance(player, whetstone) === 100.0) {
-            whetstone.visible = false;
-        } else {
-            $('.hint-content p').text('請先走到砥石旁邊，才能撿取哦！');
-        }
-        
-        setTimeout(function() {
-            player.faceTo(player.facing); // 站起來
-            done();
-        }, STEP_TIME);
-    }
-
     window.GAME.player.polish = function (done) {
-        if (whetstone.visible) {
-            $('.hint-content p').text('要先拿到砥石後，才能進行磨製哦！');
-        } else {
-            // 判斷是否到達玉石的位置
-            var workspaces = [
-                { x: 1.5*TILT_SIZE, y: 4.5*TILT_SIZE },
-                { x: 1.5*TILT_SIZE, y: 5.5*TILT_SIZE }
-            ];
-            var isReachWorkspace = false; 
-            for(var i = 0; i < workspaces.length; i++) {
-                var workspace = workspaces[i];
-                if (calcDistance(player, workspace) === 100.0) isReachWorkspace = true;
-            }
+        // 判斷是否到達玉石/砥石的位置
+        var workspaces = [
+            { x: 4.5*TILT_SIZE, y: 3.5*TILT_SIZE },
+            { x: 5.5*TILT_SIZE, y: 3.5*TILT_SIZE },
+            { x: 6.5*TILT_SIZE, y: 3.5*TILT_SIZE }
+        ];
+        var isReachWorkspace = false; 
+        for(var i = 0; i < workspaces.length; i++) {
+            var workspace = workspaces[i];
+            if (calcDistance(player, workspace) === 100.0) isReachWorkspace = true;
+        }
 
-            if (isReachWorkspace) {
-                player.squat();
-                isPolished = true;
-            } else {
-                $('.hint-content p').text('要先走到玉石所在的位置，才能進行磨製哦！');
-            }
+        if (isReachWorkspace) {
+            player.squat();
+            isPolished = true;
+        } else {
+            $('.hint-content p').text('要先走到玉石和砥石所在的位置，才能進行磨製哦！');
         }
 
         setTimeout(done, STEP_TIME);

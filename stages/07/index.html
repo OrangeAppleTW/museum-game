@@ -78,7 +78,7 @@
                             <div class="col">
                                 <div class="d-flex w-100 h-100 align-items-center">
                                     <p>
-                                        撿起石鎚，然後使用石鎚進行打剝吧！
+                                        請走到玉石和砥石所在的地方，然後進行磨製吧！
                                     </p>
                                 </div>
                             </div>
@@ -95,10 +95,7 @@
                         </div>
                     </div>
                     <xml id="blockly-toolbox" style="display: none">
-                        <block type="step_forward"></block>
-                        <block type="turn_x"></block>
-                        <block type="repeat_n_times"></block>
-                        <block type="pick_up_tool"></block>
+                        <block type="step_forward"></block>ㄨ
                         <block type="polish"></block>
                     </xml>
                     <xml xmlns="http://www.w3.org/1999/xhtml" id="blockly-workspace" style="display:none">
@@ -138,7 +135,7 @@
                        <button class="btn btn-block btn-custom" data-dismiss="modal">再玩一次</button>
                    </div>
                    <div class="col next-stage" style="display: none;">
-                        <a class="btn btn-block btn-custom" href="/stages/05/">下一關</a>
+                        <a class="btn btn-block btn-custom" href="/stages/08/">下一關</a>
                    </div>
                </div>
             </div>
@@ -173,7 +170,7 @@
         $('.chat-container > .scene').css('background-image', 'url(../../images/stages/06/chat-bg-1-'+ selectedCharacter +'.jpg)')
         var scenes = [
             { actor: '史前人', sentence: '很好！就是這種感覺，看到旁邊的那一塊砥石了嗎？有時我們會將玉器半成品放在砥石上磨擦來進行磨製這個技術，也會用手持的小砥石直接在半成品上磨製，你接著把這個玉器半成品來來回回的磨擦，讓他們更光滑漂亮一點。' },
-            { actor: '現代人', sentence: '一位厲害的工匠會適時將這些玉器製作技術交替進行，才能完成精美的玉器喔！' },
+            { actor: '史前人', sentence: '一位厲害的工匠會適時將這些玉器製作技術交替進行，才能完成精美的玉器喔！' },
         ];
         window.startChat(scenes);
     </script>
