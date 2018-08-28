@@ -327,7 +327,6 @@ window.GAME.initialize = function () {
             }
 
             if (isReachWorkspace) {
-                player.squat();
                 isMilled = true;
             } else {
                 $('.hint-content p').text('要先走到玉石所在的位置，才能進行磨鋸哦！');
