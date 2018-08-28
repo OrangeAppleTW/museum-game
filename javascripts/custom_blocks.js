@@ -188,3 +188,39 @@ function initInterpreterhitBreak(interpreter, scope) {
     });
     interpreter.setProperty(scope, 'hitBreak', wrapper);
 }
+
+Blockly.Blocks['drill'] = {
+    init: function() {
+      this.appendDummyInput()
+          .appendField("鑽孔");
+      this.setColour('#986BFC');
+      this.setPreviousStatement(true, null);
+    }
+};
+Blockly.JavaScript['drill'] = function(block) {
+    return 'drill();\n';
+};
+function initInterpreterDrill(interpreter, scope) {
+    var wrapper = interpreter.createAsyncFunction(function(callback) {
+        window.GAME.player.drill(callback)
+    });
+    interpreter.setProperty(scope, 'drill', wrapper);
+}
+
+Blockly.Blocks['polish'] = {
+    init: function() {
+      this.appendDummyInput()
+          .appendField("磨製");
+      this.setColour('#986BFC');
+      this.setPreviousStatement(true, null);
+    }
+};
+Blockly.JavaScript['polish'] = function(block) {
+    return 'polish();\n';
+};
+function initInterpreterPolish(interpreter, scope) {
+    var wrapper = interpreter.createAsyncFunction(function(callback) {
+        window.GAME.player.polish(callback)
+    });
+    interpreter.setProperty(scope, 'polish', wrapper);
+}

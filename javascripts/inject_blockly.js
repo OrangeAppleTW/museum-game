@@ -95,6 +95,10 @@ Blockly.BlockSvg.START_HAT = true;
         initInterpreterPickUpTool(interpreter, scope);
         initInterpreterhitBreak(interpreter, scope);
         initInterpreterMill(interpreter, scope);
+        initInterpreterDrill(interpreter, scope);
+        initInterpreterPolish(interpreter, scope);
+
+
     }
 
     function resetInterpreter() {

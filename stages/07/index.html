@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>第四關 - 史前國寶的誕生-打剝</title>
+    <title>第七關 - 史前國寶的誕生-磨製</title>
     
     <!-- Libs Start -->
     <link rel="stylesheet" href="../../stylesheets/fontawesome-free-5.1.0.min.css">
@@ -78,7 +78,7 @@
                             <div class="col">
                                 <div class="d-flex w-100 h-100 align-items-center">
                                     <p>
-                                        撿起石鎚，然後走向玉器半成品進行打剝吧！
+                                        撿起石鎚，然後使用石鎚進行打剝吧！
                                     </p>
                                 </div>
                             </div>
@@ -99,7 +99,7 @@
                         <block type="turn_x"></block>
                         <block type="repeat_n_times"></block>
                         <block type="pick_up_tool"></block>
-                        <block type="hit_break"></block>
+                        <block type="polish"></block>
                     </xml>
                     <xml xmlns="http://www.w3.org/1999/xhtml" id="blockly-workspace" style="display:none">
                         <block deletable="false" movable="false" type="when_run" id="S)}oe#mNHcQRbK8h1Jdf" x="20" y="20"></block>
@@ -170,12 +170,10 @@
 
         //設定對話背景圖與文字
         var selectedCharacter = localStorage.getItem('selectedCharacter');
-        $('.chat-container > .scene').css('background-image', 'url(../../images/stages/04/chat-bg-1-'+ selectedCharacter +'.jpg)')
+        $('.chat-container > .scene').css('background-image', 'url(../../images/stages/06/chat-bg-1-'+ selectedCharacter +'.jpg)')
         var scenes = [
-            { actor: '史前人', sentence: '這裡是部落製作玉器的工坊，我們有高超的技術，製作的玉器都很精美哦！我現在要和大家一起做的是人獸形玉玦，你也來試試吧？' },
-            { actor: '現代人', sentence: '這我學的會嗎？' },
-            { actor: '史前人', sentence: '別緊張，不會很難的，來，我先教會你製玉的幾個基本技術，讓我們開始練習吧！' },
-            { actor: '史前人', sentence: '臺灣玉原石不容易取得，製作時要小心，別敲的太大力哦！' }
+            { actor: '史前人', sentence: '很好！就是這種感覺，看到旁邊的那一塊砥石了嗎？有時我們會將玉器半成品放在砥石上磨擦來進行磨製這個技術，也會用手持的小砥石直接在半成品上磨製，你接著把這個玉器半成品來來回回的磨擦，讓他們更光滑漂亮一點。' },
+            { actor: '現代人', sentence: '一位厲害的工匠會適時將這些玉器製作技術交替進行，才能完成精美的玉器喔！' },
         ];
         window.startChat(scenes);
     </script>
