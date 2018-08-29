@@ -69,6 +69,15 @@ window.GAME.initialize = function() {
         bounds.push(bound);
     }
 
+    // Add tile highlight
+    // 標示出目標區塊
+    function addTileHighlight(row, column) {
+        var tileHighlight = backgroundLayer.create((column+0.5)*TILT_SIZE, (row+0.5)*TILT_SIZE, 'tile-highlight');
+        tileHighlight.scale.setTo(TILT_SIZE / tileHighlight.width);
+        tileHighlight.anchor.x = 0.5;
+        tileHighlight.anchor.y = 0.5;
+    }
+
     // 加入草叢
     function addGrass(startRow, startColumn, rowSpan, columnSpan) {
         for(var rowOffset = 0; rowOffset < rowSpan; rowOffset++) {
@@ -120,6 +129,7 @@ window.GAME.initialize = function() {
     function preload() {
         game.load.image('map', '../../images/stages/01/map.jpg');
         game.load.image('grass', '../../images/grass.png');
+        game.load.image('tile-highlight', '../../images/tile-highlight.png');
         
         // 0, 3, 6, 9, 12
         // 下, 左, 上, 右, 蹲下
@@ -152,7 +162,7 @@ window.GAME.initialize = function() {
         addBound(8, 0, 2, 2);
         addBound(0, 3, 6, 1);
         addBound(1, 4, 2, 1);
-
+        
         // 加入草叢
         addGrass(6, 3, 4, 4);
     }

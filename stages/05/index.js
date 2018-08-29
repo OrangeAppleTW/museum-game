@@ -70,6 +70,15 @@ window.GAME.initialize = function () {
         bounds.push(bound);
     }
 
+    // Add tile highlight
+    // 標示出目標區塊
+    function addTileHighlight(row, column) {
+        var tileHighlight = backgroundLayer.create((column+0.5)*TILT_SIZE, (row+0.5)*TILT_SIZE, 'tile-highlight');
+        tileHighlight.scale.setTo(TILT_SIZE / tileHighlight.width);
+        tileHighlight.anchor.x = 0.5;
+        tileHighlight.anchor.y = 0.5;
+    }
+
     // 建立玩家角色
     function createPlayer() {
         player = middleLayer.create(DEFAULT_PLAYER.x, DEFAULT_PLAYER.y, 'player');
@@ -155,6 +164,7 @@ window.GAME.initialize = function () {
         game.load.image('hammer', '../../images/tools/hammer.png');
         game.load.image('schist', '../../images/tools/schist.png');
         game.load.image('drill', '../../images/tools/drill.png');
+        game.load.image('tile-highlight', '../../images/tile-highlight.png');
 
         // 0, 3, 6, 9, 12, 13, 14, 15
         // 下, 左, 上, 右, 蹲下(下), 蹲下(左), 蹲下(上), 蹲下(右)
