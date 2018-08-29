@@ -8,7 +8,7 @@ window.GAME.initialize = function () {
     var TILT_SIZE = 100; // 每個 TILE (正方形)的大小
 
     // 預設玩家位置
-    var DEFAULT_PLAYER = { x: 5.5 * TILT_SIZE, y: 7.5 * TILT_SIZE, facing: 'down' };
+    var DEFAULT_PLAYER = { x: 5.5 * TILT_SIZE, y: 1.5 * TILT_SIZE, facing: 'down' };
 
     // 選擇的角色
     var SELECTED_CHARACTER = localStorage.getItem('selectedCharacter') || 'child-a';
