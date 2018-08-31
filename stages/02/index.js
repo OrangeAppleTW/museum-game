@@ -8,13 +8,13 @@ window.GAME.initialize = function() {
     var TILT_SIZE = 100; // 每個 TILE (正方形)的大小
 
     // 預設玩家位置
-    var DEFAULT_PLAYER = { x: 1.5 * TILT_SIZE, y: 4.5 * TILT_SIZE, facing: 'up' };
+    var DEFAULT_PLAYER = { x: 1.5 * TILT_SIZE, y: 4.5 * TILT_SIZE, facing: 'right' };
 
     // 選擇的角色
     var SELECTED_CHARACTER = localStorage.getItem('selectedCharacter') || 'child-a';
 
     // 台灣玉位置
-    var JADE =  { x: 5 * TILT_SIZE, y: 2.5 * TILT_SIZE };
+    var JADE =  { x: 5 * TILT_SIZE, y: 3.5 * TILT_SIZE };
     
     // 是否拿著玉石
     var isHoldJade = false;
@@ -50,6 +50,7 @@ window.GAME.initialize = function() {
     var frontLayer;
 
     var player; // 玩家角色
+    var grasses = []; // 草叢
     var bounds = []; // 邊界
     var resetSignal = new Phaser.Signal(); // 重設遊戲 event
 
@@ -72,13 +73,34 @@ window.GAME.initialize = function() {
         bounds.push(bound);
     }
 
+    // 加入草叢
+    function addGrass(startRow, startColumn, rowSpan, columnSpan) {
+        for(var rowOffset = 0; rowOffset < rowSpan; rowOffset++) {
+            for(var columnOffset = 0; columnOffset < columnSpan; columnOffset++) {
+                var y = (startRow + rowOffset) * TILT_SIZE;
+                var x = (startColumn + columnOffset) * TILT_SIZE;
+                var grass = backgroundLayer.create(x, y, 'grass');
+
+                grass.scale.setTo(TILT_SIZE / grass.width);
+                grasses.push(grass);
+            }
+        }
+    }
+
     // Add tile highlight
     // 標示出目標區塊
-    function addTileHighlight(row, column) {
-        var tileHighlight = backgroundLayer.create((column+0.5)*TILT_SIZE, (row+0.5)*TILT_SIZE, 'tile-highlight');
-        tileHighlight.scale.setTo(TILT_SIZE / tileHighlight.width);
-        tileHighlight.anchor.x = 0.5;
-        tileHighlight.anchor.y = 0.5;
+    function addTileHighlight(startRow, startColumn, rowSpan, columnSpan) {
+        for(var rowOffset = 0; rowOffset < rowSpan; rowOffset++) {
+            for(var columnOffset = 0; columnOffset < columnSpan; columnOffset++) {
+                var y = (startRow + rowOffset + 0.5) * TILT_SIZE;
+                var x = (startColumn + columnOffset + 0.5) * TILT_SIZE;
+
+                var tileHighlight = backgroundLayer.create(x, y, 'tile-highlight');
+                tileHighlight.scale.setTo(TILT_SIZE / tileHighlight.width);
+                tileHighlight.anchor.x = 0.5;
+                tileHighlight.anchor.y = 0.5;
+            }
+        }
     }
 
     // 建立玩家角色
@@ -154,6 +176,7 @@ window.GAME.initialize = function() {
         game.load.image('map', '../../images/stages/02/map.jpg');
         game.load.image('npc-1', '../../images/npc-1.png');
         game.load.image('tile-highlight', '../../images/tile-highlight.png');
+        game.load.image('grass', '../../images/grass.png');
 
         // 0, 3, 6, 9, 12, 13, 14, 15
         // 下, 左, 上, 右, 蹲下(下), 蹲下(左), 蹲下(上), 蹲下(右)
@@ -190,7 +213,10 @@ window.GAME.initialize = function() {
         addBound(8, 8, 1, 2);
 
         // 加入 highlight
-        addTileHighlight(4, 1);
+        addTileHighlight(4, 1, 1, 4);
+
+        // 加入草叢
+        addGrass(8, 1, 1, 2);
     }
 
     // 當畫面更新時
@@ -294,14 +320,14 @@ window.GAME.initialize = function() {
         if (calcDistance(player, JADE) <= 150) {
             player.squat(); // 切換至蹲下的 frame
             isHoldJade = true;   
-            setTimeout(function() {
-                player.faceTo(player.facing); // 切換回至站起來的 frame
-                done();
-            }, STEP_TIME);
         } else {
             $('.hint-content p').text('請離玉石近一些，才能撿取玉石哦！');
-            setTimeout(done, STEP_TIME);
         }
+
+        setTimeout(function() {
+            player.faceTo(player.facing); // 切換回至站起來的 frame
+            done();
+        }, STEP_TIME);
     }
     window.GAME.player.putDownJade = function(done) {
         if (isHoldJade) { // 手上有玉石
@@ -309,12 +335,15 @@ window.GAME.initialize = function() {
                 handInJadeCount += 1;
                 isHoldJade = false;
             } else {
-                $('.hint-content p').text('請走到史前人面前才能繳交玉石哦！');
+                $('.hint-content p').text('請走到史前人面前放下玉石哦！');
             }
         } else { // 手上沒玉石
             $('.hint-content p').text('請先至河中檢取玉石哦！');
         }
         
-        setTimeout(done, STEP_TIME);
+        setTimeout(function() {
+            player.faceTo(player.facing); // 切換回至站起來的 frame
+            done();
+        }, STEP_TIME);
     }
 };
