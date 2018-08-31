@@ -8,7 +8,7 @@ window.GAME.initialize = function() {
     var TILT_SIZE = 100; // 每個 TILE (正方形)的大小
 
     // 預設玩家位置
-    var DEFAULT_PLAYER = { x: 5.5 * TILT_SIZE, y: 7.5 * TILT_SIZE, frame: 6 };
+    var DEFAULT_PLAYER = { x: 1.5 * TILT_SIZE, y: 8.5 * TILT_SIZE, frame: 6 };
 
     // 選擇的角色
     var SELECTED_CHARACTER = localStorage.getItem('selectedCharacter') || 'child-a';
@@ -71,11 +71,18 @@ window.GAME.initialize = function() {
 
     // Add tile highlight
     // 標示出目標區塊
-    function addTileHighlight(row, column) {
-        var tileHighlight = backgroundLayer.create((column+0.5)*TILT_SIZE, (row+0.5)*TILT_SIZE, 'tile-highlight');
-        tileHighlight.scale.setTo(TILT_SIZE / tileHighlight.width);
-        tileHighlight.anchor.x = 0.5;
-        tileHighlight.anchor.y = 0.5;
+    function addTileHighlight(startRow, startColumn, rowSpan, columnSpan) {
+        for(var rowOffset = 0; rowOffset < rowSpan; rowOffset++) {
+            for(var columnOffset = 0; columnOffset < columnSpan; columnOffset++) {
+                var y = (startRow + rowOffset + 0.5) * TILT_SIZE;
+                var x = (startColumn + columnOffset + 0.5) * TILT_SIZE;
+
+                var tileHighlight = backgroundLayer.create(x, y, 'tile-highlight');
+                tileHighlight.scale.setTo(TILT_SIZE / tileHighlight.width);
+                tileHighlight.anchor.x = 0.5;
+                tileHighlight.anchor.y = 0.5;
+            }
+        }
     }
 
     // 加入草叢
@@ -114,7 +121,7 @@ window.GAME.initialize = function() {
 
     // 建立 npc 角色
     function createNPC() {
-        npc = backgroundLayer.create(5.5*TILT_SIZE, 4.5*TILT_SIZE, 'npc-1')
+        npc = backgroundLayer.create(1.5*TILT_SIZE, 3.5*TILT_SIZE, 'npc-1')
         npc.scale.setTo(TILT_SIZE / npc.width);
         npc.anchor.x = 0.5;
         npc.anchor.y = 0.85;
@@ -155,16 +162,10 @@ window.GAME.initialize = function() {
         // 建立 NPC 角色
         createNPC();
 
-        // 設定地圖邊界
-        addBound(0, 7, 10, 3);
-        addBound(0, 0, 8, 3);
-        addBound(5, 6, 1, 1)
-        addBound(8, 0, 2, 2);
-        addBound(0, 3, 6, 1);
-        addBound(1, 4, 2, 1);
+        addTileHighlight(4, 1, 4, 1);
         
         // 加入草叢
-        addGrass(6, 3, 4, 4);
+        addGrass(8, 1, 1, 2);
     }
 
     // 當畫面更新時
