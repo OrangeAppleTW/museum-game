@@ -14,7 +14,7 @@ window.GAME.initialize = function() {
     var SELECTED_CHARACTER = localStorage.getItem('selectedCharacter') || 'child-a';
 
     // 台灣玉位置
-    var JADE =  { x: 5 * TILT_SIZE, y: 3.5 * TILT_SIZE };
+    var JADE =  { x: 4.5 * TILT_SIZE, y: 4.5 * TILT_SIZE };
     
     // 是否拿著玉石
     var isHoldJade = false;
@@ -213,7 +213,7 @@ window.GAME.initialize = function() {
         addBound(8, 8, 1, 2);
 
         // 加入 highlight
-        addTileHighlight(4, 1, 1, 4);
+        addTileHighlight(4, 2, 1, 2);
 
         // 加入草叢
         addGrass(8, 1, 1, 2);
@@ -316,8 +316,8 @@ window.GAME.initialize = function() {
         setTimeout(done, STEP_TIME);
     }
     window.GAME.player.pickUpJade = function(done) {
-        // 玩家距離玉石 150px，就可以撿取玉石
-        if (calcDistance(player, JADE) <= 150) {
+        // 玩家距離玉石 100px，就可以撿取玉石
+        if (calcDistance(player, JADE) == 100.0) {
             player.squat(); // 切換至蹲下的 frame
             isHoldJade = true;   
         } else {
@@ -329,6 +329,7 @@ window.GAME.initialize = function() {
             done();
         }, STEP_TIME);
     }
+
     window.GAME.player.putDownJade = function(done) {
         if (isHoldJade) { // 手上有玉石
             if (calcDistance(player, npc) === 100.0) {
