@@ -8,7 +8,7 @@ window.GAME.initialize = function() {
     var TILT_SIZE = 100; // 每個 TILE (正方形)的大小
 
     // 預設玩家位置
-    var DEFAULT_PLAYER = { x: 8.5*TILT_SIZE, y: 9.5*TILT_SIZE, facing: 'left' };
+    var DEFAULT_PLAYER = { x: 7.5*TILT_SIZE, y: 9.5*TILT_SIZE, facing: 'up' };
 
     // 選擇的角色
     var SELECTED_CHARACTER = localStorage.getItem('selectedCharacter') || 'child-a';
@@ -67,11 +67,18 @@ window.GAME.initialize = function() {
 
     // Add tile highlight
     // 標示出目標區塊
-    function addTileHighlight(row, column) {
-        var tileHighlight = backgroundLayer.create((column+0.5)*TILT_SIZE, (row+0.5)*TILT_SIZE, 'tile-highlight');
-        tileHighlight.scale.setTo(TILT_SIZE / tileHighlight.width);
-        tileHighlight.anchor.x = 0.5;
-        tileHighlight.anchor.y = 0.5;
+    function addTileHighlight(startRow, startColumn, rowSpan, columnSpan) {
+        for(var rowOffset = 0; rowOffset < rowSpan; rowOffset++) {
+            for(var columnOffset = 0; columnOffset < columnSpan; columnOffset++) {
+                var y = (startRow + rowOffset + 0.5) * TILT_SIZE;
+                var x = (startColumn + columnOffset + 0.5) * TILT_SIZE;
+
+                var tileHighlight = backgroundLayer.create(x, y, 'tile-highlight');
+                tileHighlight.scale.setTo(TILT_SIZE / tileHighlight.width);
+                tileHighlight.anchor.x = 0.5;
+                tileHighlight.anchor.y = 0.5;
+            }
+        }
     }
 
     // 建立玩家角色
@@ -147,7 +154,7 @@ window.GAME.initialize = function() {
     }
 
     function createDeer() {
-        deer = backgroundLayer.create(2*TILT_SIZE, 8*TILT_SIZE, 'deer')
+        deer = middleLayer.create(2*TILT_SIZE, 8*TILT_SIZE, 'deer')
         deer.scale.setTo(TILT_SIZE / deer.width * 2.1);
         deer.anchor.x = 0.5;
         deer.anchor.y = 0.85;
@@ -155,7 +162,7 @@ window.GAME.initialize = function() {
 
     // 建立左下角的樹
     function createTree() {
-        tree = backgroundLayer.create(1*TILT_SIZE, 8.5*TILT_SIZE, 'tree')
+        tree = middleLayer.create(1*TILT_SIZE, 8.5*TILT_SIZE, 'tree')
         tree.scale.setTo(TILT_SIZE / tree.width * 2.1);
         tree.anchor.x = 0.5;
         tree.anchor.y = 0.85;
@@ -211,6 +218,10 @@ window.GAME.initialize = function() {
         addBound(8, 8, 1, 2);
         addBound(9, 3, 1, 2);
         addBound(6, 0, 3, 3);
+
+        addTileHighlight(2, 2, 4, 1);
+        addTileHighlight(5, 3, 1, 4);
+        addTileHighlight(5, 7, 4, 1);
     }
 
     // 當畫面更新時
