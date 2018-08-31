@@ -28,7 +28,11 @@ window.startChat = function(scenes, callback) {
                 timerId = null;
                 return;
             }
-            var text = scene.actor + "：" + scene.sentence;
+            var text = "";
+            if (scene.actor) {
+                text += scene.actor + "：";
+            }
+            text += scene.sentence;
             $chatContent.text(text);
             $chatContent.append('&nbsp;<i class="fas fa-caret-down fa-blink"></i>');
             timerId = null;
