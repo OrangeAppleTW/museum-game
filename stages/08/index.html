@@ -130,6 +130,41 @@
     </div>
     <!-- Chat Modal End -->
 
+     <!-- Target Selector Modal Start -->
+     <div class="modal selector-modal" id="target-selector-modal" data-backdrop="static" and data-keyboard="false" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <div class="d-flex h-100 w-100 flex-column">
+                        <h5 class="text-center" style="color: #36373a;">讓我們開始吧</h3>
+                        <h2 class="d-block text-center font-weight-bold my-3" style="color: #256224;">請先選擇要製作的玉器</h2>
+                        <div class="row no-gutters mx-3">
+                            <div class="col-6">
+                                <div class="selector-option">
+                                    <h4 class="font-weight-bold">玉管</h5>
+                                    <img class="w-100 mb-1" src="../../images/stages/08/jade-tube.jpg">
+                                    <div class="btn btn-block btn-custom text-center js-select-target" data-dismiss="modal" data-target="jade-tube">
+                                        選擇
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="selector-option">
+                                    <h4 class="text-center font-weight-bold">鈴型玉飾</h5>
+                                    <img class="w-100 mb-1" src="../../images/stages/08/bell-jade.jpg">
+                                    <div class="btn btn-block btn-custom text-center js-select-target" data-dismiss="modal" data-target="bell-jade">
+                                        選擇
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Target Selector Modal End -->
+
     <!-- Alert Modal Start -->
     <div class="modal alert-modal" id="alert-modal" data-backdrop="static" and data-keyboard="false" tabindex="-1" role="dialog">
         <div class="modal-dialog" role="document">
@@ -169,6 +204,7 @@
     <script src="./index.js"></script>
 
     <script>
+        
         // 初始化遊戲
         window.GAME.initialize();
         //設定對話背景圖與文字
@@ -190,7 +226,13 @@
             { actor: '現代人', sentence: '好' },
             { actor: '史前人', sentence: '除了人獸形玉玦，我們還有很多樣式的玉器，珍貴的鈴形玉串飾及獨特的玉管都值得你來挑戰看看，拿起工具，選擇你想製作的玉器吧！' }
         ];
-        window.startChat(scenes);
+        window.startChat(scenes, function() {
+            // 玉器選擇器
+            $('#target-selector-modal').modal('show');
+            $('.js-select-target').on('click', function() {
+                console.log('選擇：', $(this).data('target'));
+            })
+        });
     </script>
 </body>
 </html>

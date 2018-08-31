@@ -60,7 +60,7 @@ body {
 
 nav.header {
   background-color: #fcd58e;
-  background-image: url("../../images/nav-bg.png");
+  background-image: url("../images/nav-bg.png");
   background-size: cover;
   height: 70px;
   padding: 15px;
@@ -339,7 +339,7 @@ nav.header .stage-link > span.current {
   font-size: 1.125rem;
 }
 
-.characters-selector-modal .modal-dialog {
+.selector-modal .modal-dialog {
   max-width: 830px;
   width: 64.6875vw;
   -webkit-transform: translateY(-50%) !important;
@@ -348,18 +348,18 @@ nav.header .stage-link > span.current {
   margin: 0 auto !important;
 }
 
-.characters-selector-modal .modal-dialog .modal-content {
+.selector-modal .modal-dialog .modal-content {
   border: 4px solid #256224;
   background-color: #99C899;
 }
 
-.characters-selector-modal .modal-dialog .modal-content .modal-body {
+.selector-modal .modal-dialog .modal-content .modal-body {
   padding: 13px 0;
   max-height: 514px;
   height: 64.25vh;
 }
 
-.charactor-option {
+.selector-option {
   background-color: #0C450C;
   border-radius: 5px;
   padding: 8px;
@@ -368,15 +368,15 @@ nav.header .stage-link > span.current {
   height: 100%;
 }
 
-.charactor-option > h4 {
+.selector-option > h4 {
   color: #ffffff;
 }
 
-.charactor-option > img {
+.selector-option > img {
   height: calc(100% - 100px);
 }
 
-.charactor-option > .btn {
+.selector-option > .btn {
   background-color: #F29E30;
   color: #256224;
   font-size: 32px;
