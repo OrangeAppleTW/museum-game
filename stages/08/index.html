@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>第七關 - 史前國寶的誕生-磨製</title>
+    <title>第八關 - 變身史前玉器工匠</title>
     
     <!-- Libs Start -->
     <link rel="stylesheet" href="../../stylesheets/fontawesome-free-5.1.0.min.css">
@@ -78,7 +78,7 @@
                             <div class="col">
                                 <div class="d-flex w-100 h-100 align-items-center">
                                     <p>
-                                        請走到玉石和砥石所在的地方，然後進行磨製吧！
+                                        開始製作囉！記得先拿起石錘打剥原石，再逐步執行其他製玉技術
                                     </p>
                                 </div>
                             </div>
@@ -95,7 +95,13 @@
                         </div>
                     </div>
                     <xml id="blockly-toolbox" style="display: none">
-                        <block type="step_forward"></block>ㄨ
+                        <block type="step_forward"></block>
+                        <block type="turn_x"></block>
+                        <block type="repeat_n_times"></block>
+                        <block type="pick_up_tool"></block>
+                        <block type="hit_break"></block>
+                        <block type="mill"></block>
+                        <block type="drill"></block>
                         <block type="polish"></block>
                     </xml>
                     <xml xmlns="http://www.w3.org/1999/xhtml" id="blockly-workspace" style="display:none">
@@ -165,13 +171,24 @@
     <script>
         // 初始化遊戲
         window.GAME.initialize();
-
         //設定對話背景圖與文字
         var selectedCharacter = localStorage.getItem('selectedCharacter');
-        $('.chat-container > .scene').css('background-image', 'url(../../images/stages/07/chat-bg-1-'+ selectedCharacter +'.jpg)')
+        $('.chat-container > .scene').css('background-image', 'url(../../images/stages/08/light-door.jpg)')
         var scenes = [
-            { actor: '史前人', sentence: '很好！就是這種感覺，看到旁邊的那一塊砥石了嗎？有時我們會將玉器半成品放在砥石上磨擦來進行磨製這個技術，也會用手持的小砥石直接在半成品上磨製，你接著把這個玉器半成品來來回回的磨擦，讓他們更光滑漂亮一點。' },
-            { actor: '史前人', sentence: '一位厲害的工匠會適時將這些玉器製作技術交替進行，才能完成精美的玉器喔！' },
+            { actor: '', sentence: '<螢幕出現一道亮光>' },
+            { 
+                beforeScene: function() {
+                    $('.chat-container > .scene').css('background-image', 'url(../../images/stages/08/chat-bg-1-'+ selectedCharacter +'.jpg)')
+                },
+                actor: '史前人',
+                sentence: '你已經是個能掌握玉器製作技術的工匠了。看到這道光…阿！我知道了！' 
+            },
+            { actor: '現代人', sentence: '知道什麼？' },
+            { actor: '史前人', sentence: '你在來到這裡之前，是不是有撿到一顆石頭？' },
+            { actor: '現代人', sentence: '（摸摸口袋）欸..真的耶！你怎麼知道？這不就是臺灣玉嗎！什麼時候在口袋裡的？' },
+            { actor: '史前人', sentence: '… 我以前遇到過跟你一樣撿到臺灣玉後穿越時空來到我們部落的小朋友，當他認真學會我們的玉器製作技術，並用他撿到的臺灣玉原石完成玉器的製作，就可以回到未來了！你要不要也試試看？' },
+            { actor: '現代人', sentence: '好' },
+            { actor: '史前人', sentence: '除了人獸形玉玦，我們還有很多樣式的玉器，珍貴的鈴形玉串飾及獨特的玉管都值得你來挑戰看看，拿起工具，選擇你想製作的玉器吧！' }
         ];
         window.startChat(scenes);
     </script>

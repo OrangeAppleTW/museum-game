@@ -44,9 +44,11 @@ window.startChat = function(scenes, callback) {
         beforeScene();
         
         // 開始 scene
-        var actor = scene.actor + "：";
+        if (scene.actor) {
+            var actor = scene.actor + "：";
+            $chatContent.text(actor);
+        }
         var wordIdx = 0;
-        $chatContent.text(actor);
         function fillWord() {
             var word = scene.sentence[wordIdx];
             var currentText = $chatContent.text();

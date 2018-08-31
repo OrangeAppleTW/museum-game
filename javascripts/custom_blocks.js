@@ -159,6 +159,7 @@ Blockly.Blocks['mill'] = {
           .appendField("磨鋸");
       this.setColour('#986BFC');
       this.setPreviousStatement(true, null);
+      this.setNextStatement(true, null);
     }
 };
 Blockly.JavaScript['mill'] = function(block) {
@@ -177,6 +178,7 @@ Blockly.Blocks['hit_break'] = {
           .appendField("打剝");
       this.setColour('#986BFC');
       this.setPreviousStatement(true, null);
+      this.setNextStatement(true, null);
     }
 };
 Blockly.JavaScript['hit_break'] = function(block) {
@@ -195,6 +197,7 @@ Blockly.Blocks['drill'] = {
           .appendField("鑽孔");
       this.setColour('#986BFC');
       this.setPreviousStatement(true, null);
+      this.setNextStatement(true, null);
     }
 };
 Blockly.JavaScript['drill'] = function(block) {
@@ -213,6 +216,7 @@ Blockly.Blocks['polish'] = {
           .appendField("磨製");
       this.setColour('#986BFC');
       this.setPreviousStatement(true, null);
+      this.setNextStatement(true, null);
     }
 };
 Blockly.JavaScript['polish'] = function(block) {
