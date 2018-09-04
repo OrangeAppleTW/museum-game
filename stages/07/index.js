@@ -8,7 +8,7 @@ window.GAME.initialize = function () {
     var TILT_SIZE = 100; // 每個 TILE (正方形)的大小
 
     // 預設玩家位置
-    var DEFAULT_PLAYER = { x: 5.5 * TILT_SIZE, y: 1.5 * TILT_SIZE, facing: 'down' };
+    var DEFAULT_PLAYER = { x: 9.5 * TILT_SIZE, y: 9.5 * TILT_SIZE, facing: 'left' };
 
     // 選擇的角色
     var SELECTED_CHARACTER = localStorage.getItem('selectedCharacter') || 'child-a';
@@ -72,11 +72,18 @@ window.GAME.initialize = function () {
 
     // Add tile highlight
     // 標示出目標區塊
-    function addTileHighlight(row, column) {
-        var tileHighlight = backgroundLayer.create((column+0.5)*TILT_SIZE, (row+0.5)*TILT_SIZE, 'tile-highlight');
-        tileHighlight.scale.setTo(TILT_SIZE / tileHighlight.width);
-        tileHighlight.anchor.x = 0.5;
-        tileHighlight.anchor.y = 0.5;
+    function addTileHighlight(startRow, startColumn, rowSpan, columnSpan) {
+        for(var rowOffset = 0; rowOffset < rowSpan; rowOffset++) {
+            for(var columnOffset = 0; columnOffset < columnSpan; columnOffset++) {
+                var y = (startRow + rowOffset + 0.5) * TILT_SIZE;
+                var x = (startColumn + columnOffset + 0.5) * TILT_SIZE;
+
+                var tileHighlight = backgroundLayer.create(x, y, 'tile-highlight');
+                tileHighlight.scale.setTo(TILT_SIZE / tileHighlight.width);
+                tileHighlight.anchor.x = 0.5;
+                tileHighlight.anchor.y = 0.5;
+            }
+        }
     }
 
     // 建立玩家角色
@@ -120,6 +127,7 @@ window.GAME.initialize = function () {
                 this.facing = 'right';
             }
         }
+        player.faceTo(DEFAULT_PLAYER.facing);
 
         // 蹲下功能
         // 根據角色面朝方向決定切換到該方向的 frame
@@ -203,6 +211,15 @@ window.GAME.initialize = function () {
         addBound(4, 9, 1, 1);
         addBound(8, 8, 1, 2);
         addBound(8, 5, 1, 1);
+        addBound(4, 2, 1, 2);
+
+        addTileHighlight(9, 7, 1, 2);
+        addTileHighlight(7, 7, 2, 1);
+        addTileHighlight(7, 3, 1, 4);
+        addTileHighlight(5, 3, 2, 1);
+        addTileHighlight(5, 1, 1, 2);
+        addTileHighlight(2, 1, 3, 1);
+        addTileHighlight(2, 2, 1, 3);
     }
 
     // 當畫面更新時

@@ -8,7 +8,7 @@ window.GAME.initialize = function() {
     var TILT_SIZE = 100; // 每個 TILE (正方形)的大小
 
     // 預設玩家位置
-    var DEFAULT_PLAYER = { x: 7.5*TILT_SIZE, y: 9.5*TILT_SIZE, facing: 'up' };
+    var DEFAULT_PLAYER = { x: 3.5*TILT_SIZE, y: 8.5*TILT_SIZE, facing: 'up' };
 
     // 選擇的角色
     var SELECTED_CHARACTER = localStorage.getItem('selectedCharacter') || 'child-a';
@@ -220,8 +220,8 @@ window.GAME.initialize = function() {
         addBound(6, 0, 3, 3);
 
         addTileHighlight(2, 2, 4, 1);
-        addTileHighlight(5, 3, 1, 4);
-        addTileHighlight(5, 7, 4, 1);
+        addTileHighlight(5, 3, 1, 1);
+        addTileHighlight(6, 3, 2, 1);
     }
 
     // 當畫面更新時
