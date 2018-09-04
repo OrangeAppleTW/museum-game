@@ -147,6 +147,29 @@
     </div>
     <!-- Alert Modal End -->
 
+    <!-- Intro Modal Start -->
+    <div class="modal intro-modal" id="intro-modal" data-backdrop="static" and data-keyboard="false" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col">
+                        <img class="w-100" src="../../images/drill.jpg">
+                        <button class="btn mt-3 btn-block btn-custom" data-dismiss="modal">瞭解了</button>
+                    </div>
+                    <div class="col">
+                        <h3 class="intro-title">仍是謎團的史前鑽孔技術</h3>
+                        <p class="intro-description">
+                            動動腦筋，想像幾千年前的史前人要如何在石材上鑽出小小的孔洞？考古學家推測史前人用的鑽孔器是在鑽桿前端裝上硬度較高石材的鑽頭，鑽孔時裝在鑽桿的飛輪會帶動鑽頭加速轉動，並加入石英砂及水，才能在硬度高的臺灣玉上鑽出小孔。
+                        </p>
+                    </div>
+                </div>
+            </div>
+            </div>
+        </div>
+    </div>
+    <!-- Intro Modal End -->
+
     <!-- Libs Start -->
     <script src="../../javascripts/jquery-3.3.1.min.js"></script>
     <script src="../../javascripts/bootstrap.bundle-4.1.1.min.js"></script>
@@ -177,7 +200,7 @@
             { actor: '現代人', sentence: '好。' },
             { actor: '史前人', sentence: '鑽孔的步驟是...... (開始講解)' }
         ];
-        window.startChat(scenes);
+        window.startChat(scenes, function() { $('#intro-modal').modal('show'); });
     </script>
 </body>
 </html>
