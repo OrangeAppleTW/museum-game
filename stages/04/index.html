@@ -147,6 +147,54 @@
     </div>
     <!-- Alert Modal End -->
 
+    <!-- Intro Modal Start -->
+    <div class="modal intro-modal" id="intro-modal-1" data-backdrop="static" and data-keyboard="false" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col">
+                        <img class="w-100" src="../../images/humanoid-jade.jpg">
+                        <button class="btn mt-3 btn-block btn-custom" data-dismiss="modal">瞭解了</button>
+                    </div>
+                    <div class="col">
+                        <h3 class="intro-title">猜一猜人獸形玉玦的造形是什麼？獸身兩個小孔有什麼用？</h3>
+                        <p class="intro-description">
+                            人獸形玉玦造形像不像雙手叉著腰的兩個人，頭部頂著一隻獸？這隻神氣的動物考古學家覺得可能是豹呢！
+                            <br>
+                            這件人獸形玉玦耳飾獸身有斷裂，史前人在兩側各作一小孔繫上細線繼續配戴，二千多年前的史前人是不是很愛物惜物呢！
+                        </p>
+                    </div>
+                </div>
+            </div>
+            </div>
+        </div>
+    </div>
+    <!-- Intro Modal End -->
+
+    <!-- Intro Modal Start -->
+    <div class="modal intro-modal" id="intro-modal-2" data-backdrop="static" and data-keyboard="false" tabindex="-1" role="dialog">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col">
+                            <img class="w-100" src="../../images/hit-break.jpg">
+                            <button class="btn mt-3 btn-block btn-custom" data-dismiss="modal">瞭解了</button>
+                        </div>
+                        <div class="col">
+                            <h3 class="intro-title">什麼是打剝？會用什麼工具呢？</h3>
+                            <p class="intro-description">
+                                打剝是很古老的技術，1萬多年以前在臺灣的史前人就有使用。打剝的工具是石錘，史前人會以一手握著石錘，敲擊另一手拿著的石材，或者用石錘敲擊斜立在石砧上的石材，打剝成想要的形狀。史前人製造玉器時通常都是從打剝開始喔！
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                </div>
+            </div>
+        </div>
+        <!-- Intro Modal End -->
+    
     <!-- Libs Start -->
     <script src="../../javascripts/jquery-3.3.1.min.js"></script>
     <script src="../../javascripts/bootstrap.bundle-4.1.1.min.js"></script>
@@ -174,11 +222,31 @@
         $('.chat-container > .scene').css('background-image', 'url(../../images/stages/04/chat-bg-1-'+ selectedCharacter +'.jpg)')
         var scenes = [
             { actor: '史前人', sentence: '這裡是部落製作玉器的工坊，我們有高超的技術，製作的玉器都很精美哦！我現在要和大家一起做的是人獸形玉玦，你也來試試吧？' },
-            { actor: '現代人', sentence: '這我學的會嗎？' },
-            { actor: '史前人', sentence: '別緊張，不會很難的，來，我先教會你製玉的幾個基本技術，讓我們開始練習吧！' },
-            { actor: '史前人', sentence: '臺灣玉原石不容易取得，製作時要小心，別敲的太大力哦！' }
         ];
-        window.startChat(scenes);
+        // 開始對話
+        window.startChat(scenes, function() {
+             $('#intro-modal-1').modal('show'); // 對話結束時，開始人獸形玉玦介紹
+        });
+        // 人獸形玉玦介紹結束時，開始對話
+        $('#intro-modal-1').on('hidden.bs.modal', function() {
+            var scenes =  [
+                { actor: '現代人', sentence: '這我學的會嗎？' },
+                { actor: '史前人', sentence: '別緊張，不會很難的，來，我先教會你製玉的幾個基本技術，讓我們開始練習吧！' },
+            ];
+            window.startChat(scenes, function() {
+                $('#intro-modal-2').modal('show'); // 對話結束時，開始打剝介紹
+            });
+        });
+
+        // 打剝介紹結束時，開始對話
+        $('#intro-modal-2').on('hidden.bs.modal', function() {
+            var scenes = [
+                { actor: '史前人', sentence: '臺灣玉原石不容易取得，製作時要小心，別敲的太大力哦！' }
+            ];
+            window.startChat(scenes);
+        });
+
+        
     </script>
 </body>
 </html>
