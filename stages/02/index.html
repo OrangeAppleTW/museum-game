@@ -147,6 +147,31 @@
     </div>
     <!-- Alert Modal End -->
 
+    <!-- Intro Modal Start -->
+    <div class="modal intro-modal" id="intro-modal" data-backdrop="static" and data-keyboard="false" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col">
+                        <img class="w-100" src="../../images/taiwan-jade.jpg">
+                        <button class="btn mt-3 btn-block btn-custom" data-dismiss="modal">開始製作</button>
+                    </div>
+                    <div class="col">
+                        <h3 class="intro-title">什麼是臺灣玉？史前人用臺灣玉來做什麼呢？</h3>
+                        <p class="intro-description">
+                            臺灣玉是臺灣特有的玉石，產地在花蓮豐田地區，顏色翠綠夾帶的黑斑(因含有比例較高的鋅)是認出臺灣玉的記號喔！
+                            <br>
+                            卑南遺址的史前人很愛漂亮，會在產地附近溪流撿拾從山上沖刷下來的臺灣玉原石，用高超的工藝製成精美的玉飾。                                
+                        </p>
+                    </div>
+                </div>
+            </div>
+            </div>
+        </div>
+    </div>
+    <!-- Intro Modal End -->
+
     <!-- Libs Start -->
     <script src="../../javascripts/jquery-3.3.1.min.js"></script>
     <script src="../../javascripts/bootstrap.bundle-4.1.1.min.js"></script>
@@ -179,7 +204,9 @@
             { actor: '現代人', sentence: '不如我來幫你的忙吧？' },
             { actor: '史前人', sentence: '謝謝你，你人真好！溪裡有一些臺灣玉原石，那麻煩你去幫我那兒撿二顆「臺灣玉」回來。' }
         ];
-        window.startChat(scenes);
+        window.startChat(scenes, function() {
+            $('#intro-modal').modal('show');
+        });
     </script>
 </body>
 </html>
