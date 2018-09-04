@@ -146,6 +146,29 @@
     </div>
     <!-- Alert Modal End -->
 
+    <!-- Intro Modal Start -->
+    <div class="modal intro-modal" id="intro-modal" data-backdrop="static" and data-keyboard="false" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col">
+                        <img class="w-100" src="../../images/polish.jpg">
+                        <button class="btn mt-3 btn-block btn-custom" data-dismiss="modal">瞭解了</button>
+                    </div>
+                    <div class="col">
+                        <h3 class="intro-title">磨製的用處是什麼？會用什麼工具呢？</h3>
+                        <p class="intro-description">
+                                磨製能將石材磨平，也能讓石材表面變得光滑，用到的工具是砥石，史前人會以手拿著石材放在砥石上來回磋磨修飾石材，細微的部分就會用手持型的小砥石直接在石材上磋磨。史前人製作精緻的石器時，就會不時用到磨製這項技術喔！
+                        </p>
+                    </div>
+                </div>
+            </div>
+            </div>
+        </div>
+    </div>
+    <!-- Intro Modal End -->
+    
     <!-- Libs Start -->
     <script src="../../javascripts/jquery-3.3.1.min.js"></script>
     <script src="../../javascripts/bootstrap.bundle-4.1.1.min.js"></script>
@@ -175,7 +198,7 @@
             { actor: '史前人', sentence: '很好！就是這種感覺，看到旁邊的那一塊砥石了嗎？有時我們會將玉器半成品放在砥石上磨擦來進行磨製這個技術，也會用手持的小砥石直接在半成品上磨製，你接著把這個玉器半成品來來回回的磨擦，讓他們更光滑漂亮一點。' },
             { actor: '史前人', sentence: '一位厲害的工匠會適時將這些玉器製作技術交替進行，才能完成精美的玉器喔！' },
         ];
-        window.startChat(scenes);
+        window.startChat(scenes, function() { $('#intro-modal').modal('show'); });
     </script>
 </body>
 </html>
