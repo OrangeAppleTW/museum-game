@@ -170,7 +170,7 @@
         window.GAME.initialize();
 
         //設定對話背景圖與文字
-        var selectedCharacter = localStorage.getItem('selectedCharacter');
+        var selectedCharacter = localStorage.getItem('selectedCharacter') || 'child-a';
         $('.chat-container > .scene').css('background-image', 'url(../../images/stages/04/chat-bg-1-'+ selectedCharacter +'.jpg)')
         var scenes = [
             { actor: '史前人', sentence: '這裡是部落製作玉器的工坊，我們有高超的技術，製作的玉器都很精美哦！我現在要和大家一起做的是人獸形玉玦，你也來試試吧？' },

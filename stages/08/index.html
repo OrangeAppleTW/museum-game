@@ -208,7 +208,7 @@
         // 初始化遊戲
         window.GAME.initialize();
         //設定對話背景圖與文字
-        var selectedCharacter = localStorage.getItem('selectedCharacter');
+        var selectedCharacter = localStorage.getItem('selectedCharacter') || 'child-a';
         $('.chat-container > .scene').css('background-image', 'url(../../images/stages/08/light-door.jpg)')
         var scenes = [
             { actor: '', sentence: '<螢幕出現一道亮光>' },

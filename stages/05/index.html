@@ -170,7 +170,7 @@
         window.GAME.initialize();
 
         // 設定對話背景圖與文字
-        var selectedCharacter = localStorage.getItem('selectedCharacter');
+        var selectedCharacter = localStorage.getItem('selectedCharacter') || 'child-a';
         $('.chat-container > .scene').css('background-image', 'url(../../images/stages/05/chat-bg-1-'+ selectedCharacter +'.jpg)')
         var scenes = [
             { actor: '史前人', sentence: '你很有天份嘛，不錯啊！接著來試試看「鋸崩」，鋸崩是....（簡介)' },

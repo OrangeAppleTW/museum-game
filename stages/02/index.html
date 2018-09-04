@@ -170,7 +170,7 @@
         window.GAME.initialize();
 
         // 設定對話背景圖與文字
-        var selectedCharacter = localStorage.getItem('selectedCharacter');
+        var selectedCharacter = localStorage.getItem('selectedCharacter') || 'child-a';
         $('.chat-container > .scene').css('background-image', 'url(../../images/stages/02/chat-bg-1-'+ selectedCharacter +'.jpg)')
         var scenes = [
             { actor: '史前人', sentence: '呼，原來是人啊！我剛剛忙著找東西，實在太緊張了，沒嚇到你吧？' },
