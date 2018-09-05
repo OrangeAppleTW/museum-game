@@ -185,6 +185,56 @@
     </div>
     <!-- Alert Modal End -->
 
+    <!-- Intro Modal Start -->
+    <div class="modal intro-modal" id="intro-modal-1" data-backdrop="static" and data-keyboard="false" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col">
+                        <img class="w-100" src="../../images/stages/08/jade-tube.jpg">
+                        <button class="btn mt-3 btn-block btn-custom" data-dismiss="modal">瞭解了</button>
+                    </div>
+                    <div class="col">
+                        <h3 class="intro-title">猜一猜玉管的用處是什麼呢？</h3>
+                        <p class="intro-description">
+                            玉管造形有方有圓、有長有短，中間有細孔貫穿；長長的玉管像不像吸管呢？玉管是史前人的飾品，他們會把數件玉管貫穿成一串，佩戴在胸前喔！
+                            <br>
+                            這組玉管有5件，那麼細長的玉管中間還有小孔連通，二千多年前的史前人製作玉器的技術是不是很高超呢！                            
+                        </p>
+                    </div>
+                </div>
+            </div>
+            </div>
+        </div>
+    </div>
+    <!-- Intro Modal End -->
+
+    <!-- Intro Modal Start -->
+    <div class="modal intro-modal" id="intro-modal-2" data-backdrop="static" and data-keyboard="false" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col">
+                        <img class="w-100" src="../../images/stages/08/bell-jade.jpg">
+                        <button class="btn mt-3 btn-block btn-custom" data-dismiss="modal">瞭解了</button>
+                    </div>
+                    <div class="col">
+                        <h3 class="intro-title">猜猜看鈴形玉串飾史前人是佩戴在哪裡呢？</h3>
+                        <p class="intro-description">
+                            玉鈴非常細小，只有0.7公分甚至更小；史前人會以條狀玉材切成小塊，逐一磨成鈴形，再在這麼小的玉鈴上鑽出小孔，串連後成為飾品。
+                            <br>
+                            這組鈴形玉串飾是在卑南遺址石板棺墓主的頭部發現，所以考古學家推測鈴形玉串飾是史前人戴在頭上的飾品喔！                             
+                        </p>
+                    </div>
+                </div>
+            </div>
+            </div>
+        </div>
+    </div>
+    <!-- Intro Modal End -->
+
     <!-- Libs Start -->
     <script src="../../javascripts/jquery-3.3.1.min.js"></script>
     <script src="../../javascripts/bootstrap.bundle-4.1.1.min.js"></script>
@@ -230,8 +280,14 @@
             // 玉器選擇器
             $('#target-selector-modal').modal('show');
             $('.js-select-target').on('click', function() {
-                console.log('選擇：', $(this).data('target'));
-            })
+                var selectedItem = $(this).data('target');
+                console.log(selectedItem);
+                if(selectedItem === 'jade-tube') {
+                    $('#intro-modal-1').modal('show');
+                } else if (selectedItem === 'bell-jade') {
+                    $('#intro-modal-2').modal('show');
+                }
+            });
         });
     </script>
 </body>
