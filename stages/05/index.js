@@ -333,7 +333,7 @@ window.GAME.initialize = function () {
 
     window.GAME.player.mill = function (done) {
         if (schist.visible) {
-            $('.hint-content p').text('要先拿到片岩後，才能進行磨鋸哦！');
+            $('.hint-content p').text('要先拿到片岩後，才能進行鋸崩哦！');
         } else {
             // 判斷是否到達玉石的位置
             var workspaces = [
@@ -350,7 +350,7 @@ window.GAME.initialize = function () {
             if (isReachWorkspace) {
                 isMilled = true;
             } else {
-                $('.hint-content p').text('要先走到玉石所在的位置，才能進行磨鋸哦！');
+                $('.hint-content p').text('要先走到玉石所在的位置，才能進行鋸崩哦！');
             }
         }
 

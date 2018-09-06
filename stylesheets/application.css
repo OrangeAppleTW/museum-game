@@ -356,7 +356,6 @@ nav.header .stage-link > span.current {
 .selector-modal .modal-dialog .modal-content .modal-body {
   padding: 13px 0;
   max-height: 514px;
-  height: 64.25vh;
 }
 
 .selector-option {
@@ -426,6 +425,7 @@ nav.header .stage-link > span.current {
 }
 
 .intro-modal .modal-dialog .modal-content {
+  padding: 2rem 1rem;
   border: 4px solid #337633;
   background-color: #98c997;
 }

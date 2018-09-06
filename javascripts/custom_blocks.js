@@ -156,7 +156,7 @@ function initInterpreterPickUpTool(interpreter, scope) {
 Blockly.Blocks['mill'] = {
     init: function() {
       this.appendDummyInput()
-          .appendField("磨鋸");
+          .appendField("鋸崩");
       this.setColour('#986BFC');
       this.setPreviousStatement(true, null);
       this.setNextStatement(true, null);
