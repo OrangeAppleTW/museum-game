@@ -213,7 +213,7 @@ window.GAME.initialize = function () {
 
         addTileHighlight(4, 7, 5, 1);
         addTileHighlight(8, 4, 1, 3);
-        addTileHighlight(7, 4, 1, 1);
+        addTileHighlight(7, 3, 1, 2);
     }
 
     // 當畫面更新時

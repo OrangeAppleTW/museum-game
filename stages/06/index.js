@@ -145,8 +145,8 @@ window.GAME.initialize = function () {
     }
 
     function createTools() {
-        // 砥石
-        whetstone = middleLayer.create(3.5*TILT_SIZE, 9.5*TILT_SIZE, 'whetstone')
+        // 石鎚
+        whetstone = middleLayer.create(3.5*TILT_SIZE, 9.5*TILT_SIZE, 'hammer')
         whetstone.anchor.x = 0.5;
         whetstone.anchor.y = 0.5;
         whetstone.scale.setTo(TILT_SIZE / whetstone.width);
@@ -169,7 +169,7 @@ window.GAME.initialize = function () {
         game.load.image('map', '../../images/stages/06/map.jpg');
 
         //Preload Tool Image
-        game.load.image('whetstone', '../../images/tools/whetstone.png');
+        game.load.image('hammer', '../../images/tools/hammer.png');
         game.load.image('schist', '../../images/tools/schist.png');
         game.load.image('drill', '../../images/tools/drill.png');
         game.load.image('tile-highlight', '../../images/tile-highlight.png');

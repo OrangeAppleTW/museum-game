@@ -436,7 +436,7 @@ nav.header .stage-link > span.current {
 
 .intro-modal .modal-dialog .modal-content .modal-body .intro-title {
   font-size: 2rem;
-  font-weight: normal;
+  font-weight: bold;
   color: #084607;
 }
 
@@ -448,6 +448,6 @@ nav.header .stage-link > span.current {
 
 .intro-modal .modal-dialog .modal-content .modal-body .btn-custom {
   background-color: #f49f1a;
-  color: #084607 !important;
+  color: #fff !important;
 }
 /*# sourceMappingURL=application.css.map */
