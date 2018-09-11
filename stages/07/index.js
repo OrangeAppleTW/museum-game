@@ -207,7 +207,7 @@ window.GAME.initialize = function () {
         addBound(0, 6, 2, 2);
         addBound(0, 9, 1, 1);
         addBound(5, 4, 1, 2);
-        addBound(3, 4, 1, 3);
+        addBound(3, 3, 1, 3);
         addBound(4, 9, 1, 1);
         addBound(8, 8, 1, 2);
         addBound(8, 5, 1, 1);
@@ -325,9 +325,9 @@ window.GAME.initialize = function () {
     window.GAME.player.polish = function (done) {
         // 判斷是否到達玉石/砥石的位置
         var workspaces = [
+            { x: 3.5*TILT_SIZE, y: 3.5*TILT_SIZE },
             { x: 4.5*TILT_SIZE, y: 3.5*TILT_SIZE },
-            { x: 5.5*TILT_SIZE, y: 3.5*TILT_SIZE },
-            { x: 6.5*TILT_SIZE, y: 3.5*TILT_SIZE }
+            { x: 5.5*TILT_SIZE, y: 3.5*TILT_SIZE }
         ];
         var isReachWorkspace = false; 
         for(var i = 0; i < workspaces.length; i++) {

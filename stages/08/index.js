@@ -8,7 +8,7 @@ window.GAME.initialize = function () {
     var TILT_SIZE = 100; // 每個 TILE (正方形)的大小
 
     // 預設玩家位置
-    var DEFAULT_PLAYER = { x: 1.5 * TILT_SIZE, y: 3.5 * TILT_SIZE, facing: 'right' };
+    var DEFAULT_PLAYER = { x: 3.5 * TILT_SIZE, y: 3.5 * TILT_SIZE, facing: 'down' };
 
     // 選擇的角色
     var SELECTED_CHARACTER = localStorage.getItem('selectedCharacter') || 'child-a';
@@ -45,12 +45,6 @@ window.GAME.initialize = function () {
     var schist; // 片岩
     var drill; //鑽孔器
     var bounds = []; // 邊界
-    var workspaces = [
-        { x: 4.5*TILT_SIZE, y: 3.5*TILT_SIZE },
-        { x: 5.5*TILT_SIZE, y: 3.5*TILT_SIZE },
-        { x: 6.5*TILT_SIZE, y: 3.5*TILT_SIZE }
-    ]; // 工作區
-
     var resetSignal = new Phaser.Signal(); // 重設遊戲 event
 
     // 是否執行磨製成功
@@ -58,15 +52,6 @@ window.GAME.initialize = function () {
     var isMilled = false;
     var isDrilled = false;
     var isPolished = false;
-
-    function isReachWorkspace() {
-        for(var i = 0; i < workspaces.length; i++) {
-            var workspace = workspaces[i];
-            if (calcDistance(player, workspace) === 100.0) return true;
-        }
-
-        return false;
-    }
 
     // 計算兩個 sprite 間距離（單位 px)
     function calcDistance(sprite1, spirte2) {
@@ -89,11 +74,34 @@ window.GAME.initialize = function () {
 
     // Add tile highlight
     // 標示出目標區塊
-    function addTileHighlight(row, column) {
-        var tileHighlight = backgroundLayer.create((column+0.5)*TILT_SIZE, (row+0.5)*TILT_SIZE, 'tile-highlight');
-        tileHighlight.scale.setTo(TILT_SIZE / tileHighlight.width);
-        tileHighlight.anchor.x = 0.5;
-        tileHighlight.anchor.y = 0.5;
+    function addTileHighlight(startRow, startColumn, rowSpan, columnSpan) {
+        for(var rowOffset = 0; rowOffset < rowSpan; rowOffset++) {
+            for(var columnOffset = 0; columnOffset < columnSpan; columnOffset++) {
+                var y = (startRow + rowOffset + 0.5) * TILT_SIZE;
+                var x = (startColumn + columnOffset + 0.5) * TILT_SIZE;
+
+                var tileHighlight = backgroundLayer.create(x, y, 'tile-highlight');
+                tileHighlight.scale.setTo(TILT_SIZE / tileHighlight.width);
+                tileHighlight.anchor.x = 0.5;
+                tileHighlight.anchor.y = 0.5;
+            }
+        }
+    }
+    
+    // Add tile highlight
+    // 標示出目標區塊
+    function addTileHighlightYellow(startRow, startColumn, rowSpan, columnSpan) {
+        for(var rowOffset = 0; rowOffset < rowSpan; rowOffset++) {
+            for(var columnOffset = 0; columnOffset < columnSpan; columnOffset++) {
+                var y = (startRow + rowOffset + 0.5) * TILT_SIZE;
+                var x = (startColumn + columnOffset + 0.5) * TILT_SIZE;
+
+                var tileHighlight = backgroundLayer.create(x, y, 'tile-highlight-yellow');
+                tileHighlight.scale.setTo(TILT_SIZE / tileHighlight.width);
+                tileHighlight.anchor.x = 0.5;
+                tileHighlight.anchor.y = 0.5;
+            }
+        }
     }
 
     // 建立玩家角色
@@ -155,19 +163,19 @@ window.GAME.initialize = function () {
 
     function createTools() {
         // 石鎚
-        hammer = middleLayer.create(1.5*TILT_SIZE, 4.5*TILT_SIZE, 'hammer')
+        hammer = middleLayer.create(2.5*TILT_SIZE, 4.5*TILT_SIZE, 'hammer')
         hammer.anchor.x = 0.5;
         hammer.anchor.y = 0.5;
         hammer.scale.setTo(TILT_SIZE / hammer.width);
         
         // 片岩
-        schist = middleLayer.create(2.5*TILT_SIZE, 4.5*TILT_SIZE, 'schist')
+        schist = middleLayer.create(3.5*TILT_SIZE, 7.5*TILT_SIZE, 'schist')
         schist.anchor.x = 0.5;
         schist.anchor.y = 0.5;
         schist.scale.setTo(TILT_SIZE / schist.width);
 
         // 鑽孔器
-        drill = middleLayer.create(3.5*TILT_SIZE, 4.5*TILT_SIZE, 'drill')
+        drill = middleLayer.create(6.5*TILT_SIZE, 7.5*TILT_SIZE, 'drill')
         drill.anchor.x = 0.5;
         drill.anchor.y = 0.25;
         drill.scale.setTo(TILT_SIZE / drill.width);
@@ -182,6 +190,7 @@ window.GAME.initialize = function () {
         game.load.image('schist', '../../images/tools/schist.png');
         game.load.image('drill', '../../images/tools/drill.png');
         game.load.image('tile-highlight', '../../images/tile-highlight.png');
+        game.load.image('tile-highlight-yellow', '../../images/tile-highlight-yellow.png');
 
         // 0, 3, 6, 9, 12, 13, 14, 15
         // 下, 左, 上, 右, 蹲下(下), 蹲下(左), 蹲下(上), 蹲下(右)
@@ -215,12 +224,19 @@ window.GAME.initialize = function () {
         addBound(0, 5, 1, 1);
         addBound(0, 6, 2, 2);
         addBound(0, 9, 1, 1);
-        addBound(5, 4, 1, 2);
-        addBound(3, 4, 1, 3);
-        addBound(4, 9, 1, 1);
-        addBound(8, 8, 1, 2);
-        addBound(4, 1, 1, 3);
-        addBound(5, 3, 1, 1);
+        addBound(5, 4, 1, 3);
+        addBound(4, 2, 1, 1);
+        addBound(7, 3, 1, 1);
+        addBound(7, 6, 2, 1);
+
+        addTileHighlight(4,3,1,1);
+        addTileHighlightYellow(5,3,1,1);
+        addTileHighlight(6,3,1,1);
+        addTileHighlightYellow(6,4,1,1);
+        addTileHighlight(6,5,1,3);
+        addTileHighlightYellow(5,7,1,1);
+        addTileHighlight(4,6,1,2);
+        addTileHighlightYellow(4,5,1,1);
     }
 
     // 當畫面更新時
@@ -349,7 +365,7 @@ window.GAME.initialize = function () {
         if (hammer.visible) {
             $('.hint-content p').text('要先拿到石鎚後，才能進行打剝哦！');
         } else {
-            if (isReachWorkspace()) {
+            if (calcDistance(player, { x: 4.5*TILT_SIZE, y: 5.5*TILT_SIZE }) == 100.0) {
                 player.squat();
                 isHitBreak = true;
             } else {
@@ -372,7 +388,7 @@ window.GAME.initialize = function () {
         if (schist.visible) {
             $('.hint-content p').text('要先拿到片岩後，才能進行磨鋸哦！');
         } else {
-            if (isReachWorkspace()) {
+            if (calcDistance(player, { x: 4.5*TILT_SIZE, y: 5.5*TILT_SIZE }) == 100.0) {
                 isMilled = true;
             } else {
                 $('.hint-content p').text('要先走到玉石所在的位置，才能進行磨鋸哦！');
@@ -394,7 +410,7 @@ window.GAME.initialize = function () {
         if (drill.visible) {
             $('.hint-content p').text('要先拿到鑽孔器後，才能進行鑽孔哦！');
         } else {
-            if (isReachWorkspace()) {
+            if (calcDistance(player, { x: 6.5*TILT_SIZE, y: 5.5*TILT_SIZE }) == 100.0) {
                 player.squat();
                 isDrilled = true;
             } else {
@@ -414,7 +430,7 @@ window.GAME.initialize = function () {
             return done();
         }
 
-        if (isReachWorkspace()) {
+        if (calcDistance(player, { x: 5.5*TILT_SIZE, y: 5.5*TILT_SIZE }) == 100.0) {
             player.squat();
             isPolished = true;
         } else {
