@@ -247,7 +247,7 @@ window.GAME.initialize = function() {
         var $alertModal = $('#alert-modal');
 
         if (handInJadeCount !== 1) {
-            $alertModal.find('.content').text("任務失敗\n\n請至河中撿取一顆「台灣玉」並交回給史前人哦！");
+            $alertModal.find('.content').text("任務失敗\n\n請至河中撿取一顆台灣玉並拿回去給史前人哦！");
         } else {
             $alertModal.find('.content').text('完成第二關，恭喜！');
             $alertModal.find('.next-stage').show();

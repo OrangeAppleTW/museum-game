@@ -273,9 +273,17 @@ window.GAME.initialize = function () {
     window.GAME.validate = function () {
         var $alertModal = $('#alert-modal');
         if (isHitBreak && isMilled && isDrilled && isPolished) {
-            $alertModal.find('.content').text('完成第八關，恭喜！');
-            // $alertModal.find('.next-stage').show();
-            $alertModal.modal('show');
+
+            var scenes = [
+                { actor: '史前人', sentence: '恭喜你，你已經是個非常優秀的工匠了，帶著我們的故事回到未來吧，也請你幫我看看這些我們精心製作的寶物是否好好的留存著…' },
+                { actor: '', sentence: '...<螢幕出現視窗> 主角旋轉+回到了現代世界' }
+            ]
+
+            window.startChat(scenes, function() {
+                $alertModal.find('.content').text('完成第八關，恭喜！');
+                // $alertModal.find('.next-stage').show();
+                $alertModal.modal('show');
+            });
         } else {
             $alertModal.find('.content').text('任務失敗');
             $alertModal.modal('show');

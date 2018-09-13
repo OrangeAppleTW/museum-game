@@ -322,7 +322,7 @@ window.GAME.initialize = function () {
         if (calcDistance(player, schist) === 100.0) {
             schist.visible = false;
         } else {
-            $('.hint-content p').text('請先走到片岩旁邊，才能撿取哦！');
+            $('.hint-content p').text('請先走到石鋸片旁邊，才能撿取哦！');
         }
         
         setTimeout(function() {
@@ -333,7 +333,7 @@ window.GAME.initialize = function () {
 
     window.GAME.player.mill = function (done) {
         if (schist.visible) {
-            $('.hint-content p').text('要先拿到片岩後，才能進行鋸崩哦！');
+            $('.hint-content p').text('要先拿到石鋸片後，才能進行鋸崩哦！');
         } else {
             // 判斷是否到達玉石的位置
             var workspaces = [

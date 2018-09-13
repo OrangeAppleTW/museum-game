@@ -78,7 +78,7 @@
                             <div class="col">
                                 <div class="d-flex w-100 h-100 align-items-center">
                                     <p>
-                                        撿起片岩，然後走向玉器半成品進行鋸崩吧！
+                                        撿起石鋸片，然後走向工作區進行鋸崩吧！
                                     </p>
                                 </div>
                             </div>
@@ -196,8 +196,7 @@
         var selectedCharacter = localStorage.getItem('selectedCharacter') || 'child-a';
         $('.chat-container > .scene').css('background-image', 'url(../../images/stages/05/chat-bg-1-'+ selectedCharacter +'.jpg)')
         var scenes = [
-            { actor: '史前人', sentence: '你很有天份嘛，不錯啊！接著來試試看「鋸崩」，鋸崩是....（簡介)' },
-            { actor: '史前人', sentence: '為了把這個步驟做好，你需要...... (開始講解)' },
+            { actor: '史前人', sentence: '你很有天份嘛，不錯啊！接著來試試看「鋸崩」' }
         ];
         window.startChat(scenes, function() { $('#intro-modal').modal('show'); });
     </script>

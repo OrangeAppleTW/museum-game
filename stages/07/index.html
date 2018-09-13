@@ -195,8 +195,7 @@
         var selectedCharacter = localStorage.getItem('selectedCharacter') || 'child-a';
         $('.chat-container > .scene').css('background-image', 'url(../../images/stages/07/chat-bg-1-'+ selectedCharacter +'.jpg)')
         var scenes = [
-            { actor: '史前人', sentence: '很好！就是這種感覺，看到旁邊的那一塊砥石了嗎？有時我們會將玉器半成品放在砥石上磨擦來進行磨製這個技術，也會用手持的小砥石直接在半成品上磨製，你接著把這個玉器半成品來來回回的磨擦，讓他們更光滑漂亮一點。' },
-            { actor: '史前人', sentence: '一位厲害的工匠會適時將這些玉器製作技術交替進行，才能完成精美的玉器喔！' },
+            { actor: '史前人', sentence: '很好！就是這種感覺，看到旁邊的那一塊砥石了嗎？有時我們會將玉器半成品放在砥石上磨擦來進行磨製這個技術，也會用手持的小砥石直接在半成品上磨製，你接著把這個玉器半成品來來回回的磨擦，讓他們更光滑漂亮一點。' }
         ];
         window.startChat(scenes, function() { $('#intro-modal').modal('show'); });
     </script>
