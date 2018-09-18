@@ -251,7 +251,7 @@ window.GAME.initialize = function () {
             $alertModal.find('.next-stage').show();
             $alertModal.modal('show');
         } else {
-            $alertModal.find('.content').text('任務失敗');
+            $alertModal.find('.content').text("任務失敗\n\n撿起石鋸片，然後走向工作區進行鋸崩吧！");
             $alertModal.modal('show');
         }
     };
