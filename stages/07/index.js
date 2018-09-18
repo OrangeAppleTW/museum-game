@@ -257,7 +257,7 @@ window.GAME.initialize = function () {
             $alertModal.find('.next-stage').show();
             $alertModal.modal('show');
         } else {
-            $alertModal.find('.content').text('任務失敗');
+            $alertModal.find('.content').text("任務失敗\n\n請走到玉石和砥石所在的地方，然後進行磨製吧！");
             $alertModal.modal('show');
         }
     };
