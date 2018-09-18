@@ -285,7 +285,7 @@ window.GAME.initialize = function () {
                 $alertModal.modal('show');
             });
         } else {
-            $alertModal.find('.content').text('任務失敗');
+            $alertModal.find('.content').text("任務失敗\n\n要依序在黃巴區塊執行打剝、鋸崩、鑽孔及磨製 4 項技術才能過關喔！");
             $alertModal.modal('show');
         }
     };
