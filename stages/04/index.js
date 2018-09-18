@@ -41,7 +41,7 @@ window.GAME.initialize = function () {
     var frontLayer;
 
     var player; // 玩家角色
-    var hammer; // 石鎚
+    var hammer; // 石錘
     var schist; // 片岩
     var drill; //鑽孔器
     var bounds = []; // 邊界
@@ -145,7 +145,7 @@ window.GAME.initialize = function () {
     }
 
     function createTools() {
-        // 石鎚
+        // 石錘
         hammer = middleLayer.create(3.5*TILT_SIZE, 9.5*TILT_SIZE, 'hammer')
         hammer.anchor.x = 0.5;
         hammer.anchor.y = 0.5;
@@ -251,7 +251,7 @@ window.GAME.initialize = function () {
             $alertModal.find('.next-stage').show();
             $alertModal.modal('show');
         } else {
-            $alertModal.find('.content').text('任務失敗');
+            $alertModal.find('.content').text("任務失敗\n\n撿起石錘，然後走向工作區進行打剝吧！");
             $alertModal.modal('show');
         }
     };
@@ -322,7 +322,7 @@ window.GAME.initialize = function () {
         if (calcDistance(player, hammer) === 100.0) {
             hammer.visible = false;
         } else {
-            $('.hint-content p').text('請先走到石鎚旁邊，才能撿取哦！');
+            $('.hint-content p').text('請先走到石錘旁邊，才能撿取哦！');
         }
         
         setTimeout(function() {
@@ -333,7 +333,7 @@ window.GAME.initialize = function () {
 
     window.GAME.player.hitBreak = function (done) {
         if (hammer.visible) {
-            $('.hint-content p').text('要先拿到石鎚後，才能進行打剝哦！');
+            $('.hint-content p').text('要先拿到石錘後，才能進行打剝哦！');
         } else {
             // 判斷是否到達玉石的位置
             var workspaces = [
