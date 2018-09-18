@@ -252,7 +252,7 @@ window.GAME.initialize = function () {
             $alertModal.find('.next-stage').show();
             $alertModal.modal('show');
         } else {
-            $alertModal.find('.content').text('任務失敗');
+            $alertModal.find('.content').text("任務失敗\n\n撿起鑽孔器，然後使用走向工作區進行鑽孔吧！");
             $alertModal.modal('show');
         }
     };
