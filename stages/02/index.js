@@ -50,6 +50,7 @@ window.GAME.initialize = function() {
     var frontLayer;
 
     var player; // 玩家角色
+    var jade;
     var grasses = []; // 草叢
     var bounds = []; // 邊界
     var resetSignal = new Phaser.Signal(); // 重設遊戲 event
@@ -171,9 +172,19 @@ window.GAME.initialize = function() {
         npc.body.immovable = true;
     }
 
+    // 建立玉石
+    function createJade() {
+        jade = backgroundLayer.create(4.5*TILT_SIZE, 4.5*TILT_SIZE, 'jade')
+        jade.scale.setTo(TILT_SIZE / jade.width);
+        jade.anchor.x = 0.5;
+        jade.anchor.y = 0.5;
+    }
+    
+
     // 預先載入素材
     function preload() {
         game.load.image('map', '../../images/stages/02/map.jpg');
+        game.load.image('jade', '../../images/stages/02/jade.jpg');
         game.load.image('npc-1', '../../images/npc-1.png');
         game.load.image('tile-highlight', '../../images/tile-highlight.png');
         game.load.image('grass', '../../images/grass.png');
@@ -195,11 +206,16 @@ window.GAME.initialize = function() {
         // 遊戲背景
         backgroundLayer.create(0, 0, 'map');
 
+        // 建立玉石
+        createJade();
+
         // 建立 NPC
         createNPC();
 
         // 建立玩家角色
         createPlayer();
+
+
 
         // 加入邊界
         addBound(0, 0, 3, 3);
@@ -247,7 +263,7 @@ window.GAME.initialize = function() {
         var $alertModal = $('#alert-modal');
 
         if (handInJadeCount !== 1) {
-            $alertModal.find('.content').text("任務失敗\n\n請至河中撿取一顆台灣玉並拿回去給史前人哦！");
+            $alertModal.find('.content').text("任務失敗\n\n請至溪中撿取台灣玉並拿回去給史前人哦！");
         } else {
             $alertModal.find('.content').text('完成第二關，恭喜！');
             $alertModal.find('.next-stage').show();
@@ -320,6 +336,7 @@ window.GAME.initialize = function() {
         if (calcDistance(player, JADE) == 100.0) {
             player.squat(); // 切換至蹲下的 frame
             isHoldJade = true;   
+            jade.visible = false;
         } else {
             $('.hint-content p').text('請離玉石近一些，才能撿取玉石哦！');
         }
