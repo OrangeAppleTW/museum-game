@@ -255,6 +255,7 @@ window.GAME.initialize = function() {
         player.y = DEFAULT_PLAYER.y;
         player.faceTo(DEFAULT_PLAYER.facing)
         isHoldJade = false;
+        jade.visible = true;
         handInJadeCount = 0;
     }
 
