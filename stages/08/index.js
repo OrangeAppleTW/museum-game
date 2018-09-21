@@ -284,7 +284,7 @@ window.GAME.initialize = function () {
                 $alertModal.modal('show');
             });
         } else {
-            $alertModal.find('.content').text("任務失敗\n\n要依序在黃巴區塊執行打剝、鋸崩、鑽孔及磨製 4 項技術才能過關喔！");
+            $alertModal.find('.content').text("任務失敗\n\n要依序在黃色區塊執行打剝、鋸崩、鑽孔及磨製 4 項技術才能過關喔！");
             $alertModal.modal('show');
         }
     };
@@ -388,7 +388,7 @@ window.GAME.initialize = function () {
 
     window.GAME.player.mill = function (done) {
         if (!isHitBreak) {
-            $('.hint-content p').text('請先拿取石鎚打剥原石，再執行其他製玉動作哦！');
+            $('.hint-content p').text('請先拿取石鎚打剝原石，再執行其他製玉動作哦！');
             return done();
         }
 
@@ -410,7 +410,7 @@ window.GAME.initialize = function () {
 
     window.GAME.player.drill = function (done) {
         if (!isHitBreak) {
-            $('.hint-content p').text('請先拿取石鎚打剥原石，再執行其他製玉動作哦！');
+            $('.hint-content p').text('請先拿取石鎚打剝原石，再執行其他製玉動作哦！');
             return done();
         }
 
@@ -433,7 +433,7 @@ window.GAME.initialize = function () {
 
     window.GAME.player.polish = function (done) {
         if (!isHitBreak) {
-            $('.hint-content p').text('請先拿取石鎚打剥原石，再執行其他製玉動作哦！');
+            $('.hint-content p').text('請先拿取石鎚打剝原石，再執行其他製玉動作哦！');
             return done();
         }
 
